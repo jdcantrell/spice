@@ -42,18 +42,18 @@ class File(Timestamp, Base):
   user_id = Column(Integer, ForeignKey('users.id'))
   user = relationship(User, primaryjoin=user_id == User.id)
 
-  def __init__(name, filename, path, handler, user):
+  def __init__(self, name, filename, path, handler, filetype, user_id):
     self.name = name
     self.filename = filename
     self.path = path
     self.handler = handler
     self.filetype = filetype
-    self.user_id = User.id
+    self.user_id = user_id
 
     self.views = 0
 
   def get_key(self):
-    if len(self.key):
+    if self.key is not None:
       return self.key
     else:
       return self.id
