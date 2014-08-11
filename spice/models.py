@@ -56,7 +56,7 @@ class File(Timestamp, Base):
     if self.key is not None:
       return self.key
     else:
-      return self.id
+      return 'u%d' % self.id
 
   def __repr__(self):
     return '<File %r>' % (self.name)

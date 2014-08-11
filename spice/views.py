@@ -15,7 +15,8 @@ import os
 @app.route('/')
 def index():
   if 'user' in session:
-    return render_template('list.html', files=[])
+    files = db_session.query(File).order_by(File.created.desc()).all()
+    return render_template('list.html', files=files)
   return 'Hai'
 
 @app.route('/login', methods=['GET', 'POST'])

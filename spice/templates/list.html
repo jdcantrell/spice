@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>All files</title>
+    <style>
+      html, body {
+        font-family: 'Menlo', sans-serif;
+        font-size: 14px;
+        color: #333;
+      }
+
+      .file-list {
+        width: 700px;
+        margin: auto;
+      }
+
+      .file-list a {
+        text-decoration: none;
+      }
+
+      .hover:hover .hover-show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .hover-show {
+        opacity: 0;
+        visibility: hidden;
+      }
+    </style>
+  </head>
+  <body>
+    <form enctype="multipart/form-data" action="/upload" method="post">
+      <input type="file" name="file">
+      <input type="submit" value="Upload">
+    </form>
+    {% if files|length %}
+      <table class="file-list">
+        {% for file in files %}
+        <tr class="hover">
+          <td>
+            <a href="/{{ file.get_key() }}">
+              {{ file.name }}
+            </a>
+          </td>
+          <td>{{ file.get_key() }}</td>
+          <td>{{ file.view }}</td>
+          <td>{{ file.created.strftime('%Y-%m-%d') }}</td>
+          <td class="hover-show"><a href="/remove/{{ file.id }}">&times;<a></td>
+        </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+    No files uploaded
+    {% endif %}
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script>
+      FileRow = Backbone.Model.extend({
+        save: function () {
+          var self = this;
+          //using XHR directly because jquery does not expose the upload
+          //property - works in chrome and FF (IE shouldn't get this code)
+          var xhr = new XMLHttpRequest();
+
+          xhr.upload.addEventListener("progress", function (e) {
+            if (e.lengthComputable) {
+              var percentage = Math.round((e.loaded * 100) / e.total);
+              self.set({
+                'progress': percentage,
+                'loaded': e.loaded,
+                'total': e.total,
+              })
+            }
+          }, false);
+
+          xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+              if ((xhr.status >= 200 && xhr.status <= 200) || xhr.status === 304) {
+                if (xhr.responseText !== "") {
+                  var item = $.parseJSON(xhr.responseText);
+                  self._update(item)
+                }
+              }
+            }
+          };
+
+          var data = new FormData();
+          data.append('file', self.get('file'));
+          data.append('json', true);
+
+          xhr.open("POST", "/upload");
+          xhr.send(data);
+          return deferred.promise();
+        }
+      });
+
+      FileView = Backbone.View.extend({
+        uploadTemplate: _.template(),
+        template: _.template(),
+        events: function () {
+          this.listenTo(this.model, 'change:progress', render);
+          this.listenTo(this.model, 'change:key', render);
+        },
+        render: function () {
+          if (this.model.get('key')) {
+            this.$el.html(this.template(this.toJSON()));
+          }
+          else {
+            this.$el.html(this.uploadTemplate(this.toJSON()));
+          }
+        }
+      });
+      //file api code
+      if (typeof FileReader === "function") {
+        //hide the original form and show the dnd uploader
+        $('#fallback').hide();
+
+        //add our dnd listeners
+        $('body').bind({
+          dragover: function (event) { event.preventDefault(); },
+          dragleave: function (event) { event.preventDefault(); },
+          drop: function (event) {
+            event.preventDefault();
+
+            var originalEvent = event.originalEvent;
+            var files = (originalEvent.files || originalEvent.dataTransfer.files);
+            for (var i = 0; i < files.length; i += 1) {
+              //queue objects to be uploaded
+              upload(file).progress(updateBar).done(finishRow)
+            }
+          }
+        });
+
+      }
+
+      var upload  = ;
+    </script>
+  </body>
+</html>
