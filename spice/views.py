@@ -68,11 +68,11 @@ def upload():
 
     return json.dumps({
       'id': record.id,
-      'name': record.name,
+      'name': filename,
       'views': record.views,
-      'created': record.created.strftime('%Y-%m-%dT%H:%M:%S'),
+      'created': record.created.strftime('%Y-%m-%d'),
       'type': record.handler,
-      'url': '/u%s' % record.get_key()
+      'key': record.get_key()
      })
 
 @app.route('/u<key>')
