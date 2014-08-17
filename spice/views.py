@@ -16,7 +16,11 @@ import os
 def index():
   if 'user' in session:
     files = db_session.query(File).order_by(File.created.desc()).all()
-    return render_template('list.html', files=files)
+    return render_template('list.html',
+        files=files,
+        static_web_path=app.config['STATIC_WEB_PATH'],
+        upload_web_path=app.config['UPLOAD_WEB_PATH'],
+      )
   return 'Hai'
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -42,7 +46,10 @@ def login():
     else:
       return redirect(url_for('index'))
 
-  return render_template('login.html')
+  return render_template('login.html',
+        static_web_path=app.config['STATIC_WEB_PATH'],
+        upload_web_path=app.config['UPLOAD_WEB_PATH'],
+      )
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -84,5 +91,13 @@ def view(key):
     return 'herp derp'
   else:
     handler = get_handler(record.filetype)
-    return render_template('view_file.html', record=record, handler=handler['class'])
+    handler_class = handler['class']
+    return render_template(
+        handler['class'].template(),
+        static_web_path=app.config['STATIC_WEB_PATH'],
+        upload_web_path=app.config['UPLOAD_WEB_PATH'],
+        record=record,
+        handler=handler_class,
+        data=handler_class.data(record)
+    )
 

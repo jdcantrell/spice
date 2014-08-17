@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ data.name }}</title>
+  <link rel="stylesheet" href="{{ static_web_path }}/spice.css">
+  <link rel="stylesheet" href="{{ static_web_path }}/code.css">
+</head>
+<body>
+  <div class='box' style="max-width:90%;min-width: 700px; margin: auto">
+    <div style="text-align: center">
+      {{ data.name }}
+      <a href="{{ data.link }}">raw</a>
+    </div>
+    {% autoescape false %}
+    {{ data.html }}
+    {% endautoescape %}
+  </div>
+</body>
+</html>
