@@ -1,9 +1,6 @@
 from flask import Flask
 app = Flask(__name__)
-
-app.secret_key = 'haha'
-app.config['UPLOAD_FOLDER'] = '/Users/jcantrell/Projects/spice/uploads'
-app.config['UPLOAD_WEB_PATH'] = 'http://spice.dev/uploads'
+app.config.from_pyfile('../settings.cfg', silent=True)
 
 from spice.database import db_session
 import spice.views
