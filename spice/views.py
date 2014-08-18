@@ -1,5 +1,7 @@
 from flask import session, escape, redirect, request, url_for, render_template
-from spice import app
+from flask.ext.login import login_user, logout_user, current_user, login_required
+
+from spice import app, login_manager
 
 from werkzeug.security import check_password_hash
 from werkzeug import secure_filename
@@ -12,16 +14,22 @@ import uuid
 import json
 import os
 
+@login_manager.user_loader
+def load_user(user_id):
+  return db_session.query(User).get(int(user_id))
+
+
 @app.route('/')
 def index():
-  if 'user' in session:
+  files = []
+  if current_user.is_authenticated():
     files = db_session.query(File).order_by(File.created.desc()).all()
-    return render_template('list.html',
-        files=files,
-        static_web_path=app.config['STATIC_WEB_PATH'],
-        upload_web_path=app.config['UPLOAD_WEB_PATH'],
-      )
-  return 'Hai'
+
+  return render_template('list.html',
+      files=files,
+      static_web_path=app.config['STATIC_WEB_PATH'],
+      upload_web_path=app.config['UPLOAD_WEB_PATH'],
+    )
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -33,25 +41,24 @@ def login():
 
       for user in users:
         if check_password_hash(user.password, pw):
-          session['user'] = {
-            'id': user.id,
-            'name': user.username
-          }
-          break
+          login_user(user, remember=True)
+          return redirect(url_for('index'))
 
-    if 'user' not in session:
-      pass
-      time.sleep(5)
-      return redirect(url_for('login'))
-    else:
-      return redirect(url_for('index'))
+    time.sleep(5)
 
   return render_template('login.html',
         static_web_path=app.config['STATIC_WEB_PATH'],
         upload_web_path=app.config['UPLOAD_WEB_PATH'],
       )
 
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+
 @app.route('/upload', methods=['POST'])
+@login_required
 def upload():
   file = request.files['file']
   if file:
@@ -68,7 +75,7 @@ def upload():
 
 
     print "type: %s(%s)" % (get_handler(extension), extension)
-    record = File(filename, unique_name, path, get_handler(extension)['name'], extension, session['user']['id'])
+    record = File(filename, unique_name, path, get_handler(extension)['name'], extension, current_user.id)
 
     db_session.add(record)
     db_session.commit()
