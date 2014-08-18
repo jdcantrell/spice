@@ -10,12 +10,12 @@
         {% for file in files %}
         <tr class="hover">
           <td>
-            <a href="/{{ file.get_key() }}">
+            <a href="/{{ file.key }}">
               {{ file.name }}
             </a>
           </td>
-          <td>{{ file.get_key() }}</td>
-          <td>{{ file.view|default('0') }}</td>
+          <td>{{ file.key }}</td>
+          <td>{{ file.views|default('0') }}</td>
           <td>{{ file.created.strftime('%Y-%m-%d') }}</td>
           <td class="hover-show"><a href="/remove/{{ file.id }}">&times;<a></td>
         </tr>

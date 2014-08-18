@@ -1,10 +1,10 @@
-from flask import session, escape, redirect, request, url_for, render_template
+from flask import session, escape, redirect, request, url_for, render_template, send_from_directory
 from flask.ext.login import login_user, logout_user, current_user, login_required
-
-from spice import app, login_manager
 
 from werkzeug.security import check_password_hash
 from werkzeug import secure_filename
+
+from spice import app, login_manager
 from spice.database import db_session
 from spice.models import User, File
 from spice.handlers import get_handler
@@ -86,17 +86,31 @@ def upload():
       'views': record.views,
       'created': record.created.strftime('%Y-%m-%d'),
       'type': record.handler,
-      'key': record.get_key()
+      'key': record.key
      })
 
-@app.route('/u<key>')
+@app.route('/<key>/<filename>')
+def view_raw(key, filename):
+  #get record
+  record = db_session.query(File).filter_by(key=key).first()
+
+  if record is None:
+    return 'herp derp'
+
+  return send_from_directory(record.path, record.filename)
+
+@app.route('/<key>')
 def view(key):
   #get record
-  record = db_session.query(File).get(key)
+  record = db_session.query(File).filter_by(key=key).first()
 
   if record is None:
     return 'herp derp'
   else:
+    record.views += 1
+    db_session.add(record)
+    db_session.commit()
+
     handler = get_handler(record.filetype)
     handler_class = handler['class']
     return render_template(

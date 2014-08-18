@@ -3,6 +3,9 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 
 from werkzeug.security import generate_password_hash
+
+from shortid import ShortId
+
 from spice.database import Base
 
 
@@ -61,14 +64,10 @@ class File(Timestamp, Base):
     self.handler = handler
     self.filetype = filetype
     self.user_id = user_id
+    sid = ShortId()
+    self.key = sid.generate()
 
     self.views = 0
-
-  def get_key(self):
-    if self.key is not None:
-      return self.key
-    else:
-      return 'u%d' % self.id
 
   def __repr__(self):
     return '<File %r>' % (self.name)
