@@ -20,31 +20,28 @@ class Handler:
     pass
 
   @staticmethod
-  def data(record):
-    return {
+  def data(record, additional={}):
+
+    d = {
+      "views": record.views,
+      "raw": "/%s/%s" % (record.key, record.name),
       "link": "%s/%s" % (Handler.web_path(), record.filename),
       "name": record.name,
       "created": record.created
     }
+    d.update(additional)
+
+    return d
 
   @staticmethod
   def template():
-    return 'default-handler.html'
+    return 'view.html'
 
 
 class ImageHandler(Handler):
-
-  @staticmethod
-  def data(record):
-    return {
-      "image": "%s/%s" % (Handler.web_path(), record.filename),
-      "name": record.name,
-      "created": record.created
-    }
-
   @staticmethod
   def template():
-    return 'images.html'
+    return 'views/images.html'
 
 class TextHandler(Handler):
   @staticmethod
@@ -63,16 +60,13 @@ class TextHandler(Handler):
       html = highlight(fh.read(), lexer, formatter)
       fh.close()
 
-    return {
-      "link": "%s/%s" % (Handler.web_path(), record.filename),
-      "name": record.name,
-      "created": record.created,
+    return Handler.data(record, {
       "html": html
-    }
+    })
 
   @staticmethod
   def template():
-    return 'text.html'
+    return 'views/text.html'
 
 
 handlers = {
@@ -86,7 +80,7 @@ handlers = {
     'extensions': [
       #things pygments can do
       '.croc', '.dg', '.factor', '.fy', '.fancypack', '.io', '.lua', '.wlua',
-      '.md', '.moon', '.pl', '.pm', '.py3tb', '.py', '.pyw', '.sc',
+      '.moon', '.pl', '.pm', '.py3tb', '.py', '.pyw', '.sc',
       'SConstruct', 'SConscript', '.tac', '.sage', '.pytb', '.rb', '.rbw',
       'Rakefile', '.rake', '.gemspec', '.rbx', '.duby', '.tcl', '.c-objdump',
       '.s', '.cpp-objdump', '.c++-objdump', '.cxx-objdump', '.d-objdump',
@@ -133,8 +127,6 @@ handlers = {
       '.php', '.php3', '.php4 .php5', '.inc', '.qml', '.sass', '.scaml',
       '.scss', '.ts', '.xqy', '.xquery', '.xq', '.xql', '.xqm', '.xml',
       '.xsl', '.rss', '.xslt', '.xsd', '.wsdl', '.xsl', '.xslt', '.xpl'
-      #non pygment files
-      , '.md'
     ],
     'class': TextHandler
    }

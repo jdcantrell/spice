@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{{ data.name }}</title>
+  <link rel="stylesheet" href="{{ static_web_path }}/spice.css">
+  {% block css %}{% endblock %}
+</head>
+<body>
+    <header>
+      <ul class="list-inline">
+        <li><h1>{{ data.name }}</h1>
+        <li><a href="{{ data.raw }}">raw</a>
+        <li>{{ data.views }} Views
+      </ul>
+    </header>
+    {% block content %}
+    <div class='box' style="width: 700px; text-align: center; margin: auto">
+      Download <a href="{{ data.link }}">{{ data.name }}</a>
+    </div>
+    {% endblock %}
+    {% block js %}{% endblock %}
+</body>
+</html>

@@ -5,8 +5,14 @@
     <link rel="stylesheet" href="{{ static_web_path }}/spice.css">
   </head>
   <body>
+    <header>
+      <ul class="list-inline">
+        <li><h1>Spice</h1>
+        <li>So many files!
+      </ul>
+    </header>
     {% if files|length %}
-      <table class="box file-list" id="files" cellspacing="0">
+      <table class="box box-medium file-list" id="files" cellspacing="0">
         {% for file in files %}
         <tr class="hover">
           <td>
@@ -14,10 +20,10 @@
               {{ file.name }}
             </a>
           </td>
-          <td>{{ file.key }}</td>
-          <td>{{ file.views|default('0') }}</td>
-          <td>{{ file.created.strftime('%Y-%m-%d') }}</td>
-          <td class="hover-show"><a href="/remove/{{ file.id }}">&times;<a></td>
+          <td style="width:140px">{{ file.key }}</td>
+          <td style="width:20px">{{ file.views|default('0') }}</td>
+          <td style="width:40px">{{ file.created.strftime('%Y-%m-%d') }}</td>
+          <td style="width:20px" class="hover-show"><a href="/remove/{{ file.id }}">&times;<a></td>
         </tr>
         {% endfor %}
       </table>

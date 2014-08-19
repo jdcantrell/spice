@@ -1,0 +1,11 @@
+{% extends "view.html" %}
+{% block css %}
+  <link rel="stylesheet" href="{{ static_web_path }}/code.css">
+{% endblock %}
+{% block content %}
+  <div class='box highlight' style=" width: 900px; margin: auto">
+    {% autoescape false %}
+    {{ data.html }}
+    {% endautoescape %}
+  </div>
+{% endblock %}

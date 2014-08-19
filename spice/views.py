@@ -47,9 +47,9 @@ def login():
     time.sleep(5)
 
   return render_template('login.html',
-        static_web_path=app.config['STATIC_WEB_PATH'],
-        upload_web_path=app.config['UPLOAD_WEB_PATH'],
-      )
+    static_web_path=app.config['STATIC_WEB_PATH'],
+    upload_web_path=app.config['UPLOAD_WEB_PATH'],
+  )
 
 @app.route("/logout")
 @login_required
@@ -73,8 +73,6 @@ def upload():
 
     file.save(os.path.join(path, unique_name))
 
-
-    print "type: %s(%s)" % (get_handler(extension), extension)
     record = File(filename, unique_name, path, get_handler(extension)['name'], extension, current_user.id)
 
     db_session.add(record)
