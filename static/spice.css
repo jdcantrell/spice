@@ -1,0 +1,146 @@
+
+html {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+body {
+  font-family: 'Helvetica', sans-serif;
+  font-size: 14px;
+  color: #333;
+  min-height: 100%;
+  background-image: url(http://spice.dev/static/escheresque.png);
+  padding: 0;
+  margin: 0;
+}
+
+.box {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  box-shadow: 0 0 10px 0 #bbb;
+  background-color:#fefefe;
+}
+
+.file-list {
+  margin-bottom: 40px;
+}
+
+.file-list td {
+  padding: 6px;
+}
+
+.file-list tr:hover {
+  background-color:#f5f5f5;
+}
+
+.file-list a {
+  text-decoration: none;
+}
+
+.hover:hover .hover-show {
+  opacity: 1;
+  visibility: visible;
+}
+.hover-show {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* image styles */
+.image {
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.image-width {
+  max-width: 80%;
+}
+
+.highlight pre {
+  overflow: auto;
+  font-family: 'Menlo', 'monospace';
+}
+
+.list-inline {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.list-inline li {
+  margin-left: 1em;
+  display: inline-block;
+}
+
+.list-form {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list-form li {
+  margin-bottom: 10px;
+}
+
+.list-form label {
+  width: 30%;
+  display: inline-block;
+  margin-right: 10px;
+  text-align: right;
+}
+
+.list-form input {
+  width: 60%;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  font-size: 14px;
+  padding: 6px;
+}
+
+.list-form .action {
+  text-align: center;
+}
+
+.list-form .action input {
+  width: auto;
+}
+
+.box-small {
+  width: 400px;
+  margin: auto;
+}
+.box-medium {
+  width: 700px;
+  margin: auto;
+}
+.box-large {
+  width: 900px;
+  margin: auto;
+}
+
+
+
+body > header {
+  background-color: #333;
+  color: #fff;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+header h1 {
+  font-size: 18px;
+}
+header a {
+  color: #fff;
+  text-decoration: none;
+}
+
+a:link {
+  color: #81a2be;
+}
+a:visited {
+  color: #b294bb;
+}
