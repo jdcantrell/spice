@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>All files</title>
+    <title>Spice: All files</title>
     <link rel="stylesheet" href="{{ static_web_path }}/spice.css">
   </head>
   <body>
@@ -11,139 +11,204 @@
         <li>So many files!
       </ul>
     </header>
-    {% if files|length %}
+      {% if current_user.is_authenticated() %}
+      <div class="box-medium" style="text-align:center">
+        New uploads will be:
+        <span class="button-list">
+          <button class="button-active"><span class='fontawesome-link'></span> Limited</button>
+          <button><span class="fontawesome-lock"></span> Private</button>
+          <button><span class="fontawesome-star"></span> Public</button>
+        </span>
+        <br><br>
+      </div>
+      {% endif %}
       <table class="box box-medium file-list" id="files" cellspacing="0">
-        {% for file in files %}
-        <tr class="hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th style="width:50px">
+            {% if current_user.is_authenticated() %}
+              Access
+            {% endif %}
+            </th>
+            <th style="width:40px">Views</th>
+            <th class="txt-center" style="width:85px">Date</th>
+            <th></th>
+          </tr>
+        </thead>
+        {% if files|length %}
+          {% for file in files %}
+          <tr class="hover">
+            <td>
+              <a href="/{{ file.key }}">
+                {{ file.name }}
+              </a>
+            </td>
+            <td class="access txt-center" title="Click to change access settings">
+              {% if current_user.is_authenticated() %}
+                {% if file.access == 'public' %}
+                  <span class="fontawesome-star"></span>
+                {% endif %}
+                {% if file.access == 'private' %}
+                  <span class="fontawesome-lock"></span>
+                {% endif %}
+                {% if file.access == 'limited' %}
+                  <span class="fontawesome-link"></span>
+                {% endif %}
+              {% endif %}
+
+            </td>
+            <td class="txt-center">{{ file.views|default('0') }}</td>
+            <td>{{ file.created.strftime('%Y-%m-%d') }}</td>
+            <td class="hover-show"><a href="/remove/{{ file.id }}">&times;<a></td>
+          </tr>
+          {% endfor %}
+        {% else %}
+            <tr class="empty"><td>Sorry, nothing here yet )-:</td></tr>
+        {% endif %}
+      </table>
+
+
+    {% if current_user.is_authenticated() %}
+      <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+      <script id="uploadTemplate" type="template/text">
+          <td><%= name %></td>
+          <td class="txt-center">
+            <% if (access == 'public') { %><span class="public fontawesome-star"></span><% } %>
+            <% if (access == 'private') { %><span class="private fontawesome-lock"></span><% } %>
+            <% if (access == 'limited') { %><span class="limited fontawesome-link"></span><% } %>
+          </td>
+          <td><%= progress %>%</td>
+          <td><%= status %></td>
+          <td></td>
+      </script>
+      <script id="rowTemplate" type="template/text">
           <td>
-            <a href="/{{ file.key }}">
-              {{ file.name }}
+            <a href="/<%= key %>">
+              <%= name %>
             </a>
           </td>
-          <td style="width:140px">{{ file.key }}</td>
-          <td style="width:20px">{{ file.views|default('0') }}</td>
-          <td style="width:40px">{{ file.created.strftime('%Y-%m-%d') }}</td>
-          <td style="width:20px" class="hover-show"><a href="/remove/{{ file.id }}">&times;<a></td>
-        </tr>
-        {% endfor %}
-      </table>
-    {% else %}
-      <table class="box file-list" id="files" cellspacing="0">
-        <tr class="empty"><td>Sorry, nothing here yet )-:</td></tr>
-      </table>
-    {% endif %}
-    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
-    <script id="uploadTemplate" type="template/text">
-        <td><%= name %></td>
-        <td><%= progress %>%</td>
-        <td>&mdash;</td>
-        <td><%= status %></td>
-        <td></td>
-    </script>
-    <script id="rowTemplate" type="template/text">
-        <td>
-          <a href="/<%= key %>">
-            <%= name %>
-          </a>
-        </td>
-        <td><%= key %></td>
-        <td>0</td>
-        <td><%= created %></td>
-        <td class="hover-show"><a href="/remove/<%= id %>">&times;<a></td>
-    </script>
-    <script>
-      var FileModel = Backbone.Model.extend({
-        save: function () {
-          var self = this;
-          //using XHR directly because jquery does not expose the upload
-          //property - works in chrome and FF (IE shouldn't get this code)
-          var xhr = new XMLHttpRequest();
+          <td class="txt-center">
+            <% if (access == 'public') { %><span class="public fontawesome-star"></span><% } %>
+            <% if (access == 'private') { %><span class="private fontawesome-lock"></span><% } %>
+            <% if (access == 'limited') { %><span class="limited fontawesome-link"></span><% } %>
+          </td>
+          <td class="txt-center">0</td>
+          <td>Now</td>
+          <td class="hover-show"><a href="/remove/<%= id %>">&times;<a></td>
+      </script>
+      <script>
+        var FileModel = Backbone.Model.extend({
+          save: function () {
+            var self = this;
+            //using XHR directly because jquery does not expose the upload
+            //property - works in chrome and FF (IE shouldn't get this code)
+            var xhr = new XMLHttpRequest();
 
-          xhr.upload.addEventListener("progress", function (e) {
-            if (e.lengthComputable) {
-              var percentage = Math.round((e.loaded * 100) / e.total);
-              self.set({
-                'progress': percentage,
-                'loaded': e.loaded,
-                'total': e.total,
-              })
-            }
-          }, false);
+            xhr.upload.addEventListener("progress", function (e) {
+              if (e.lengthComputable) {
+                var percentage = Math.round((e.loaded * 100) / e.total);
+                self.set({
+                  'status': 'uploading',
+                  'progress': percentage,
+                  'loaded': e.loaded,
+                  'total': e.total,
+                })
+              }
+            }, false);
 
-          xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4) {
-              if ((xhr.status >= 200 && xhr.status <= 200) || xhr.status === 304) {
-                if (xhr.responseText !== "") {
-                  var item = $.parseJSON(xhr.responseText);
-                  console.log(item);
-                  self.set(item);
+            xhr.onreadystatechange = function () {
+              if (xhr.readyState === 4) {
+                if ((xhr.status >= 200 && xhr.status <= 200) || xhr.status === 304) {
+                  if (xhr.responseText !== "") {
+                    var item = $.parseJSON(xhr.responseText);
+                    self.set(item);
+                  }
                 }
               }
+            };
+
+            var data = new FormData();
+            data.append('file', self.get('file'));
+            console.log(self.get('file'));
+            data.append('json', true);
+
+            xhr.open("POST", "/upload");
+            xhr.send(data);
+          }
+        });
+
+        var FileView = Backbone.View.extend({
+          tagName: 'tr',
+          className: 'hover',
+          uploadTemplate: _.template($('#uploadTemplate').html()),
+          template: _.template($('#rowTemplate').html()),
+          events: function () {
+            this.listenTo(this.model, 'change:progress', this.render);
+            this.listenTo(this.model, 'change:key', this.render);
+            return {
+              '.access click': '_access'
             }
-          };
+          },
 
-          var data = new FormData();
-          data.append('file', self.get('file'));
-          console.log(self.get('file'));
-          data.append('json', true);
+          _access: function () {
+            if (this.get('access') == 'public') {
+              this.set('access', 'limited');
+            }
+            else if (this.get('access') == 'private') {
+              this.set('access', 'public');
+            }
+            else {
+              this.set('access', 'private');
+            }
+            this.render();
+          },
 
-          xhr.open("POST", "/upload");
-          xhr.send(data);
-        }
-      });
-
-      var FileView = Backbone.View.extend({
-        tagName: 'tr',
-        className: 'hover',
-        uploadTemplate: _.template($('#uploadTemplate').html()),
-        template: _.template($('#rowTemplate').html()),
-        events: function () {
-          this.listenTo(this.model, 'change:progress', this.render);
-          this.listenTo(this.model, 'change:key', this.render);
-        },
-        render: function () {
-          if (this.model.get('key')) {
-            this.$el.html(this.template(this.model.toJSON()));
-          }
-          else {
-            this.$el.html(this.uploadTemplate(this.model.toJSON()));
-          }
-        }
-      });
-
-      //file api code
-      if (typeof FileReader === "function") {
-
-        //add our dnd listeners
-        $('body').bind({
-          dragover: function (event) { event.preventDefault(); },
-          dragleave: function (event) { event.preventDefault(); },
-          drop: function (event) {
-            event.preventDefault();
-
-            var originalEvent = event.originalEvent;
-            var files = (originalEvent.files || originalEvent.dataTransfer.files);
-            for (var i = 0; i < files.length; i += 1) {
-              //queue objects to be uploaded
-              var file = files[i];
-              var model = new FileModel({
-                name: file.name,
-                progress: 0,
-                status: 'queued',
-                file: file
-              })
-
-              var view = new FileView({model: model});
-              $('#files').prepend(view.el);
-              view.render();
-
-              model.save();
+          render: function () {
+            if (this.model.get('key')) {
+              this.$el.html(this.template(this.model.toJSON()));
+            }
+            else {
+              this.$el.html(this.uploadTemplate(this.model.toJSON()));
             }
           }
         });
-      }
-    </script>
+
+        //file api code
+        if (typeof FileReader === "function") {
+
+          //add our dnd listeners
+          $('body').bind({
+            dragover: function (event) { event.preventDefault(); },
+            dragleave: function (event) { event.preventDefault(); },
+            drop: function (event) {
+              event.preventDefault();
+
+              var originalEvent = event.originalEvent;
+              var files = (originalEvent.files || originalEvent.dataTransfer.files);
+              for (var i = 0; i < files.length; i += 1) {
+                //queue objects to be uploaded
+                var file = files[i];
+                var model = new FileModel({
+                  name: file.name,
+                  access: 'limited',
+                  progress: 0,
+                  status: 'queued',
+                  file: file
+                })
+
+                var view = new FileView({model: model});
+                $('#files').prepend(view.el);
+                view.render();
+
+                model.save();
+              }
+            }
+          });
+        }
+      </script>
+    {% endif %}
   </body>
 </html>

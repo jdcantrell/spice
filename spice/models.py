@@ -1,4 +1,4 @@
-from sqlalchemy import event, Column, Integer, String, DateTime, Text, ForeignKey
+from sqlalchemy import event, Column, Integer, String, DateTime, Text, Enum, ForeignKey
 from sqlalchemy.orm import relationship
 from datetime import datetime
 
@@ -54,16 +54,18 @@ class File(Timestamp, Base):
   handler = Column(String(255))
   key = Column(String(16))
   views = Column(Integer)
+  access = Column(Enum('private', 'public', 'limited'))
   user_id = Column(Integer, ForeignKey('users.id'))
   user = relationship(User, primaryjoin=user_id == User.id)
 
-  def __init__(self, name, filename, path, handler, filetype, user_id):
+  def __init__(self, name, filename, path, handler, filetype, access, user_id):
     self.name = name
     self.filename = filename
     self.path = path
     self.handler = handler
     self.filetype = filetype
     self.user_id = user_id
+    self.access = access
     sid = ShortId()
     self.key = sid.generate()
 

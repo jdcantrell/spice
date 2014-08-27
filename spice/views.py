@@ -23,9 +23,12 @@ def load_user(user_id):
 def index():
   files = []
   if current_user.is_authenticated():
-    files = db_session.query(File).order_by(File.created.desc()).all()
+    files = db_session.query(File).order_by(File.id.desc()).all()
+  else:
+    files = db_session.query(File).filter_by(access='public').order_by(File.id.desc()).all()
 
   return render_template('list.html',
+      current_user=current_user,
       files=files,
       static_web_path=app.config['STATIC_WEB_PATH'],
       upload_web_path=app.config['UPLOAD_WEB_PATH'],
@@ -73,7 +76,8 @@ def upload():
 
     file.save(os.path.join(path, unique_name))
 
-    record = File(filename, unique_name, path, get_handler(extension)['name'], extension, current_user.id)
+    access = 'limited'
+    record = File(filename, unique_name, path, get_handler(extension)['name'], extension, access, current_user.id)
 
     db_session.add(record)
     db_session.commit()
@@ -82,29 +86,33 @@ def upload():
       'id': record.id,
       'name': filename,
       'views': record.views,
+      'access': record.access,
       'created': record.created.strftime('%Y-%m-%d'),
       'type': record.handler,
       'key': record.key
      })
+
+def can_view_file(record):
+  if record.access == 'private':
+    return current_user.is_authenticated()
+  return True
 
 @app.route('/<key>/<filename>')
 def view_raw(key, filename):
   #get record
   record = db_session.query(File).filter_by(key=key).first()
 
-  if record is None:
-    return 'herp derp'
+  if record is not None and can_view_file(record):
+    return send_from_directory(record.path, record.filename)
 
-  return send_from_directory(record.path, record.filename)
+  return 'herp derp'
 
 @app.route('/<key>')
 def view(key):
   #get record
   record = db_session.query(File).filter_by(key=key).first()
 
-  if record is None:
-    return 'herp derp'
-  else:
+  if record is not None and can_view_file(record):
     record.views += 1
     db_session.add(record)
     db_session.commit()
@@ -120,3 +128,4 @@ def view(key):
         data=handler_class.data(record)
     )
 
+  return 'herp derp'
