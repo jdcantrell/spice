@@ -51,4 +51,7 @@ docs/_build/
 
 # PyBuilder
 target/
+
+# Spice things
+settings.cfg
 uploads/
