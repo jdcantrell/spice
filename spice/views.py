@@ -18,6 +18,16 @@ import os
 def load_user(user_id):
   return db_session.query(User).get(int(user_id))
 
+def file_json(record):
+  return json.dumps({
+    'id': record.id,
+    'name': record.name,
+    'views': record.views,
+    'access': record.access,
+    'created': record.created.strftime('%Y-%m-%d'),
+    'type': record.handler,
+    'key': record.key
+    })
 
 @app.route('/')
 def index():
@@ -27,12 +37,15 @@ def index():
   else:
     files = db_session.query(File).filter_by(access='public').order_by(File.id.desc()).all()
 
+  json = [file_json(r) for r in files]
+
   return render_template('list.html',
-      current_user=current_user,
-      files=files,
-      static_web_path=app.config['STATIC_WEB_PATH'],
-      upload_web_path=app.config['UPLOAD_WEB_PATH'],
-    )
+    current_user=current_user,
+    files=files,
+    json=json,
+    static_web_path=app.config['STATIC_WEB_PATH'],
+    upload_web_path=app.config['UPLOAD_WEB_PATH'],
+  )
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -57,12 +70,36 @@ def login():
 @app.route("/logout")
 @login_required
 def logout():
-    logout_user()
-    return redirect(url_for('index'))
+  logout_user()
+  return redirect(url_for('index'))
 
-@app.route('/upload', methods=['POST'])
+@app.route('/file/<id>', methods=['PUT'])
 @login_required
-def upload():
+def update(id):
+  record = db_session.query(File).get(id)
+  print request.json
+  if record is not None:
+    record.access = request.json['access']
+    record.name = request.json['name']
+    record.handler = request.json['type']
+    record.key = request.json['key']
+    db_session.add(record)
+    db_session.commit()
+    return '', 204
+  return '', 404
+
+@app.route('/file/<id>', methods=['DELETE'])
+@login_required
+def delete():
+  record = db_session.query(File).get(id)
+  if record is not None:
+    db_session.delete(record)
+    return '', 204
+  return '', 404
+
+@app.route('/file', methods=['POST'])
+@login_required
+def create():
   file = request.files['file']
   if file:
     filename = secure_filename(file.filename)
@@ -76,21 +113,13 @@ def upload():
 
     file.save(os.path.join(path, unique_name))
 
-    access = 'limited'
+    access = request.form['access']
     record = File(filename, unique_name, path, get_handler(extension)['name'], extension, access, current_user.id)
 
     db_session.add(record)
     db_session.commit()
 
-    return json.dumps({
-      'id': record.id,
-      'name': filename,
-      'views': record.views,
-      'access': record.access,
-      'created': record.created.strftime('%Y-%m-%d'),
-      'type': record.handler,
-      'key': record.key
-     })
+    return file_json(record)
 
 def can_view_file(record):
   if record.access == 'private':
