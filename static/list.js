@@ -55,8 +55,11 @@ var FileView = Backbone.View.extend({
     };
   },
 
-  _remove: function () {
-    this.model.delete();
+  _remove: function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.model.destroy();
     this.remove();
   },
 

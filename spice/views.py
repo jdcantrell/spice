@@ -90,10 +90,11 @@ def update(id):
 
 @app.route('/file/<id>', methods=['DELETE'])
 @login_required
-def delete():
+def delete(id):
   record = db_session.query(File).get(id)
   if record is not None:
     db_session.delete(record)
+    db_session.commit()
     return '', 204
   return '', 404
 

@@ -66,11 +66,11 @@
             </td>
             <td class="txt-center">{{ file.views|default('0') }}</td>
             <td>{{ file.created.strftime('%Y-%m-%d') }}</td>
-            <td class="hover-show"><a href="/remove/{{ file.id }}">&times;</a></td>
+            <td class="hover-show "><a class="remove" href="#">&times;</a></td>
           </tr>
           {% endfor %}
         {% else %}
-            <tr class="empty"><td>Sorry, nothing here yet )-:</td></tr>
+            <tr class="empty txt-center" colspan="5"><td>Sorry, nothing here yet )-:</td></tr>
         {% endif %}
       </table>
 
@@ -103,7 +103,7 @@
           </td>
           <td class="txt-center">0</td>
           <td><%= created %></td>
-          <td class="hover-show"><a href="/remove/<%= id %>">&times;<a></td>
+          <td class="hover-show"><a class="remove" href="#">&times;<a></td>
       </script>
       {% autoescape false %}
       <script> var bootstrap = [{{ json|join(',') }}]; </script>
