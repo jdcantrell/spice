@@ -90,11 +90,10 @@ var FileView = Backbone.View.extend({
 $(document).ready(function () {
   var access = 'limited';
   $('#access_controls button').click(function () {
-    $el = $(this);
-    console.log($el.val());
+    var $el = $(this);
     access = $el.val();
     $el.parent().children().removeClass('button-active');
-    $el.addClass('button-active')
+    $el.addClass('button-active');
   });
   //file api code
   if (typeof FileReader === "function") {

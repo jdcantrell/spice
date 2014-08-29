@@ -77,7 +77,6 @@ def logout():
 @login_required
 def update(id):
   record = db_session.query(File).get(id)
-  print request.json
   if record is not None:
     record.access = request.json['access']
     record.name = request.json['name']

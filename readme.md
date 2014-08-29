@@ -17,21 +17,19 @@ friends.
 6. Run the dev server: `python runserver.py`
 
 For a production environment you do the above but instead of using
-`python runserver.py` to run spice you would use uswgi or your preferred
+`python runserver.py` to run spice you would use uwsgi or your preferred
 choice of python server.
 
 ##Todo:
+* Paging - 50 items per page or so
+* Export endpoint (should zip all files with correct names
+  (when possible)
 * Markdown rendering
 * Handle audio files nicely
 * Tile view
 * File sets so you can easily share multiple files
 * note field/custom key
-* support audio?
 * Caching for views (add new setting key for cache dir)
   /cache/text/filename.html
   /cache/glyphs/filename-med.png
-* Paging - 50 items per page or so
-* Export endpoint (should zip all files with correct names
-  (when possible)
-* Tile view
 * See if we can tweak the short-id alphabet (remove `-` and `_`)
