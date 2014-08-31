@@ -21,14 +21,12 @@ For a production environment you do the above but instead of using
 choice of python server.
 
 ##Todo:
+* Tile view
 * Paging - 50 items per page or so
-* Export endpoint (should zip all files with correct names
-  (when possible)
 * Markdown rendering
 * Handle audio files nicely
-* Tile view
+* Export endpoint (should zip all files with correct names
+  (when possible)
 * File sets so you can easily share multiple files
 * note field/custom key
-* Caching for views (add new setting key for cache dir)
-  /cache/text/filename.html
 * See if we can tweak the short-id alphabet (remove `-` and `_`)
