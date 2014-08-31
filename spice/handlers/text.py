@@ -7,24 +7,28 @@ from pygments.formatters import HtmlFormatter
 
 class TextHandler(Handler):
   type = 'text'
-  template = 'view/text.html'
+  template = 'views/text.html'
+
+  def process(self):
+    html = ''
+    source = os.path.join(self.record.path, self.record.filename)
+    with open(source, 'r') as fh:
+      if self.record.filetype == '.txt':
+        html = '<pre>%s</pre>' % fh.read()
+      else:
+        lexer = get_lexer_for_filename(self.record.name)
+        formatter = HtmlFormatter()
+        html = highlight(fh.read(), lexer, formatter)
+
+    cache_file = os.path.join(self.cache_path,'%s.html' % self.record.filename)
+    with open(cache_file, 'w') as fh:
+      fh.write(html)
 
   @property
   def html(self):
-    html = ''
-    if self.record.filetype == '.txt':
-      fh = open(os.path.join(self.record.path, self.record.filename), 'r')
-      html = '<pre>%s</pre>' % fh.read()
-    elif self.record.filetype == '.md':
-      pass
-    else:
-      fh = open(os.path.join(self.record.path, self.record.filename), 'r')
-      lexer = get_lexer_for_filename(self.record.name)
-      formatter = HtmlFormatter()
-      html = highlight(fh.read(), lexer, formatter)
-      fh.close()
-
-    return html
+    filename = os.path.join(self.cache_path, '%s.html' % self.record.filename)
+    with open(filename, 'r') as fh:
+      return fh.read()
 
   extensions = [
     #things pygments can do

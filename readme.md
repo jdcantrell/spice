@@ -31,5 +31,4 @@ choice of python server.
 * note field/custom key
 * Caching for views (add new setting key for cache dir)
   /cache/text/filename.html
-  /cache/glyphs/filename-med.png
 * See if we can tweak the short-id alphabet (remove `-` and `_`)
