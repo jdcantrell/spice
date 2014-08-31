@@ -1,7 +1,7 @@
-from handler import Handler
+from handler import DefaultHandler
 from wand.image import Image
 
-class ImageHandler(Handler):
+class ImageHandler(DefaultHandler):
   type = 'images'
   template = 'views/images.html'
   extensions = ['.png', '.jpg', '.gif', '.bmp']

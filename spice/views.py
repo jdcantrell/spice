@@ -7,7 +7,7 @@ from werkzeug import secure_filename
 from spice import app, login_manager
 from spice.database import db_session
 from spice.models import User, File
-from spice.handlers import handler_classes, get_handler, get_handler_instance
+from spice.handlers import get_handler, get_handler_instance
 
 import time
 import uuid

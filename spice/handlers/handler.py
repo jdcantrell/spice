@@ -1,6 +1,6 @@
 from spice import app
 
-class Handler:
+class DefaultHandler:
   type = 'default'
   extensions = []
   upload_path = app.config['UPLOAD_FOLDER']

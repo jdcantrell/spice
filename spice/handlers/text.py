@@ -1,11 +1,11 @@
-from handler import Handler
+from handler import DefaultHandler
 
 import os
 from pygments import highlight
 from pygments.lexers import get_lexer_for_filename
 from pygments.formatters import HtmlFormatter
 
-class TextHandler(Handler):
+class TextHandler(DefaultHandler):
   type = 'text'
   template = 'views/text.html'
 

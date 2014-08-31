@@ -1,9 +1,9 @@
-from handler import Handler
+from handler import DefaultHandler
 from text import TextHandler
 from images import ImageHandler
 
 handler_classes = [
-  Handler,
+  DefaultHandler,
   TextHandler,
   ImageHandler,
 ]
