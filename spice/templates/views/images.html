@@ -1,6 +1,6 @@
 {% extends "view.html" %}
 {% block content %}
-<img id="img" class="image box image-width" style="padding:0;" src="{{ data.link }}">
+<img id="img" class="image box image-width" style="padding:0;" src="{{ handler.link }}">
 <script>
   document.getElementById("img").addEventListener('click', function () {
     this.classList.toggle("image-width");

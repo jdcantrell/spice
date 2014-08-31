@@ -120,6 +120,7 @@ $(document).ready(function () {
 
           var view = new FileView({model: model});
           $('#files').prepend(view.el);
+          $('#empty').remove();
           view.render();
 
           model.upload();

@@ -55,5 +55,6 @@ target/
 # Spice things
 settings.cfg
 uploads/
+cache/
 *.sql
 *.sqlite

@@ -28,6 +28,17 @@
         <br><br>
       </div>
       {% endif %}
+
+      <!--
+      <div class="box box-medium tile-list txt-center">
+        {% for file in files %}
+          {% if file.type == 'images' %}
+            <img src="{{ file.thumbnail }}">
+          {% endif %}
+        {% endfor %}
+      </div>
+      -->
+
       <table class="box box-medium file-list" id="files" cellspacing="0">
         <thead>
           <tr>
@@ -44,28 +55,28 @@
         </thead>
         {% if files|length %}
           {% for file in files %}
-          <tr id="key_{{ file.key }}" class="hover">
+          <tr id="key_{{ file.data.key }}" class="hover">
             <td>
-              <a href="/{{ file.key }}">
-                {{ file.name }}
+              <a href="/{{ file.data.key }}">
+                {{ file.data.name }}
               </a>
             </td>
             <td class="access txt-center" title="Click to change access settings">
               {% if current_user.is_authenticated() %}
-                {% if file.access == 'public' %}
+                {% if file.data.access == 'public' %}
                   <span class="fontawesome-star"></span>
                 {% endif %}
-                {% if file.access == 'private' %}
+                {% if file.data.access == 'private' %}
                   <span class="fontawesome-lock"></span>
                 {% endif %}
-                {% if file.access == 'limited' %}
+                {% if file.data.access == 'limited' %}
                   <span class="fontawesome-link"></span>
                 {% endif %}
               {% endif %}
 
             </td>
-            <td class="txt-center">{{ file.views|default('0') }}</td>
-            <td>{{ file.created.strftime('%Y-%m-%d') }}</td>
+            <td class="txt-center">{{ file.data.views|default('0') }}</td>
+            <td>{{ file.data.created.strftime('%Y-%m-%d') }}</td>
             <td class="hover-show ">
               {% if current_user.is_authenticated() %}
                 <a class="remove" href="#">&times;</a>
@@ -74,7 +85,9 @@
           </tr>
           {% endfor %}
         {% else %}
-            <tr class="empty txt-center" colspan="5"><td>Sorry, nothing here yet )-:</td></tr>
+            <tr id="empty" class="txt-center">
+              <td colspan="5">Sorry, nothing here yet )-:</td>
+            </tr>
         {% endif %}
       </table>
 
@@ -113,6 +126,7 @@
       <script> var bootstrap = [{{ json|join(',') }}]; </script>
       {% endautoescape %}
       <script src="{{ static_web_path }}/list.js"></script>
+      <script src="{{ static_web_path }}/glyph.js"></script>
     {% endif %}
   </body>
 </html>

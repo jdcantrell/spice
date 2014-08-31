@@ -7,12 +7,13 @@ from werkzeug import secure_filename
 from spice import app, login_manager
 from spice.database import db_session
 from spice.models import User, File
-from spice.handlers import get_handler
+from spice.handlers import handler_classes, get_handler, get_handler_instance
 
 import time
 import uuid
 import json
 import os
+import inspect
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -27,7 +28,7 @@ def file_json(record):
     'created': record.created.strftime('%Y-%m-%d'),
     'type': record.handler,
     'key': record.key
-    })
+  })
 
 @app.route('/')
 def index():
@@ -37,11 +38,15 @@ def index():
   else:
     files = db_session.query(File).filter_by(access='public').order_by(File.id.desc()).all()
 
-  json = [file_json(r) for r in files]
+  json = []
+  handlers = []
+  for record in files:
+    json.append(file_json(record))
+    handlers.append(get_handler_instance(record))
 
   return render_template('list.html',
     current_user=current_user,
-    files=files,
+    files=handlers,
     json=json,
     static_web_path=app.config['STATIC_WEB_PATH'],
     upload_web_path=app.config['UPLOAD_WEB_PATH'],
@@ -92,6 +97,9 @@ def update(id):
 def delete(id):
   record = db_session.query(File).get(id)
   if record is not None:
+    handler = get_handler_instance(record)
+    handler.delete()
+
     db_session.delete(record)
     db_session.commit()
     return '', 204
@@ -103,7 +111,7 @@ def create():
   file = request.files['file']
   if file:
     filename = secure_filename(file.filename)
-    _, extension = os.path.splitext(filename)
+    _, extension = os.path.splitext(filename.lower())
 
     unique_name = "%s%s" % (str(uuid.uuid4()), extension)
     path = app.config['UPLOAD_FOLDER']
@@ -113,8 +121,12 @@ def create():
 
     file.save(os.path.join(path, unique_name))
 
-    access = request.form['access']
-    record = File(filename, unique_name, path, get_handler(extension)['name'], extension, access, current_user.id)
+    handler_class = get_handler(extension)
+    record = File(filename, unique_name, path, handler_class.type, extension, request.form['access'], current_user.id)
+
+    #do any needed processing
+    handler = handler_class(record)
+    handler.process()
 
     db_session.add(record)
     db_session.commit()
@@ -146,15 +158,12 @@ def view(key):
     db_session.add(record)
     db_session.commit()
 
-    handler = get_handler(record.filetype)
-    handler_class = handler['class']
+    handler = get_handler_instance(record)
     return render_template(
-        handler['class'].template(),
-        static_web_path=app.config['STATIC_WEB_PATH'],
-        upload_web_path=app.config['UPLOAD_WEB_PATH'],
-        record=record,
-        handler=handler_class,
-        data=handler_class.data(record)
+      handler.template,
+      static_web_path=app.config['STATIC_WEB_PATH'],
+      upload_web_path=app.config['UPLOAD_WEB_PATH'],
+      handler=handler,
     )
 
   return 'herp derp'
