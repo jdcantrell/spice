@@ -29,16 +29,6 @@
       </div>
       {% endif %}
 
-      <!--
-      <div class="box box-medium tile-list txt-center">
-        {% for file in files %}
-          {% if file.type == 'images' %}
-            <img src="{{ file.thumbnail }}">
-          {% endif %}
-        {% endfor %}
-      </div>
-      -->
-
       <table class="box box-medium file-list" id="files" cellspacing="0">
         <thead>
           <tr>
@@ -90,6 +80,14 @@
             </tr>
         {% endif %}
       </table>
+      {% if prev_page == 0 %}
+        <a href="/">&lt;- Previous</a>
+      {% elif prev_page %}
+        <a href="/{{ prev_page }}">&lt;- Previous</a>
+      {% endif %}
+      {% if next_page %}
+      <a href="/{{ next_page }}">Next -&gt;</a>
+      {% endif %}
 
 
     {% if current_user.is_authenticated() %}

@@ -54,6 +54,7 @@ class File(Timestamp, Base):
   handler = Column(String(255))
   key = Column(String(16))
   views = Column(Integer)
+  extra = Column(Text())
   access = Column(Enum('private', 'public', 'limited'))
   user_id = Column(Integer, ForeignKey('users.id'))
   user = relationship(User, primaryjoin=user_id == User.id)

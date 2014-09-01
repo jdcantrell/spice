@@ -30,13 +30,12 @@ def file_json(record):
     'key': record.key
   })
 
-@app.route('/')
-def index():
+def get_file_data(limit=50, offset=0):
   files = []
   if current_user.is_authenticated():
-    files = db_session.query(File).order_by(File.id.desc()).all()
+    files = db_session.query(File).order_by(File.id.desc()).limit(limit).offset(offset).all()
   else:
-    files = db_session.query(File).filter_by(access='public').order_by(File.id.desc()).all()
+    files = db_session.query(File).filter_by(access='public').order_by(File.id.desc()).limit(limit).offset(offset).all()
 
   json = []
   handlers = []
@@ -44,9 +43,42 @@ def index():
     json.append(file_json(record))
     handlers.append(get_handler_instance(record))
 
+  return (json, handlers)
+
+@app.route('/')
+@app.route('/<int:page>')
+def index(page=0):
+
+  page_size = 50
+
+  json, files = get_file_data(page_size, page * page_size);
+
+  next_page = False
+  print len(files)
+  if (len(files) == page_size):
+    next_page = page + 1
+
+  prev_page = False
+  if page != 0:
+    prev_page = page - 1
+
   return render_template('list.html',
     current_user=current_user,
-    files=handlers,
+    files=files,
+    json=json,
+    prev_page=prev_page,
+    next_page=next_page,
+    static_web_path=app.config['STATIC_WEB_PATH'],
+    upload_web_path=app.config['UPLOAD_WEB_PATH'],
+  )
+
+@app.route('/tiles')
+def tile():
+  json, files = get_file_data(30, 0);
+
+  return render_template('tiles.html',
+    current_user=current_user,
+    files=files,
     json=json,
     static_web_path=app.config['STATIC_WEB_PATH'],
     upload_web_path=app.config['UPLOAD_WEB_PATH'],
@@ -122,16 +154,16 @@ def create():
     file.save(os.path.join(path, unique_name))
 
     handler_class = get_handler(extension)
-    record = File(filename, unique_name, path, handler_class.type, extension, request.form['access'], current_user.id)
+    data = File(filename, unique_name, path, handler_class.type, extension, request.form['access'], current_user.id)
 
     #do any needed processing
-    handler = handler_class(record)
+    handler = handler_class(data)
     handler.process()
 
-    db_session.add(record)
+    db_session.add(handler.record)
     db_session.commit()
 
-    return file_json(record)
+    return file_json(handler.record)
 
 def can_view_file(record):
   if record.access == 'private':

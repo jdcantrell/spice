@@ -142,7 +142,7 @@ body {
   margin: auto;
 }
 .box-large {
-  width: 900px;
+  width: 1100px;
   margin: auto;
 }
 
@@ -224,3 +224,18 @@ a:link {
 a:visited {
   color: #9B59B6;
 }
+
+.image-frame {
+  background-color: #f8f8f8;
+  border-radius: 4px;
+  border: 1px solid #eee;
+}
+.tile-list {
+  font-size: 0;
+}
+
+.tile-list .tile {
+  display: inline-block;
+  margin: 2px;
+}
+
