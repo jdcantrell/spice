@@ -40,7 +40,7 @@ function set_image_height(els, targetHeight, maxWidth) {
       if (width > 656) {
         width = 656;
       }
-      $el.removedClass('image-frame');
+      $el.removeClass('image-frame');
       $el.css({
         width: width,
         height: targetHeight,
