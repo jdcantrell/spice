@@ -79,15 +79,24 @@
               <td colspan="5">Sorry, nothing here yet )-:</td>
             </tr>
         {% endif %}
+
+        <tfoot>
+          <tr>
+            <td colspan="2">
+              {% if prev_page == 0 %}
+                <a href="/"><span class="fontawesome-angle-left"></span> Previous</a>
+              {% elif prev_page > 0%}
+                <a href="/{{ prev_page }}"><span class="fontawesome-angle-left"></span> Previous</a>
+              {% endif %}
+            </td>
+            <td colspan="3" class="txt-right">
+              {% if next_page %}
+              <a href="/{{ next_page }}">Next <span class="fontawesome-angle-right"></span></a>
+              {% endif %}
+            </td>
+        </tfoot>
       </table>
-      {% if prev_page == 0 %}
-        <a href="/">&lt;- Previous</a>
-      {% elif prev_page %}
-        <a href="/{{ prev_page }}">&lt;- Previous</a>
-      {% endif %}
-      {% if next_page %}
-      <a href="/{{ next_page }}">Next -&gt;</a>
-      {% endif %}
+
 
 
     {% if current_user.is_authenticated() %}

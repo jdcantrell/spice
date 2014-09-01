@@ -11,7 +11,8 @@
         <li>So many files!
       </ul>
     </header>
-    <div class="box box-large tile-list txt-center">
+    <div class="box box-large txt-center">
+      <div class="tile-list">
       {% for file in files %}
         {% if file.type == 'images' %}
           <a href="/{{ file.data.key }}">
@@ -19,6 +20,22 @@
           </a>
         {% endif %}
       {% endfor %}
+      </div>
+      <div class="clearfix">
+        <div class="pull-left">
+          {% if prev_page == 0 %}
+            <a href="/tiles"><span class="fontawesome-angle-left"></span> Previous</a>
+          {% elif prev_page > 0%}
+            <a href="/tiles/{{ prev_page }}"><span class="fontawesome-angle-left"></span> Previous</a>
+          {% endif %}
+        </div>
+
+        <div class="txt-right pull-right">
+          {% if next_page %}
+          <a href="/tiles/{{ next_page }}">Next <span class="fontawesome-angle-right"></span></a>
+          {% endif %}
+        </div>
+      </div>
     </div>
 
     <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>

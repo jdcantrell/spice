@@ -6,7 +6,7 @@ function set_image_height(els, targetHeight, maxWidth) {
       var css = {visiblity: 'visible'};
       var padding, targetWidth;
       if (els.length === 1) {
-        targetWidth = maxWidth
+        targetWidth = maxWidth;
       }
       else {
         targetWidth = targetHeight / el.naturalHeight * el.naturalWidth;

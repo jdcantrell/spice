@@ -34,7 +34,7 @@ body {
   border-radius: 4px;
   padding: 10px;
   box-shadow: 0 0 10px 0 #bbb;
-  background-color:#fefefe;
+  background-color: #fefefe;
 }
 
 .file-list {
@@ -60,6 +60,24 @@ body {
 
 .txt-center {
   text-align: center !important;
+}
+.txt-right {
+  text-align: right !important;
+}
+
+.pull-left {
+  float: left !important;
+}
+.pull-right {
+  float: right !important;
+}
+
+.clearfix:before, .clearfix:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
 }
 
 .hover:hover .hover-show {
@@ -139,11 +157,12 @@ body {
 }
 .box-medium {
   width: 700px;
-  margin: auto;
+  margin: 0 auto 40px;
 }
 .box-large {
   width: 1100px;
   margin: auto;
+  margin: 0 auto 40px;
 }
 
 button {

@@ -48,38 +48,40 @@ def get_file_data(limit=50, offset=0):
 @app.route('/')
 @app.route('/<int:page>')
 def index(page=0):
-
   page_size = 50
-
   json, files = get_file_data(page_size, page * page_size);
 
   next_page = False
-  print len(files)
   if (len(files) == page_size):
     next_page = page + 1
-
-  prev_page = False
-  if page != 0:
-    prev_page = page - 1
 
   return render_template('list.html',
     current_user=current_user,
     files=files,
     json=json,
-    prev_page=prev_page,
+    prev_page=page - 1,
     next_page=next_page,
     static_web_path=app.config['STATIC_WEB_PATH'],
     upload_web_path=app.config['UPLOAD_WEB_PATH'],
   )
 
 @app.route('/tiles')
-def tile():
-  json, files = get_file_data(30, 0);
+@app.route('/tiles/<int:page>')
+def tile(page=0):
+  page_size = 50
+  json, files = get_file_data(page_size, page * page_size);
+
+  next_page = False
+  if (len(files) == page_size):
+    next_page = page + 1
+
 
   return render_template('tiles.html',
     current_user=current_user,
     files=files,
     json=json,
+    prev_page=page - 1,
+    next_page=next_page,
     static_web_path=app.config['STATIC_WEB_PATH'],
     upload_web_path=app.config['UPLOAD_WEB_PATH'],
   )
