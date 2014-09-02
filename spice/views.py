@@ -201,3 +201,6 @@ def view(key):
     )
 
   return 'herp derp'
+@app.route('/robots.txt')
+def robots():
+  return "User-agent: *\nDisallow: /"

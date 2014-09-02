@@ -10,7 +10,7 @@ friends.
 
 ##Installation:
 1. Checkout this repo
-2. pip install pygments flask flask-login sqlalchemy
+2. pip install pygments flask flask-login sqlalchemy wand
 3. Copy settings-example.cfg to settings.cfg and update values
 4. Create an empty database: `python runserver.py init_db`
 5. Create a user: `python runserver.py user`
@@ -21,8 +21,6 @@ For a production environment you do the above but instead of using
 choice of python server.
 
 ##Todo:
-* Tile view
-* Paging - 50 items per page or so
 * Markdown rendering
 * Handle audio files nicely
 * Export endpoint (should zip all files with correct names
