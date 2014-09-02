@@ -153,19 +153,23 @@ body {
 
 .box-small {
   width: 400px;
-  margin: auto;
+  margin-left: auto;
+  margin-right: auto;
 }
 .box-medium {
   width: 700px;
-  margin: 0 auto 40px;
+  margin-left: auto;
+  margin-right: auto;
+
 }
 .box-large {
   width: 1100px;
-  margin: auto;
-  margin: 0 auto 40px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 button {
+  font-family: 'Helvetica', sans-serif;
   text-shadow: -1px -1px 1px #2575AB;
   font-size: 14px;
   padding: 0;
@@ -177,11 +181,14 @@ button {
   padding: 4px 5px;
   border: 1px solid #2575AB;
   border-bottom-width: 2px;
-  border-radius: 4px;
+  border-radius: 6px;
 }
 
 button:hover {
   background-color: #5CB3ED;
+  border-color: #2575AB;
+  text-shadow: -1px -1px 1px #2575AB;
+  color: #fff;
 }
 
 button:active {
@@ -193,6 +200,13 @@ button:active {
 
 .button-active {
   background-color: #5CB3ED;
+}
+
+.button-lowlight {
+  background-color: transparent;
+  border-color: transparent;
+  color: #2c3e50;
+  text-shadow: none;
 }
 
 button::-moz-focus-inner {
@@ -237,10 +251,17 @@ header a {
   text-decoration: none;
 }
 
+a:visited,
 a:link {
   color: #3498DB;
 }
-a:visited {
+
+.header-link:visited,
+.header-link:link {
+  color: #fff;
+}
+
+.visit:visited {
   color: #9B59B6;
 }
 
@@ -249,6 +270,11 @@ a:visited {
   border-radius: 4px;
   border: 1px solid #eee;
 }
+
+.tile-container {
+  margin-bottom: 40px;
+}
+
 .tile-list {
   font-size: 0;
 }

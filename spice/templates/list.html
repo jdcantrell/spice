@@ -1,139 +1,126 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Spice: All files</title>
-    <link rel="stylesheet" href="{{ static_web_path }}/spice.css">
-  </head>
-  <body>
-    <header>
-      <ul class="list-inline">
-        <li><h1>Spice</h1>
-        <li>So many files!
-      </ul>
-    </header>
-      {% if current_user.is_authenticated() %}
-      <div class="box-medium txt-center">
-        New uploads will be:
-        <span id="access_controls" class="button-list">
-          <button class="button-active" value='limited'>
-            <span class='fontawesome-link'></span> Limited
-          </button>
-          <button value='private'>
-            <span class="fontawesome-lock"></span> Private
-          </button>
-          <button value='public'>
-            <span class="fontawesome-star"></span> Public
-          </button>
-        </span>
-        <br><br>
-      </div>
-      {% endif %}
+{% extends 'page.html' %}
 
-      <table class="box box-medium file-list" id="files" cellspacing="0">
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th style="width:50px">
-            {% if current_user.is_authenticated() %}
-              Access
-            {% endif %}
-            </th>
-            <th style="width:40px">Views</th>
-            <th class="txt-center" style="width:85px">Date</th>
-            <th style="width:25px"></th>
-          </tr>
-        </thead>
-        {% if files|length %}
-          {% for file in files %}
-          <tr id="key_{{ file.data.key }}" class="hover">
-            <td>
-              <a href="/{{ file.data.key }}">
-                {{ file.data.name }}
-              </a>
-            </td>
-            <td class="access txt-center" title="Click to change access settings">
-              {% if current_user.is_authenticated() %}
-                {% if file.data.access == 'public' %}
-                  <span class="fontawesome-star"></span>
-                {% endif %}
-                {% if file.data.access == 'private' %}
-                  <span class="fontawesome-lock"></span>
-                {% endif %}
-                {% if file.data.access == 'limited' %}
-                  <span class="fontawesome-link"></span>
-                {% endif %}
-              {% endif %}
+{% block content %}
+  {% if current_user.is_authenticated() %}
+  <div class="box-medium txt-center">
+    New uploads will be:
+    <span id="access_controls" class="">
+      <button value='private' class="button-lowlight">
+        <span class="fontawesome-lock"></span> Private
+      </button>
+      <button class="" value='limited'>
+        <span class='fontawesome-link'></span> Limited
+      </button>
+      <button value='public' class="button-lowlight">
+        <span class="fontawesome-star"></span> Public
+      </button>
+    </span>
+    <br><br>
+  </div>
+  {% endif %}
 
-            </td>
-            <td class="txt-center">{{ file.data.views|default('0') }}</td>
-            <td>{{ file.data.created.strftime('%Y-%m-%d') }}</td>
-            <td class="hover-show ">
-              {% if current_user.is_authenticated() %}
-                <a class="remove" href="#">&times;</a>
-              {% endif %}
-            </td>
-          </tr>
-          {% endfor %}
-        {% else %}
-            <tr id="empty" class="txt-center">
-              <td colspan="5">Sorry, nothing here yet )-:</td>
-            </tr>
+  <table class="box box-medium file-list" id="files" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th style="width:50px">
+        {% if current_user.is_authenticated() %}
+          Access
         {% endif %}
+        </th>
+        <th style="width:40px">Views</th>
+        <th class="txt-center" style="width:85px">Date</th>
+        <th style="width:25px"></th>
+      </tr>
+    </thead>
+    {% if files|length %}
+      {% for file in files %}
+      <tr id="key_{{ file.data.key }}" class="hover">
+        <td>
+          <a class="visit" href="/{{ file.data.key }}">
+            {{ file.data.name }}
+          </a>
+        </td>
+        <td class="access txt-center" title="Click to change access settings">
+          {% if current_user.is_authenticated() %}
+            {% if file.data.access == 'public' %}
+              <span class="fontawesome-star"></span>
+            {% endif %}
+            {% if file.data.access == 'private' %}
+              <span class="fontawesome-lock"></span>
+            {% endif %}
+            {% if file.data.access == 'limited' %}
+              <span class="fontawesome-link"></span>
+            {% endif %}
+          {% endif %}
 
-        <tfoot>
-          <tr>
-            <td colspan="2">
-              {% if prev_page == 0 %}
-                <a href="/"><span class="fontawesome-angle-left"></span> Previous</a>
-              {% elif prev_page > 0%}
-                <a href="/{{ prev_page }}"><span class="fontawesome-angle-left"></span> Previous</a>
-              {% endif %}
-            </td>
-            <td colspan="3" class="txt-right">
-              {% if next_page %}
-              <a href="/{{ next_page }}">Next <span class="fontawesome-angle-right"></span></a>
-              {% endif %}
-            </td>
-        </tfoot>
-      </table>
-
-
-
-    {% if current_user.is_authenticated() %}
-      <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
-      <script id="uploadTemplate" type="template/text">
-          <td><%= name %></td>
-          <td class="txt-center access">
-            <% if (access == 'public') { %><span class="public fontawesome-star"></span><% } %>
-            <% if (access == 'private') { %><span class="private fontawesome-lock"></span><% } %>
-            <% if (access == 'limited') { %><span class="limited fontawesome-link"></span><% } %>
-          </td>
-          <td><%= progress %>%</td>
-          <td><%= status %></td>
-          <td></td>
-      </script>
-      <script id="rowTemplate" type="template/text">
-          <td>
-            <a href="/<%= key %>">
-              <%= name %>
-            </a>
-          </td>
-          <td class="txt-center access">
-            <% if (access == 'public') { %><span class="public fontawesome-star"></span><% } %>
-            <% if (access == 'private') { %><span class="private fontawesome-lock"></span><% } %>
-            <% if (access == 'limited') { %><span class="limited fontawesome-link"></span><% } %>
-          </td>
-          <td class="txt-center"><%= views %></td>
-          <td><%= created %></td>
-          <td class="hover-show"><a class="remove" href="#">&times;<a></td>
-      </script>
-      {% autoescape false %}
-      <script> var bootstrap = [{{ json|join(',') }}]; </script>
-      {% endautoescape %}
-      <script src="{{ static_web_path }}/list.js"></script>
-      <script src="{{ static_web_path }}/glyph.js"></script>
+        </td>
+        <td class="txt-center">{{ file.data.views|default('0') }}</td>
+        <td>{{ file.data.created.strftime('%Y-%m-%d') }}</td>
+        <td class="hover-show ">
+          {% if current_user.is_authenticated() %}
+            <a class="remove" href="#">&times;</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    {% else %}
+        <tr id="empty" class="txt-center">
+          <td colspan="5">Sorry, nothing here yet )-:</td>
+        </tr>
     {% endif %}
-  </body>
-</html>
+
+    <tfoot>
+      <tr>
+        <td colspan="2">
+          {% if prev_page == 0 %}
+            <a href="/"><span class="fontawesome-angle-left"></span> Previous</a>
+          {% elif prev_page > 0%}
+            <a href="/{{ prev_page }}"><span class="fontawesome-angle-left"></span> Previous</a>
+          {% endif %}
+        </td>
+        <td colspan="3" class="txt-right">
+          {% if next_page %}
+          <a href="/{{ next_page }}">Next <span class="fontawesome-angle-right"></span></a>
+          {% endif %}
+        </td>
+    </tfoot>
+  </table>
+
+  {% if current_user.is_authenticated() %}
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.2/backbone-min.js"></script>
+    <script id="uploadTemplate" type="template/text">
+        <td><%= name %></td>
+        <td class="txt-center access">
+          <% if (access == 'public') { %><span class="public fontawesome-star"></span><% } %>
+          <% if (access == 'private') { %><span class="private fontawesome-lock"></span><% } %>
+          <% if (access == 'limited') { %><span class="limited fontawesome-link"></span><% } %>
+        </td>
+        <td><%= progress %>%</td>
+        <td><%= status %></td>
+        <td></td>
+    </script>
+    <script id="rowTemplate" type="template/text">
+        <td>
+          <a href="/<%= key %>">
+            <%= name %>
+          </a>
+        </td>
+        <td class="txt-center access">
+          <% if (access == 'public') { %><span class="public fontawesome-star"></span><% } %>
+          <% if (access == 'private') { %><span class="private fontawesome-lock"></span><% } %>
+          <% if (access == 'limited') { %><span class="limited fontawesome-link"></span><% } %>
+        </td>
+        <td class="txt-center"><%= views %></td>
+        <td><%= created %></td>
+        <td class="hover-show"><a class="remove" href="#">&times;<a></td>
+    </script>
+    {% autoescape false %}
+    <script> var bootstrap = [{{ json|join(',') }}]; </script>
+    {% endautoescape %}
+    <script src="{{ static_web_path }}/list.js"></script>
+    <script src="{{ static_web_path }}/glyph.js"></script>
+  {% endif %}
+{% endblock %}

@@ -1,23 +1,16 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>{{ handler.data.name }}</title>
-  <link rel="stylesheet" href="{{ static_web_path }}/spice.css">
-  {% block css %}{% endblock %}
-</head>
-<body>
-    <header>
-      <ul class="list-inline">
-        <li><h1>{{ handler.data.name }}</h1>
-        <li><a href="{{ handler.raw }}">raw</a>
-        <li>{{ handler.data.views }} Views
-      </ul>
-    </header>
-    {% block content %}
-    <div class='box' style="width: 700px; text-align: center; margin: auto">
-      Download <a href="{{ handler.link }}">{{ handler.data.name }}</a>
-    </div>
-    {% endblock %}
-    {% block js %}{% endblock %}
-</body>
-</html>
+{% extends 'page.html' %}
+
+{% block title %}{{ handler.data.name }}{% endblock %}
+
+{% block header_list %}
+  <li><h1>{{ handler.data.name }}</h1>
+  <li><a href="{{ handler.raw }}">raw</a>
+  <li>{{ handler.data.views }} Views
+{% endblock %}
+
+{% block content %}
+  <div class='box' style="width: 700px; text-align: center; margin: auto">
+    Download <a href="{{ handler.raw }}">{{ handler.data.name }}</a>
+  </div>
+  {% block js %}{% endblock %}
+{% endblock %}

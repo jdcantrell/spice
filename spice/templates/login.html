@@ -1,32 +1,22 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Login</title>
-    <link rel="stylesheet" href="{{ static_web_path }}/spice.css">
-  </head>
-  <body>
-    <header>
-      <ul class="list-inline">
-        <li><h1>Spice</h1>
-        <li>So many files!
+{% extends 'page.html' %}
+
+{% block title %}Login{% endblock %}
+{% block content %}
+  <div class="box box-small">
+    <form method="post">
+      <ul class="list-form">
+        <li>
+          <label for="un">Username:</label>
+          <input id="un" type="text" name="username">
+        </li>
+        <li>
+          <label for="pw">Password:</label>
+          <input id="pw" type="password" name="password">
+        </li>
+        <li class="action">
+          <button type="submit">Login</button>
+        </li>
       </ul>
-    </header>
-    <div class="box box-small">
-      <form method="post">
-        <ul class="list-form">
-          <li>
-            <label for="un">Username:</label>
-            <input id="un" type="text" name="username">
-          </li>
-          <li>
-            <label for="pw">Password:</label>
-            <input id="pw" type="password" name="password">
-          </li>
-          <li class="action">
-            <button type="submit">Login</button>
-          </li>
-        </ul>
-      </form>
-    </div>
-</body>
-</html>
+    </form>
+  </div>
+{% endblock %}

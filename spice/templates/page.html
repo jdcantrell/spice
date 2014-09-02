@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>{% block title %}Spice: All files{% endblock %}</title>
+    <link rel="stylesheet" href="{{ static_web_path }}/spice.css">
+    {% block css %}{% endblock %}
+  </head>
+  <body>
+      <header class="clearfix">
+        <ul class="list-inline pull-left">
+          <li><h1><a class="header-link" href="/">Spice</a></h1>
+          {% block header_list %}
+          <li>So many files!
+          {% endblock %}
+        </ul>
+        <div class="pull-right" style="padding-right:20px">
+          <ul class="list-inline pull-left">
+            <li><h1>&nbsp;</h1>
+            {% if current_user.is_authenticated() %}
+              <li><a href="/logout"><span class="fontawesome-off"></span></a>
+              <li>{{ current_user.username }}
+            {% endif %}
+          </ul>
+        </div>
+      </header>
+      {% block content %}
+      {% endblock %}
+  </body>
+</html>

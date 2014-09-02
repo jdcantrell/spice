@@ -1,53 +1,42 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Spice: All files</title>
-    <link rel="stylesheet" href="{{ static_web_path }}/spice.css">
-  </head>
-  <body>
-    <header>
-      <ul class="list-inline">
-        <li><h1>Spice</h1>
-        <li>So many files!
-      </ul>
-    </header>
-    <div class="box box-large txt-center">
-      <div class="tile-list">
-      {% for file in files %}
-        {% if file.type == 'images' %}
-          <a href="/{{ file.data.key }}">
-            <img class="tile" style="visiblity:hidden" src="{{ file.thumbnail }}">
-          </a>
-        {% endif %}
-      {% endfor %}
-      </div>
-      <div class="clearfix">
-        <div class="pull-left">
-          {% if prev_page == 0 %}
-            <a href="/tiles"><span class="fontawesome-angle-left"></span> Previous</a>
-          {% elif prev_page > 0%}
-            <a href="/tiles/{{ prev_page }}"><span class="fontawesome-angle-left"></span> Previous</a>
-          {% endif %}
-        </div>
+{% extends 'page.html' %}
 
-        <div class="txt-right pull-right">
-          {% if next_page %}
-          <a href="/tiles/{{ next_page }}">Next <span class="fontawesome-angle-right"></span></a>
-          {% endif %}
-        </div>
+{% block content %}
+  <div class="box box-large txt-center tile-container">
+    <div class="tile-list">
+    {% for file in files %}
+      {% if file.type == 'images' %}
+        <a href="/{{ file.data.key }}">
+          <img class="tile" style="visiblity:hidden" src="{{ file.thumbnail }}">
+        </a>
+      {% endif %}
+    {% endfor %}
+    </div>
+    <div class="clearfix">
+      <div class="pull-left">
+        {% if prev_page == 0 %}
+          <a href="/tiles"><span class="fontawesome-angle-left"></span> Previous</a>
+        {% elif prev_page > 0%}
+          <a href="/tiles/{{ prev_page }}"><span class="fontawesome-angle-left"></span> Previous</a>
+        {% endif %}
+      </div>
+
+      <div class="txt-right pull-right">
+        {% if next_page %}
+        <a href="/tiles/{{ next_page }}">Next <span class="fontawesome-angle-right"></span></a>
+        {% endif %}
       </div>
     </div>
+  </div>
 
-    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
-    <script src="{{ static_web_path }}/glyph.js"></script>
-    <script>
-      $(document).ready(function () {
-        layout_tiles($('.tile-list img'), 200, 1060, 4)
-      });
-    </script>
-    {% autoescape false %}
-    <script> var bootstrap = [{{ json|join(',') }}]; </script>
-    {% endautoescape %}
-  </body>
-</html>
+  <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.6.0/underscore-min.js"></script>
+  <script src="{{ static_web_path }}/glyph.js"></script>
+  <script>
+    $(document).ready(function () {
+      layout_tiles($('.tile-list img'), 200, 1060, 4)
+    });
+  </script>
+  {% autoescape false %}
+  <script> var bootstrap = [{{ json|join(',') }}]; </script>
+  {% endautoescape %}
+{% endblock %}

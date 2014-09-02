@@ -92,8 +92,8 @@ $(document).ready(function () {
   $('#access_controls button').click(function () {
     var $el = $(this);
     access = $el.val();
-    $el.parent().children().removeClass('button-active');
-    $el.addClass('button-active');
+    $el.parent().children().addClass('button-lowlight');
+    $el.removeClass('button-lowlight');
   });
   //file api code
   if (typeof FileReader === "function") {
