@@ -1,4 +1,4 @@
-from flask import session, escape, redirect, request, url_for, render_template, send_from_directory
+from flask import session, escape, redirect, request, url_for, render_template, send_from_directory, abort
 from flask.ext.login import login_user, logout_user, current_user, login_required
 
 from werkzeug.security import check_password_hash
@@ -44,6 +44,19 @@ def get_file_data(limit=50, offset=0):
     handlers.append(get_handler_instance(record))
 
   return (json, handlers)
+
+@app.errorhandler(404)
+def page_not_found(e):
+  return render_template('404.html',
+    current_user=current_user,
+    static_web_path=app.config['STATIC_WEB_PATH'],
+    upload_web_path=app.config['UPLOAD_WEB_PATH'],
+  ), 404
+
+
+@app.route('/robots.txt')
+def robots():
+  return "User-agent: *\nDisallow: /"
 
 @app.route('/')
 @app.route('/<int:page>')
@@ -180,7 +193,7 @@ def view_raw(key, filename):
   if record is not None and can_view_file(record):
     return send_from_directory(record.path, record.filename)
 
-  return 'herp derp'
+  abort(404)
 
 @app.route('/<key>')
 def view(key):
@@ -200,7 +213,4 @@ def view(key):
       handler=handler,
     )
 
-  return 'herp derp'
-@app.route('/robots.txt')
-def robots():
-  return "User-agent: *\nDisallow: /"
+  abort(404)
