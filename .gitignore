@@ -52,6 +52,9 @@ docs/_build/
 # PyBuilder
 target/
 
+# OSX
+.DS_Store
+
 # Spice things
 settings.cfg
 uploads/

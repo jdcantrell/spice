@@ -2,7 +2,7 @@
 <html>
   <head>
   <title>{% block title %}Spice: All files{% endblock %}</title>
-    <link rel="stylesheet" href="{{ static_web_path }}/spice.css">
+    <link rel="stylesheet" href="{{ static_web_path }}/css/spice.css">
     {% block css %}{% endblock %}
   </head>
   <body>
@@ -17,7 +17,7 @@
           <ul class="list-inline pull-left">
             <li><h1>&nbsp;</h1>
             {% if current_user.is_authenticated() %}
-              <li><a href="/logout"><span class="fontawesome-off"></span></a>
+              <li><a href="/logout"><span class="fa-power-off"></span></a>
               <li>{{ current_user.username }}
             {% endif %}
           </ul>
