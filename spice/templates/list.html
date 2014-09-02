@@ -6,13 +6,13 @@
     New uploads will be:
     <span id="access_controls" class="">
       <button value='private' class="button-lowlight">
-        <span class="fa-lock"></span> Private
+        <span class="fa fa-lock"></span> Private
       </button>
       <button class="" value='limited'>
-        <span class='fa-link'></span> Limited
+        <span class='fa fa-link'></span> Limited
       </button>
       <button value='public' class="button-lowlight">
-        <span class="fa-star"></span> Public
+        <span class="fa fa-star"></span> Public
       </button>
     </span>
     <br><br>
@@ -44,13 +44,13 @@
         <td class="access txt-center" title="Click to change access settings">
           {% if current_user.is_authenticated() %}
             {% if file.data.access == 'public' %}
-              <span class="fa-star"></span>
+              <span class="fa fa-star"></span>
             {% endif %}
             {% if file.data.access == 'private' %}
-              <span class="fa-lock"></span>
+              <span class="fa fa-lock"></span>
             {% endif %}
             {% if file.data.access == 'limited' %}
-              <span class="fa-link"></span>
+              <span class="fa fa-link"></span>
             {% endif %}
           {% endif %}
 
@@ -74,14 +74,14 @@
       <tr>
         <td colspan="2">
           {% if prev_page == 0 %}
-            <a href="/"><span class="fa-angle-left"></span> Previous</a>
+            <a href="/"><span class="fa fa-angle-left"></span> Previous</a>
           {% elif prev_page > 0%}
-            <a href="/{{ prev_page }}"><span class="fa-angle-left"></span> Previous</a>
+            <a href="/{{ prev_page }}"><span class="fa fa-angle-left"></span> Previous</a>
           {% endif %}
         </td>
         <td colspan="3" class="txt-right">
           {% if next_page %}
-          <a href="/{{ next_page }}">Next <span class="fa-angle-right"></span></a>
+          <a href="/{{ next_page }}">Next <span class="fa fa-angle-right"></span></a>
           {% endif %}
         </td>
     </tfoot>
@@ -94,9 +94,9 @@
     <script id="uploadTemplate" type="template/text">
         <td><%= name %></td>
         <td class="txt-center access">
-          <% if (access == 'public') { %><span class="public fa-star"></span><% } %>
-          <% if (access == 'limited') { %><span class="limited fa-link"></span><% } %>
-          <% if (access == 'private') { %><span class="private fa-lock"></span><% } %>
+          <% if (access == 'public') { %><span class="public fa fa-star"></span><% } %>
+          <% if (access == 'limited') { %><span class="limited fa fa-link"></span><% } %>
+          <% if (access == 'private') { %><span class="private fa fa-lock"></span><% } %>
         </td>
         <td><%= progress %>%</td>
         <td><%= status %></td>
@@ -109,9 +109,9 @@
           </a>
         </td>
         <td class="txt-center access">
-          <% if (access == 'public') { %><span class="public fa-star"></span><% } %>
-          <% if (access == 'limited') { %><span class="limited fa-link"></span><% } %>
-          <% if (access == 'private') { %><span class="private fa-lock"></span><% } %>
+          <% if (access == 'public') { %><span class="public fa fa-star"></span><% } %>
+          <% if (access == 'limited') { %><span class="limited fa fa-link"></span><% } %>
+          <% if (access == 'private') { %><span class="private fa fa-lock"></span><% } %>
         </td>
         <td class="txt-center"><%= views %></td>
         <td><%= created %></td>
