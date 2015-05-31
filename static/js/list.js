@@ -1,4 +1,4 @@
-/* globals bootstrap */
+/* globals bootstrap, File */
 var FileModel = Backbone.Model.extend({
   urlRoot: 'file',
   upload: function () {
@@ -98,8 +98,91 @@ $(document).ready(function () {
   //file api code
   if (typeof FileReader === "function") {
 
-    //add our dnd listeners
+    var checkInput = function () {
+      var pasteCatcher = $('#paste_box');
+      // Store the pasted content in a variable
+      var child = pasteCatcher.children().get(0);
+
+      // Clear the inner html to make sure we're always
+      // getting the latest inserted content
+      pasteCatcher.html('');
+
+      if (child) {
+        // If the user pastes an image, the src attribute
+        // will represent the image as a base64 encoded string.
+        if (child.tagName === "IMG") {
+          createImage(child.src);
+        }
+      }
+    };
+
+    var getFileName = function (type)
+    {
+      var fileTypes = {
+        'image/png': 'png',
+        'image/jpeg': 'jpg',
+        'image/gif': 'gif'
+      };
+      return 'Image ' + new Date() + '.' + fileTypes[type];
+    };
+
+    /* Creates a new image from a given source */
+    var createImage = function(dataURI) {
+      var binary = atob(dataURI.split(',')[1]);
+      var mimeType = dataURI.split(',')[0].split(':')[1].split(';')[0];
+      var array = [];
+      for (var i = 0; i < binary.length; i++) {
+        array.push(binary.charCodeAt(i));
+      }
+
+      var blob = new Blob([new Uint8Array(array)], {type: mimeType});
+      var file = new File([blob], getFileName(mimeType));
+      addFile(file);
+    };
+
+    var addFile = function (file)
+    {
+      var model = new FileModel({
+        name: file.name,
+        access: access,
+        progress: 0,
+        status: 'queued',
+        file: file
+      });
+
+      var view = new FileView({model: model});
+      $('#files').prepend(view.el);
+      $('#empty').remove();
+      view.render();
+
+      model.upload();
+
+    };
+
+    $('#paste_box').bind('paste', function (event) {
+      var items = event.originalEvent.clipboardData.items;
+      if (items) {
+        // Loop through all items, looking for any kind of image
+        for (var i = 0; i < items.length; i++) {
+          if (items[i].type.indexOf("image") !== -1) {
+            // TODO: test in chrome
+            var blob = items[i].getAsFile();
+            addFile(blob);
+          }
+        }
+      }
+      else {
+        // If we can't handle clipboard data directly (Firefox),
+        // we need to read what was pasted from the contenteditable element
+        // This is a cheap trick to make sure we read the data
+        // AFTER it has been inserted.
+        $(this).html('');
+        setTimeout(checkInput, 1);
+      }
+    });
+
     $('body').bind({
+      click: function () { $('#paste_box').focus(); },
       dragover: function (event) { event.preventDefault(); },
       dragleave: function (event) { event.preventDefault(); },
       drop: function (event) {
@@ -110,23 +193,13 @@ $(document).ready(function () {
         for (var i = 0; i < files.length; i += 1) {
           //queue objects to be uploaded
           var file = files[i];
-          var model = new FileModel({
-            name: file.name,
-            access: access,
-            progress: 0,
-            status: 'queued',
-            file: file
-          });
-
-          var view = new FileView({model: model});
-          $('#files').prepend(view.el);
-          $('#empty').remove();
-          view.render();
-
-          model.upload();
+          addFile(file);
         }
       }
     });
+
+    //focus on paste catcher
+    $('#paste_box').focus();
   }
 
   //initialize existing files
