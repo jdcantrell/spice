@@ -1,11 +1,13 @@
 from handler import DefaultHandler
 from text import TextHandler
 from images import ImageHandler
+from videos import VideoHandler
 
 handler_classes = [
     DefaultHandler,
     TextHandler,
     ImageHandler,
+    VideoHandler
 ]
 
 
