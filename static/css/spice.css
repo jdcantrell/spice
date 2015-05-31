@@ -192,6 +192,7 @@ button {
   border: 1px solid #2575AB;
   border-bottom-width: 2px;
   border-radius: 4px;
+  line-height: 1;
 }
 
 button:hover {
