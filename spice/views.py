@@ -40,7 +40,7 @@ def file_json(record):
 
 def get_file_data(limit=50, offset=0):
     files = []
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         query = db_session.query(File)
     else:
         query = db_session.query(File).filter_by(access='public')
@@ -215,7 +215,7 @@ def create():
 
 def can_view_file(record):
     if record.access == 'private':
-        return current_user.is_authenticated()
+        return current_user.is_authenticated
     return True
 
 

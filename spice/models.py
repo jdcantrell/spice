@@ -34,12 +34,15 @@ class User(Timestamp, Base):
     def __repr__(self):
         return '<User %r>' % (self.username)
 
+    @property
     def is_authenticated(self):
         return True
 
+    @property
     def is_active(self):
         return True
 
+    @property
     def is_anonymous(self):
         return False
 

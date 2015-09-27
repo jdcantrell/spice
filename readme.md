@@ -10,7 +10,7 @@ friends.
 
 ##Installation:
 1. Checkout this repo
-2. pip install pygments flask flask-login sqlalchemy wand
+2. pip install pygments flask flask-login sqlalchemy wand shortid
 3. Copy settings-example.cfg to settings.cfg and update values
 4. Create an empty database: `python runserver.py init_db`
 5. Create a user: `python runserver.py user`

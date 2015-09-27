@@ -1,7 +1,7 @@
 {% extends 'page.html' %}
 
 {% block content %}
-  {% if current_user.is_authenticated() %}
+  {% if current_user.is_authenticated %}
   <div class="box-medium txt-center">
     New uploads will be:
     <span id="access_controls" class="">
@@ -25,7 +25,7 @@
       <tr>
         <th>Name</th>
         <th style="width:50px">
-        {% if current_user.is_authenticated() %}
+        {% if current_user.is_authenticated %}
           Access
         {% endif %}
         </th>
@@ -43,7 +43,7 @@
           </a>
         </td>
         <td class="access txt-center" title="Click to change access settings">
-          {% if current_user.is_authenticated() %}
+          {% if current_user.is_authenticated %}
             {% if file.data.access == 'public' %}
               <span class="fa fa-star"></span>
             {% endif %}
@@ -59,7 +59,7 @@
         <td class="txt-center">{{ file.data.views|default('0') }}</td>
         <td>{{ file.data.created.strftime('%Y-%m-%d') }}</td>
         <td class="hover-show ">
-          {% if current_user.is_authenticated() %}
+          {% if current_user.is_authenticated %}
             <a class="remove" href="#">&times;</a>
           {% endif %}
         </td>
@@ -88,7 +88,7 @@
     </tfoot>
   </table>
 
-  {% if current_user.is_authenticated() %}
+  {% if current_user.is_authenticated %}
     <script src="{{ static_web_path }}/js/jquery-2.1.1.min.js"></script>
     <script src="{{ static_web_path }}/js/underscore-min.js"></script>
     <script src="{{ static_web_path }}/js/backbone-min.js"></script>

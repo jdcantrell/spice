@@ -16,7 +16,7 @@
         <div class="pull-right" style="padding-right:20px">
           <ul class="list-inline pull-left">
             <li><h1>&nbsp;</h1>
-            {% if current_user.is_authenticated() %}
+            {% if current_user.is_authenticated %}
               <li><a href="/logout"><span class="fa fa-power-off"></span></a>
               <li>{{ current_user.username }}
             {% endif %}
