@@ -35,7 +35,7 @@ var FileModel = Backbone.Model.extend({
     data.append('access', self.get('access'));
     data.append('json', true);
 
-    xhr.open("POST", "/file");
+    xhr.open("POST", this.url());
     xhr.send(data);
   }
 });
