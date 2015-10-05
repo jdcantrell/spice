@@ -62,7 +62,8 @@ def page_not_found(e):
         '404.html',
         current_user=current_user,
         static_web_path=app.config['STATIC_WEB_PATH'],
-        upload_web_path=app.config['UPLOAD_WEB_PATH']
+        upload_web_path=app.config['UPLOAD_WEB_PATH'],
+        root_web_path=app.config['ROOT_WEB_PATH'],
     ), 404
 
 
@@ -90,6 +91,7 @@ def index(page=0):
         next_page=next_page,
         static_web_path=app.config['STATIC_WEB_PATH'],
         upload_web_path=app.config['UPLOAD_WEB_PATH'],
+        root_web_path=app.config['ROOT_WEB_PATH'],
     )
 
 
@@ -112,6 +114,7 @@ def tile(page=0):
         next_page=next_page,
         static_web_path=app.config['STATIC_WEB_PATH'],
         upload_web_path=app.config['UPLOAD_WEB_PATH'],
+        root_web_path=app.config['ROOT_WEB_PATH'],
     )
 
 
@@ -121,6 +124,7 @@ def login():
         'login.html',
         static_web_path=app.config['STATIC_WEB_PATH'],
         upload_web_path=app.config['UPLOAD_WEB_PATH'],
+        root_web_path=app.config['ROOT_WEB_PATH'],
     )
 
 
@@ -243,6 +247,7 @@ def view(key):
             handler.template,
             static_web_path=app.config['STATIC_WEB_PATH'],
             upload_web_path=app.config['UPLOAD_WEB_PATH'],
+            root_web_path=app.config['ROOT_WEB_PATH'],
             handler=handler,
         )
 

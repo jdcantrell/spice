@@ -5,7 +5,7 @@
     <div class="tile-list">
     {% for file in files %}
       {% if file.type == 'images' %}
-        <a href="/{{ file.data.key }}">
+        <a href="{{ root_web_path }}/{{ file.data.key }}">
           <img class="tile" style="visiblity:hidden" src="{{ file.thumbnail }}">
         </a>
       {% endif %}
@@ -14,15 +14,15 @@
     <div class="clearfix">
       <div class="pull-left">
         {% if prev_page == 0 %}
-          <a href="/tiles"><span class="fontawesome-angle-left"></span> Previous</a>
+          <a href="{{ root_web_path }}/tiles"><span class="fontawesome-angle-left"></span> Previous</a>
         {% elif prev_page > 0%}
-          <a href="/tiles/{{ prev_page }}"><span class="fontawesome-angle-left"></span> Previous</a>
+          <a href="{{ root_web_path }}/tiles/{{ prev_page }}"><span class="fontawesome-angle-left"></span> Previous</a>
         {% endif %}
       </div>
 
       <div class="txt-right pull-right">
         {% if next_page %}
-        <a href="/tiles/{{ next_page }}">Next <span class="fontawesome-angle-right"></span></a>
+        <a href="{{ root_web_path }}/tiles/{{ next_page }}">Next <span class="fontawesome-angle-right"></span></a>
         {% endif %}
       </div>
     </div>

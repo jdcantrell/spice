@@ -38,7 +38,7 @@
       {% for file in files %}
       <tr id="key_{{ file.data.key }}" class="hover">
         <td>
-          <a class="visit" href="/{{ file.data.key }}">
+          <a class="visit" href="{{ root_web_path }}/{{ file.data.key }}">
             {{ file.data.name }}
           </a>
         </td>
@@ -75,14 +75,14 @@
       <tr>
         <td colspan="2">
           {% if prev_page == 0 %}
-            <a href="/"><span class="fa fa-angle-left"></span> Previous</a>
+            <a href="{{ root_web_path }}/"><span class="fa fa-angle-left"></span> Previous</a>
           {% elif prev_page > 0%}
-            <a href="/{{ prev_page }}"><span class="fa fa-angle-left"></span> Previous</a>
+            <a href="{{ root_web_path }}/{{ prev_page }}"><span class="fa fa-angle-left"></span> Previous</a>
           {% endif %}
         </td>
         <td colspan="3" class="txt-right">
           {% if next_page %}
-          <a href="/{{ next_page }}">Next <span class="fa fa-angle-right"></span></a>
+          <a href="{{ root_web_path }}/{{ next_page }}">Next <span class="fa fa-angle-right"></span></a>
           {% endif %}
         </td>
     </tfoot>
@@ -105,7 +105,7 @@
     </script>
     <script id="rowTemplate" type="template/text">
         <td>
-          <a href="/<%= key %>">
+          <a href="{{ root_web_path }}/<%= key %>">
             <%= name %>
           </a>
         </td>

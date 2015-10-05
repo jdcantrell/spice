@@ -8,7 +8,7 @@
   <body>
       <header class="clearfix">
         <ul class="list-inline pull-left">
-          <li><h1><a class="header-link" href="/">Spice</a></h1>
+          <li><h1><a class="header-link" href="{{ root_web_path }}/">Spice</a></h1>
           {% block header_list %}
           <li>So many files!
           {% endblock %}
@@ -17,7 +17,7 @@
           <ul class="list-inline pull-left">
             <li><h1>&nbsp;</h1>
             {% if current_user.is_authenticated %}
-              <li><a href="/logout"><span class="fa fa-power-off"></span></a>
+              <li><a href="{{ root_web_path }}/logout"><span class="fa fa-power-off"></span></a>
               <li>{{ current_user.username }}
             {% endif %}
           </ul>
