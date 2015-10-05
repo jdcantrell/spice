@@ -7,11 +7,11 @@
 
 @font-face{
   font-family:'FontAwesome';
-  src:url('http://static.goodrobot.net/spice/static/images/fontawesome-webfont.eot?v=4.2.0');
-  src:url('http://static.goodrobot.net/spice/static/images/fontawesome-webfont.eot?#iefix&v=4.2.0') format('embedded-opentype'),
-      url('http://static.goodrobot.net/spice/static/images/fontawesome-webfont.woff?v=4.2.0') format('woff'),
-      url('http://static.goodrobot.net/spice/static/images/fontawesome-webfont.ttf?v=4.2.0') format('truetype'),
-      url('http://static.goodrobot.net/spice/static/images/fontawesome-webfont.svg?v=4.2.0#fontawesomeregular') format('svg');
+  src:url('/static/spice/static/images/fontawesome-webfont.eot?v=4.2.0');
+  src:url('/static/spice/static/images/fontawesome-webfont.eot?#iefix&v=4.2.0') format('embedded-opentype'),
+      url('/static/spice/static/images/fontawesome-webfont.woff?v=4.2.0') format('woff'),
+      url('/static/spice/static/images/fontawesome-webfont.ttf?v=4.2.0') format('truetype'),
+      url('/static/spice/static/images/fontawesome-webfont.svg?v=4.2.0#fontawesomeregular') format('svg');
   font-weight:normal;
   font-style:normal
 }
@@ -36,7 +36,7 @@ body {
   font-size: 14px;
   color: #2c3e50;
   min-height: 100%;
-  background-image: url(http://static.goodrobot.net/spice/static/images/escheresque.png);
+  background-image: url(/static/spice/static/images/escheresque.png);
   padding: 0;
   margin: 0;
 }
