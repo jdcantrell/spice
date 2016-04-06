@@ -4,6 +4,12 @@
   <title>{% block title %}Spice: All files{% endblock %}</title>
     <link rel="stylesheet" href="{{ static_web_path }}/css/spice.css">
     {% block css %}{% endblock %}
+
+    <meta property="og:site_name" content="Spice - goodrobot.net">
+    {% if current_path %}
+    <meta property="og:url" content="{{ current_path }}">
+    {% endif %}
+    {% block og %}{% endblock %}
   </head>
   <body>
       <header class="clearfix">

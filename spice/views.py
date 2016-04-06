@@ -245,6 +245,7 @@ def view(key):
         handler = get_handler_instance(record)
         return render_template(
             handler.template,
+            current_path="%s%s" % (app.config['ROOT_WEB_PATH'], request.path),
             static_web_path=app.config['STATIC_WEB_PATH'],
             upload_web_path=app.config['UPLOAD_WEB_PATH'],
             root_web_path=app.config['ROOT_WEB_PATH'],

@@ -1,4 +1,10 @@
 {% extends "view.html" %}
+
+{% block og %}
+  <meta property="og:image" content="{{ handler.link }}">
+  <meta property="og:title" content="{{ handler.data.name }}">
+{% endblock %}
+
 {% block content %}
 <img id="img" class="image box image-width" style="padding:0;" src="{{ handler.link }}">
 <script>
