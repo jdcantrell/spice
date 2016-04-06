@@ -8,6 +8,7 @@ class DefaultHandler:
     web_path = app.config['UPLOAD_WEB_PATH']
     cache_path = app.config['CACHE_FOLDER']
     cache_web_path = app.config['CACHE_WEB_PATH']
+    root_web_path = app.config['ROOT_WEB_PATH']
     template = 'view.html'
 
     def __init__(self, record):
@@ -25,7 +26,7 @@ class DefaultHandler:
 
     @property
     def raw(self):
-        return "/%s/%s" % (self.record.key, self.record.name)
+        return "%s/%s/%s" % (self.root_web_path, self.record.key, self.record.name)
 
     @property
     def data(self):
