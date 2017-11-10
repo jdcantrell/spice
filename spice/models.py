@@ -47,7 +47,7 @@ class User(Timestamp, Base):
         return False
 
     def get_id(self):
-        return unicode(self.id)
+        return self.id
 
 
 class File(Timestamp, Base):

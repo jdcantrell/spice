@@ -51,11 +51,9 @@ function set_image_height(els, targetHeight, maxWidth) {
   });
 }
 
-function layout_tiles($els, targetHeight, rowWidth, marginTotal) {
+function do_layout($els, targetHeight, rowWidth, marginTotal) {
   var currentWidth = 0;
-
   var rowImgs = [];
-
 
   $els.each(function (idx, el) {
     var scaledWidth;
@@ -96,5 +94,17 @@ function layout_tiles($els, targetHeight, rowWidth, marginTotal) {
   if (rowImgs.length) {
     set_image_height(rowImgs, targetHeight);
   }
+}
+
+function layout_tiles($els, targetHeight, rowWidth, marginTotal) {
+  var imagesLoading = $els.length;
+  $els.on('load', function () {
+    imagesLoading--;
+    if (imagesLoading == 0) {
+      console.log('do layout');
+      do_layout($els, targetHeight, rowWidth, marginTotal);
+    }
+  });
+
 }
 

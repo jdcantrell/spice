@@ -1,4 +1,4 @@
-from handler import DefaultHandler
+from spice.handlers.handler import DefaultHandler
 
 import os
 from pygments import highlight

@@ -1,6 +1,6 @@
 import json
 
-from handler import DefaultHandler
+from spice.handlers.handler import DefaultHandler
 from wand.image import Image
 
 

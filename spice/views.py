@@ -3,7 +3,7 @@ from flask import (
     render_template, send_from_directory, abort
 )
 
-from flask.ext.login import (
+from flask_login import (
     login_user, logout_user, current_user, login_required
 )
 
@@ -95,7 +95,7 @@ def index(page=0):
     )
 
 
-@app.route('/tiles')
+@app.route('/tiles/')
 @app.route('/tiles/<int:page>')
 def tile(page=0):
     page_size = 50

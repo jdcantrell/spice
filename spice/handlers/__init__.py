@@ -1,7 +1,7 @@
-from handler import DefaultHandler
-from text import TextHandler
-from images import ImageHandler
-from videos import VideoHandler
+from spice.handlers.handler import DefaultHandler
+from spice.handlers.text import TextHandler
+from spice.handlers.images import ImageHandler
+from spice.handlers.videos import VideoHandler
 
 handler_classes = [
     DefaultHandler,
