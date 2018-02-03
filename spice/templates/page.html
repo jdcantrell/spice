@@ -2,34 +2,68 @@
 <html>
   <head>
   <title>{% block title %}Spice: All files{% endblock %}</title>
-    <link rel="stylesheet" href="{{ static_web_path }}/css/spice.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     {% block css %}{% endblock %}
 
-    <meta property="og:site_name" content="Spice - goodrobot.net">
+    <meta property="og:site_name" content="spice on goodrobot.net">
     {% if current_path %}
     <meta property="og:url" content="{{ current_path }}">
     {% endif %}
     {% block og %}{% endblock %}
+    <style>
+      .feather {
+        vertical-align: middle;
+      }
+
+    </style>
   </head>
   <body>
-      <header class="clearfix">
-        <ul class="list-inline pull-left">
-          <li><h1><a class="header-link" href="{{ root_web_path }}/">Spice</a></h1>
-          {% block header_list %}
-          <li>So many files!
-          {% endblock %}
+
+
+    <header class="page-header">
+      <span class="page-header-title">
+       <a href="/">Spice</a>
+      </span>
+
+      <span class="page-sub-title">So many files!</span>
+
+      <nav class="page-nav">
+        <div class="flex-container row">
+        <ul class="list-nav">
+          <li>
+            <a href="{{ root_web_path }}/logout">
+            test link
+            </a>
+          </li>
+          {% for href, id, name in nav_items %}
+          {% if current_page != id %}
+          <li {% if current_page == id %}class="active"{% endif %} >
+            <a href="{{ href|e }}">{{ name|e }}</a>
+          </li>
+          {% endif %}
+          {% endfor %}
+
         </ul>
-        <div class="pull-right" style="padding-right:20px">
-          <ul class="list-inline pull-left">
-            <li><h1>&nbsp;</h1>
-            {% if current_user.is_authenticated %}
-              <li><a href="{{ root_web_path }}/logout"><span class="fa fa-power-off"></span></a>
-              <li>{{ current_user.username }}
-            {% endif %}
+          <ul class="flex-1 list-nav align-right">
+          {% if current_user.is_authenticated %}
+          <li>
+            <a href="{{ root_web_path }}/logout">
+              {% include 'images/log-out.svg' %}
+            </a>
+            {{ current_user.username }}
+          </li>
+          {% endif %}
           </ul>
         </div>
-      </header>
-      {% block content %}
-      {% endblock %}
+      </nav>
+    </header>
+
+    <div class="content">
+      {% block content %}{% endblock %}
+    </div>
+
+    <footer class="align-center" style="margin-top:48px">
+      <a href="/">goodrobot.net</a>
+    </footer>
   </body>
 </html>

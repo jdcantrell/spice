@@ -36,6 +36,6 @@ if len(sys.argv) > 1:
 
 else:
     from spice import app
-    app.run(debug=True, host='0.0.0.0', port=8000)
+    app.run(debug=True, host='0.0.0.0', port=3000)
 
     import spice.views

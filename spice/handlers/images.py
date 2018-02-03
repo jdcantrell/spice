@@ -1,5 +1,6 @@
 import json
 
+from flask import url_for
 from spice.handlers.handler import DefaultHandler
 from wand.image import Image
 
@@ -59,4 +60,4 @@ class ImageHandler(DefaultHandler):
 
     @property
     def thumbnail(self):
-        return '%s/thumbnail-%s' % (self.cache_web_path, self.record.filename)
+        return url_for('static', filename='cache/thumbnail-%s' % (self.record.filename))

@@ -3,9 +3,7 @@
 {% block title %}{{ handler.data.name }}{% endblock %}
 
 {% block header_list %}
-  <li><h1>{{ handler.data.name }}</h1>
-  <li><a href="{{ handler.raw }}">raw</a>
-  <li>{{ handler.data.views }} Views
+  <b>{{ handler.data.name }}</b> ~ <a href="{{ handler.raw }}">raw</a> ~ {{ handler.data.views }} Views
 {% endblock %}
 
 {% block content %}

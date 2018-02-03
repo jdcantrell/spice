@@ -2,17 +2,17 @@
 
 {% block content %}
   {% if current_user.is_authenticated %}
-  <div class="box-medium txt-center">
+  <div class="txt-center">
     New uploads will be:
-    <span id="access_controls" class="">
-      <button value='private' class="button-lowlight">
-        <span class="fa fa-lock"></span> Private
+    <span id="access_controls" class="button-group">
+      <button value='private' >
+        <span></span> Private
       </button>
-      <button class="" value='limited'>
-        <span class='fa fa-link'></span> Limited
+      <button value='limited' class="primary">
+        <span></span> Limited
       </button>
-      <button value='public' class="button-lowlight">
-        <span class="fa fa-star"></span> Public
+      <button value='public'>
+        <span></span> Public
       </button>
     </span>
     <br><br>
@@ -20,7 +20,7 @@
   </div>
   {% endif %}
 
-  <table class="box box-medium file-list" id="files" cellspacing="0">
+  <table style="width:730px" class="hover file-list" id="files" cellspacing="0">
     <thead>
       <tr>
         <th>Name</th>
@@ -121,6 +121,6 @@
     {% autoescape false %}
     <script> var bootstrap = [{{ json|join(',') }}]; </script>
     {% endautoescape %}
-    <script src="{{ static_web_path }}/js/list.js"></script>
+    <script src="{{ static_web_path }}/js/table.js"></script>
   {% endif %}
 {% endblock %}
