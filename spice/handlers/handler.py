@@ -1,4 +1,5 @@
 from spice import app
+from flask import url_for
 
 
 class DefaultHandler:
@@ -22,11 +23,11 @@ class DefaultHandler:
 
     @property
     def link(self):
-        return "%s/%s" % (self.web_path, self.record.filename)
+        return url_for('view', key=self.record.key)
 
     @property
     def raw(self):
-        return "%s/%s/%s" % (self.root_web_path, self.record.key, self.record.name)
+        return url_for('view_raw', key=self.record.key, filename=self.record.name)
 
     @property
     def data(self):

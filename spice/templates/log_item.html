@@ -1,0 +1,25 @@
+<div>
+  <div class="item bg-c07 c00">
+    <a class="visit" href="{{ file.link }}">
+      {{ file.data.name }}
+    </a>
+    {% if file.type == 'images' %}
+    <div class="preview">
+      <a href="{{ file.link }}">
+        <img src="{{ file.thumbnail }}">
+      </a>
+    </div>
+    {% elif file.type == 'videos' %}
+      <video style="padding:0;max-width:100%;" controls src="{{ file.raw }}"></video>
+    {% else %}
+    <div class="preview">
+      <a href="{{ file.raw }}">
+        Download
+      </a>
+    </div>
+    {% endif %}
+    <div>
+      {{ file.data.created.strftime('%Y %m %d') }} - {{ file.data.access }}
+    </div>
+  </div>
+</div>

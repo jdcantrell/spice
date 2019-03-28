@@ -5,8 +5,8 @@
   <meta property="og:title" content="{{ handler.data.name }}">
 {% endblock %}
 
-{% block content %}
-<img id="img" class="image box image-width" style="padding:0;" src="{{ handler.link }}">
+{% block full_content %}
+<img id="img" class="image box image-width" style="padding:0;max-width:95%;margin:auto;display:block;" src="{{ handler.raw }}">
 <script>
   document.getElementById("img").addEventListener('click', function () {
     this.classList.toggle("image-width");

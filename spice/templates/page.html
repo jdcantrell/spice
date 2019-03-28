@@ -58,6 +58,7 @@
       </nav>
     </header>
 
+    {% block full_content %}{% endblock %}
     <div class="content">
       {% block content %}{% endblock %}
     </div>
@@ -65,5 +66,6 @@
     <footer class="align-center" style="margin-top:48px">
       <a href="/">goodrobot.net</a>
     </footer>
+    {% block js %}{% endblock %}
   </body>
 </html>

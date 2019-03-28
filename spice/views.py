@@ -97,12 +97,14 @@ def index(page=0):
 @app.route('/log')
 @app.route('/log/<int:page>')
 def log(page=0):
-    page_size = 20
+    page_size = 30
     json, files = get_file_data(page_size, page * page_size)
 
     next_page = False
     if (len(files) == page_size):
         next_page = page + 1
+
+    print(files);
 
     return render_template(
         'log.html',
@@ -249,8 +251,11 @@ def can_view_file(record):
 def view_raw(key, filename):
     record = db_session.query(File).filter_by(key=key).first()
 
+    print(app.config['UPLOAD_FOLDER'])
+    print(record.filename)
+
     if record is not None and can_view_file(record):
-        return send_from_directory(record.path, record.filename)
+        return send_from_directory(app.config['UPLOAD_FOLDER'], record.filename)
 
     abort(404)
 

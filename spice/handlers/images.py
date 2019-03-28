@@ -26,9 +26,9 @@ class ImageHandler(DefaultHandler):
         height = image.height
         width = image.width
 
-        if image.height > 300:
-            height = 300
-            width = int(300.0 * ratio)
+        if image.height > 400:
+            height = 400
+            width = int(400.0 * ratio)
 
         if width > 700:
             width = 700

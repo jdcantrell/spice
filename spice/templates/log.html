@@ -1,61 +1,45 @@
 {% extends 'page.html' %}
 
 {% block content %}
-  {% if current_user.is_authenticated %}
-  <div class="txt-center">
-    New uploads will be:
-    <span id="access_controls" class="button-group">
-      <button value='private' >
-        <span></span> Private
-      </button>
-      <button value='limited' class="primary">
-        <span></span> Limited
-      </button>
-      <button value='public'>
-        <span></span> Public
-      </button>
-    </span>
-    <br><br>
-    <div contenteditable="true" id="paste_box" style="width:1px;height:1px;overflow:hidden;position:absolute;top:-10000px;opacity:0"></div>
-  </div>
-  {% endif %}
 
-<style>
- .item {
-   margin-bottom: 64px;
-   width: 730px
- }
+  {% include 'upload.html' %}
+  <style>
+    .progress {
+      background-image: linear-gradient(to right, #458588 , #458588);
+      background-repeat: no-repeat;
+      background-size:  0%;
+    }
 
- .preview {
-   display: flex;
-   align-items: center;
-   justify-content: left;
-   margin-bottom: 16px;
- }
- .preview img {
-   box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.4);
- }
-</style>
+    .progress-hide {
+      opacity: 0;
+      transition: opacity .5s 4s;
+    }
+
+    .item {
+      display: inline-block;
+      margin-bottom: 64px;
+      box-shadow: 0 2px 4px 0px rgba(0, 0, 0, 0.4);
+      max-width: 730px;
+      width: auto;
+      padding: 8px;
+    }
+
+    .preview {
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+    }
+  </style>
 
   {% if files|length %}
     {% for file in files %}
-      {% if file.type == 'images' %}
-      <div class="item">
-        <div class="preview">
-          <a href="{{ root_web_path }}/{{ file.data.key }}">
-            <img class="tile" style="visiblity:hidden" src="{{ file.thumbnail }}">
-          </a>
-        </div>
-        {% endif %}
-        <ul class="list-inline">
-          <li>{{ file.data.created.strftime('%Y-%m-%d') }}
-          <li>
-            <a class="visit" href="{{ root_web_path }}/{{ file.data.key }}">
-              {{ file.data.name }}
-            </a>
-          <li> {{ file.data.access }}
-        </ul>
-      </div>
-      {% endfor %}
-    {% endif%}
+      {% include 'log_item.html' %}
+    {% endfor %}
+  {% endif %}
+{% endblock %}
+
+{% block js %}
+  <script src="{{ url_for('static', filename='js/log.js') }}"></script>
 {% endblock %}

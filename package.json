@@ -1,0 +1,15 @@
+{
+  "name": "spice",
+  "version": "0.0.1",
+  "description": "This file is needed just for dev dependencies",
+  "main": "index.js",
+  "repository": "git@github.com:jdcantrell/spice.git",
+  "author": "JD Cantrell <jd@goodrobot.net>",
+  "license": "GPL-3.0",
+  "devDependencies": {
+    "eslint": "^5.15.3",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "prettier": "^1.16.4"
+  }
+}
