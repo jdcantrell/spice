@@ -62,3 +62,4 @@ cache/
 *.sql
 *.sqlite
 node_modules
+live/

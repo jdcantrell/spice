@@ -1,16 +1,21 @@
 from flask import Flask
 from flask_login import LoginManager
 
-app = Flask(__name__)
-app.config.from_pyfile('../settings.cfg', silent=False)
+def create_app(test_config=None):
+    app = Flask(__name__)
 
-login_manager = LoginManager()
-login_manager.init_app(app)
+    if test_config is None:
+        app.config.from_pyfile('../settings.cfg', silent=False)
+    else:
+        app.config.from_mapping(test_config)
 
-from spice.database import db_session
-import spice.views
+    login_manager = LoginManager()
+    login_manager.init_app(app)
 
+    from spice.database import db_session
+    db.init_app(app)
 
-@app.teardown_appcontext
-def shutdown_session(exception=None):
-    db_session.remove()
+    import spice.views
+
+    from . import log
+    app.register_blueprint(log.bp)

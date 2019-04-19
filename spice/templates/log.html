@@ -4,6 +4,42 @@
 
   {% include 'upload.html' %}
   <style>
+    .item-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .item-header-content {
+      flex: 1;
+    }
+    .item-header-actions {
+      padding-left: 16px;
+    }
+
+
+    .pretty-select {
+      position: relative;
+      cursor: pointer;
+      color: #458588;
+      display: inline-block;
+    }
+    .pretty-select:hover {
+      text-decoration: underline;
+      color: #458588;
+    }
+
+    .pretty-select select {
+      color: #000;
+      kursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      opacity: 0;
+    }
+
     .progress {
       background-image: linear-gradient(to right, #458588 , #458588);
       background-repeat: no-repeat;

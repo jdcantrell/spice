@@ -7,9 +7,9 @@ name = "pypi"
 
 [packages]
 
-Flask = "*"
+Flask = ">=1.0.2"
 Flask-Login = "*"
-"Jinja2" = "*"
+"Jinja2" = ">=2.10.1"
 MarkupSafe = "*"
 Pygments = "*"
 shortid = "*"

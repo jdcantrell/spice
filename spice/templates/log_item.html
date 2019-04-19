@@ -1,8 +1,19 @@
 <div>
   <div class="item bg-c07 c00">
-    <a class="visit" href="{{ file.link }}">
-      {{ file.data.name }}
-    </a>
+    <div class="item-header">
+    <div class="item-header-content">
+      <h4>
+        <a class="visit" href="{{ file.link }}">
+          {{ file.data.name }}
+        </a>
+      </h4>
+    </div>
+    {% if current_user.is_authenticated %}
+    <div class="item-header-actions">
+      <div>Remove</div>
+    </div>
+    {% endif %}
+    </div>
     {% if file.type == 'images' %}
     <div class="preview">
       <a href="{{ file.link }}">
@@ -19,7 +30,19 @@
     </div>
     {% endif %}
     <div>
-      {{ file.data.created.strftime('%Y %m %d') }} - {{ file.data.access }}
+      {{ file.data.created.strftime('%Y-%m-%d') }} -
+      {% if current_user.is_authenticated %}
+      <div class="pretty-select">
+        {{ file.data.access }}
+        <select onChange="setMode(this, {{ file.data.id }})">
+          <option>public</option>
+          <option>private</option>
+          <option>limited</option>
+        </select>
+      </div>
+      {% else %}
+        {{ file.data.access }}
+      {% endif %}
     </div>
   </div>
 </div>
