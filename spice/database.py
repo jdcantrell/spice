@@ -1,25 +1,35 @@
 import click
 from flask.cli import with_appcontext
+from flask import current_app, g
 
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
-engine = create_engine(
-    'sqlite:///%s' % app.config['DATABASE_FILE'],
-    convert_unicode=True
-)
-
-db_session = scoped_session(
-    sessionmaker(autocommit=False, autoflush=False, bind=engine)
-)
-
 Base = declarative_base()
-Base.query = db_session.query_property()
+
+
+def get_db():
+    if 'db' not in g:
+        print('heeeeeeeeey sqlite:///%s' % current_app.config['DATABASE_FILE'])
+        engine = create_engine(
+            'sqlite:///%s' % current_app.config['DATABASE_FILE'],
+            convert_unicode=True
+        )
+
+
+        g.db = scoped_session(
+            sessionmaker(autocommit=False, autoflush=False, bind=engine)
+        )
+
+        Base.query = g.db.query_property()
+
+    return g.db
+
 
 def close_db(exception=None):
-    db_session.remove()
+    get_db().remove()
 
 
 def init_db():
@@ -37,4 +47,4 @@ def init_db_command():
 
 def init_app(app):
     app.teardown_appcontext(close_db)
-    app.add_command(init_db_command)
+    app.cli.add_command(init_db_command)

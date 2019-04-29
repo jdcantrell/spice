@@ -12,10 +12,26 @@ def create_app(test_config=None):
     login_manager = LoginManager()
     login_manager.init_app(app)
 
-    from spice.database import db_session
-    db.init_app(app)
 
-    import spice.views
+    from . import database
+    database.init_app(app)
+
+    from . import models
+    @login_manager.user_loader
+    def load_user(user_id):
+        return database.get_db().query(models.User).get(int(user_id))
+
+    from . import view
+    app.register_blueprint(view.bp)
+
+    from . import table
+    app.register_blueprint(table.bp)
+    app.add_url_rule('/', endpoint='table.index')
 
     from . import log
     app.register_blueprint(log.bp)
+
+    from . import tiles
+    app.register_blueprint(tiles.bp)
+
+    return app

@@ -1,12 +1,9 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
-
 Flask = ">=1.0.2"
 Flask-Login = "*"
 "Jinja2" = ">=2.10.1"
@@ -16,11 +13,10 @@ shortid = "*"
 SQLAlchemy = "*"
 Wand = "*"
 
-
 [dev-packages]
 
-
-
 [requires]
-
 python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true
