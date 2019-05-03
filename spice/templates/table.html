@@ -38,7 +38,7 @@
       {% for file in files %}
       <tr id="key_{{ file.data.key }}" class="hover">
         <td>
-          <a class="visit" href="{{ root_web_path }}/{{ file.data.key }}">
+          <a class="visit" href="{{ url_for('view.view', key=file.data.key) }}">
             {{ file.data.name }}
           </a>
         </td>
@@ -105,7 +105,7 @@
     </script>
     <script id="rowTemplate" type="template/text">
         <td>
-          <a href="{{ root_web_path }}/<%= key %>">
+          <a href="{{ url_for('view.view', key=key) }}">
             <%= name %>
           </a>
         </td>

@@ -24,6 +24,4 @@ def index(page=0):
         json=json,
         prev_page=page - 1,
         next_page=next_page,
-        upload_web_path=current_app.config["UPLOAD_WEB_PATH"],
-        root_web_path=current_app.config["ROOT_WEB_PATH"],
     )
