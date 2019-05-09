@@ -11,13 +11,10 @@ Base = declarative_base()
 
 
 def get_db():
-    if 'db' not in g:
-        print('heeeeeeeeey sqlite:///%s' % current_app.config['DATABASE_FILE'])
+    if "db" not in g:
         engine = create_engine(
-            'sqlite:///%s' % current_app.config['DATABASE_FILE'],
-            convert_unicode=True
+            "sqlite:///%s" % current_app.config["DATABASE_FILE"], convert_unicode=True
         )
-
 
         g.db = scoped_session(
             sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -33,16 +30,21 @@ def close_db(exception=None):
 
 
 def init_db():
+    engine = create_engine(
+        "sqlite:///%s" % current_app.config["DATABASE_FILE"], convert_unicode=True
+    )
+
     import spice.models
+
     Base.metadata.create_all(bind=engine)
 
 
-@click.command('init-db')
+@click.command("init-db")
 @with_appcontext
 def init_db_command():
     """Clear the existing data and create new tables."""
     init_db()
-    click.echo('Initialized the database.')
+    click.echo("Initialized the database.")
 
 
 def init_app(app):

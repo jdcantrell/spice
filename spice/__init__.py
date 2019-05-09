@@ -30,6 +30,8 @@ def create_app(test_config=None):
     from . import files
 
     app.register_blueprint(files.bp)
+    app.add_url_rule("/<key>/<filename>", endpoint="files.view_raw")
+    app.add_url_rule("/<key>", endpoint="files.view")
 
     from . import view
 

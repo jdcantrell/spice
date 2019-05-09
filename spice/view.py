@@ -44,12 +44,7 @@ def view(key):
 
         handler = handlers.get_handler_instance(record)
         return render_template(
-            handler.template,
-            current_path=url_for(".view", key=key),
-            static_web_path=current_app.config["STATIC_WEB_PATH"],
-            upload_web_path=current_app.config["UPLOAD_WEB_PATH"],
-            root_web_path=current_app.config["ROOT_WEB_PATH"],
-            handler=handler,
+            handler.template, current_path=url_for(".view", key=key), handler=handler
         )
 
     abort(404)

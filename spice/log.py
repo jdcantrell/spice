@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, current_app
+from flask import Blueprint, render_template
 
 from flask_login import current_user
 
@@ -26,7 +26,4 @@ def log(page=0):
         json=json,
         prev_page=page - 1,
         next_page=next_page,
-        static_web_path=current_app.config["STATIC_WEB_PATH"],
-        upload_web_path=current_app.config["UPLOAD_WEB_PATH"],
-        root_web_path=current_app.config["ROOT_WEB_PATH"],
     )

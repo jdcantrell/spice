@@ -31,7 +31,7 @@
         <div class="flex-container row">
         <ul class="list-nav">
           <li>
-            <a href="{{ root_web_path }}/logout">
+            <a href="{{ url_for('auth.logout') }}">
             test link
             </a>
           </li>
@@ -47,7 +47,7 @@
           <ul class="flex-1 list-nav align-right">
           {% if current_user.is_authenticated %}
           <li>
-            <a href="{{ root_web_path }}/logout">
+            <a href="{{ url_for('auth.logout') }}">
               {% include 'images/log-out.svg' %}
             </a>
             {{ current_user.username }}

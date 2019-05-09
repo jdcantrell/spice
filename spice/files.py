@@ -1,7 +1,15 @@
 import uuid
 import os
 
-from flask import Blueprint, request, current_app
+from flask import (
+    Blueprint,
+    request,
+    current_app,
+    send_from_directory,
+    abort,
+    url_for,
+    render_template,
+)
 
 from flask_login import current_user, login_required
 
@@ -78,3 +86,37 @@ def create():
         get_db().commit()
 
         return file_json(handler.record)
+
+
+def can_view_file(record):
+    if record.access == "private":
+        return current_user.is_authenticated
+    return True
+
+
+@bp.route("/<key>/<filename>")
+def view_raw(key, filename):
+    record = get_db().query(File).filter_by(key=key).first()
+
+    if record is not None and can_view_file(record):
+        return send_from_directory(current_app.config["UPLOAD_FOLDER"], record.filename)
+
+    abort(404)
+
+
+@bp.route("/<key>")
+def view(key):
+    db = get_db()
+    record = db.query(File).filter_by(key=key).first()
+
+    if record is not None and can_view_file(record):
+        record.views += 1
+        db.add(record)
+        db.commit()
+
+        handler = get_handler_instance(record)
+        return render_template(
+            handler.template, current_path=url_for(".view", key=key), handler=handler
+        )
+
+    abort(404)

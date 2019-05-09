@@ -1,14 +1,10 @@
-from spice.handlers.handler import DefaultHandler
-from spice.handlers.text import TextHandler
-from spice.handlers.images import ImageHandler
-from spice.handlers.videos import VideoHandler
+from flask import current_app
+from .handler import DefaultHandler
+from .text import TextHandler
+from .images import ImageHandler
+from .videos import VideoHandler
 
-handler_classes = [
-    DefaultHandler,
-    TextHandler,
-    ImageHandler,
-    VideoHandler
-]
+handler_classes = [DefaultHandler, TextHandler, ImageHandler, VideoHandler]
 
 
 def get_handler(filetype):
@@ -20,4 +16,7 @@ def get_handler(filetype):
 
 def get_handler_instance(record):
     handler_data = get_handler(record.filetype)
-    return handler_data(record)
+
+    return handler_data(
+        record, current_app.config["CACHE_FOLDER"], current_app.config["UPLOAD_FOLDER"]
+    )

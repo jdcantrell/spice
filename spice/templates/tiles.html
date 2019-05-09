@@ -5,7 +5,7 @@
     <div class="tile-list">
     {% for file in files %}
       {% if file.type == 'images' %}
-        <a href="{{ root_web_path }}/{{ file.data.key }}">
+        <a href="{{ url_for('files.view', key=file.data.key) }}">
           <img class="tile" style="visiblity:hidden" src="{{ file.thumbnail }}">
         </a>
       {% endif %}
@@ -14,23 +14,23 @@
     <div class="clearfix">
       <div class="pull-left">
         {% if prev_page == 0 %}
-          <a href="{{ root_web_path }}/tiles/"><span class="fontawesome-angle-left"></span> Previous</a>
+          <a href="{{ url_for('tiles.tile') }}"><span class="fontawesome-angle-left"></span> Previous</a>
         {% elif prev_page > 0%}
-          <a href="{{ root_web_path }}/tiles/{{ prev_page }}"><span class="fontawesome-angle-left"></span> Previous</a>
+          <a href="{{ url_for('tiles.tile', page=prev_page) }}"><span class="fontawesome-angle-left"></span> Previous</a>
         {% endif %}
       </div>
 
       <div class="txt-right pull-right">
         {% if next_page %}
-        <a href="{{ root_web_path }}/tiles/{{ next_page }}">Next <span class="fontawesome-angle-right"></span></a>
+        <a href="{{ url_for('tiles.tile', page=next_page) }}">Next <span class="fontawesome-angle-right"></span></a>
         {% endif %}
       </div>
     </div>
   </div>
 
-  <script src="{{ static_web_path }}/js/jquery-2.1.1.min.js"></script>
-  <script src="{{ static_web_path }}/js/underscore-min.js"></script>
-  <script src="{{ static_web_path }}/js/glyph.js"></script>
+  <script src="{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
+  <script src="{{ url_for('static','js/underscore-min.js' }}"></script>
+  <script src="{{ url_for('static', 'js/glyph.js' }}"></script>
   <script>
     $(document).ready(function () {
       layout_tiles($('.tile-list img'), 200, 1060, 4)
