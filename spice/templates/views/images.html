@@ -6,7 +6,26 @@
 {% endblock %}
 
 {% block full_content %}
-<img id="img" class="image box image-width" style="padding:0;max-width:95%;margin:auto;display:block;" src="{{ handler.raw }}">
+
+
+<article class="photo-card" style="margin:auto;max-width:auto">
+  <header class="flex-container row">
+    <h3 class="flex-1">
+      <a href="{{ handler.link }}">{{ handler.data.name }}</a>
+    </h3>
+  </header>
+  <figure class="flex-container">
+        <img id="img" src="{{ handler.raw }}" class="image-width">
+  </figure>
+  <footer class="flex-container row">
+    <time datetime="{{ handler.data.created.strftime('%Y-%m-%d') }}" class="flex-1">{{ handler.data.created.strftime('%Y-%m-%d') }}</time>
+    <div>
+        {{ handler.data.access }}
+      </div>
+  </footer>
+</article>
+
+
 <script>
   document.getElementById("img").addEventListener('click', function () {
     this.classList.toggle("image-width");

@@ -1,36 +1,29 @@
-<div>
-  <div class="item bg-c07 c00">
-    <div class="item-header">
-    <div class="item-header-content">
-      <h4>
-        <a class="visit" href="{{ file.link }}">
-          {{ file.data.name }}
-        </a>
-      </h4>
-    </div>
+<article class="photo-card">
+  <header class="flex-container row">
+    <h3 class="flex-1">
+      <a href="{{ file.link }}">{{ file.data.name }}</a>
+    </h3>
     {% if current_user.is_authenticated %}
-    <div class="item-header-actions">
       <div>Remove</div>
-    </div>
     {% endif %}
-    </div>
+  </header>
+  <figure class="flex-container">
     {% if file.type == 'images' %}
-    <div class="preview">
       <a href="{{ file.link }}">
         <img src="{{ file.thumbnail }}">
       </a>
-    </div>
     {% elif file.type == 'videos' %}
       <video style="padding:0;max-width:100%;" controls src="{{ file.raw }}"></video>
     {% else %}
-    <div class="preview">
       <a href="{{ file.raw }}">
         Download
       </a>
-    </div>
     {% endif %}
+  </figure>
+  <footer class="flex-container row">
+    <time datetime="{{ file.data.created.strftime('%Y-%m-%d') }}" class="flex-1">{{ file.data.created.strftime('%Y-%m-%d') }}</time>
     <div>
-      {{ file.data.created.strftime('%Y-%m-%d') }} -
+
       {% if current_user.is_authenticated %}
       <div class="pretty-select">
         {{ file.data.access }}
@@ -43,6 +36,7 @@
       {% else %}
         {{ file.data.access }}
       {% endif %}
-    </div>
-  </div>
-</div>
+
+      </div>
+  </footer>
+</article>
