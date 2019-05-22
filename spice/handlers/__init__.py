@@ -3,8 +3,15 @@ from .handler import DefaultHandler
 from .text import TextHandler
 from .images import ImageHandler
 from .videos import VideoHandler
+from .audio import AudioHandler
 
-handler_classes = [DefaultHandler, TextHandler, ImageHandler, VideoHandler]
+handler_classes = [
+    DefaultHandler,
+    TextHandler,
+    ImageHandler,
+    VideoHandler,
+    AudioHandler,
+]
 
 
 def get_handler(filetype):

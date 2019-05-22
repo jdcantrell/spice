@@ -1,4 +1,16 @@
 {% if current_user.is_authenticated %}
+<style>
+  .progress {
+    background-image: linear-gradient(to right, #458588 , #458588);
+    background-repeat: no-repeat;
+    background-size:  0%;
+  }
+
+  .progress-hide {
+    opacity: 0;
+    transition: opacity .5s 4s;
+  }
+</style>
 <section class="box" style="margin-bottom:1em;">
   <div class="align-center">
     Drag or paste files to upload

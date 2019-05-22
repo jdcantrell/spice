@@ -1,4 +1,4 @@
 {% extends "view.html" %}
-{% block content %}
-<video id="img" class="image box image-width" style="padding:0;max-width:100%;" controls src="{{ handler.raw }}"></video>
+{% block view_content %}
+<video style="padding:0;max-width:100%;" controls src="{{ handler.raw }}"></video>
 {% endblock %}

@@ -55,6 +55,7 @@ def delete(id):
 @bp.route("/", methods=["POST"])
 @login_required
 def create():
+    print("hello")
     file = request.files["file"]
     if file:
         filename = secure_filename(file.filename)
@@ -79,13 +80,18 @@ def create():
             current_user.id,
         )
 
-        handler = handler_class(data)
+        handler = handler_class(
+            data,
+            current_app.config["CACHE_FOLDER"],
+            current_app.config["UPLOAD_FOLDER"],
+        )
         handler.process()
 
         get_db().add(handler.record)
         get_db().commit()
 
         return file_json(handler.record)
+    return "No file", 400
 
 
 def can_view_file(record):

@@ -3,8 +3,16 @@ from flask import Blueprint, render_template
 from flask_login import current_user
 
 from . import util
+from .database import get_db
+from .models import File
 
 bp = Blueprint("log", __name__, url_prefix="/log")
+
+
+def can_view_file(record):
+    if record.access == "private":
+        return current_user.is_authenticated
+    return True
 
 
 @bp.route("/")
@@ -27,3 +35,12 @@ def log(page=0):
         prev_page=page - 1,
         next_page=next_page,
     )
+
+
+@bp.route("/html/<string:key>")
+def get_item_html(key):
+    record = get_db().query(File).filter_by(key=key).first()
+    if can_view_file(record):
+
+        handler = util.get_handler_instance(record)
+        return render_template("log_item.html", current_user=current_user, file=handler)

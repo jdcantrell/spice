@@ -2,13 +2,36 @@
 
 {% block title %}{{ handler.data.name }}{% endblock %}
 
-{% block header_list %}
-  <b>{{ handler.data.name }}</b> ~ <a href="{{ handler.raw }}">raw</a> ~ {{ handler.data.views }} Views
-{% endblock %}
 
 {% block full_content %}
-  <div class='box' style="width: 700px; text-align: center; margin: auto">
-    Download <a href="{{ handler.raw }}">{{ handler.data.name }}</a>
-  </div>
+  <style>
+    .photo-card-full {
+      width: 100%;
+    }
+  </style>
+
+  <article class="photo-card photo-card-full" style="margin:auto;">
+    <header class="flex-container row">
+      <h3 class="flex-1">
+        {{ handler.data.name }} (<a href="{{ handler.raw }}">download</a>)
+      </h3>
+      <div>
+        {{ handler.data.views }} Views
+      </div>
+    </header>
+    <figure class="flex-container">
+      {% block view_content %}
+        <p style="margin:64px">
+        Download  <a href="{{ handler.raw }}">{{ handler.data.name }}</a>
+        </p>
+      {% endblock %}
+    </figure>
+    <footer class="flex-container row">
+      <time datetime="{{ handler.data.created.strftime('%Y-%m-%d') }}" class="flex-1">{{ handler.data.created.strftime('%Y-%m-%d') }}</time>
+      <div>
+          {{ handler.data.access }}
+        </div>
+    </footer>
+  </article>
   {% block js %}{% endblock %}
 {% endblock %}
