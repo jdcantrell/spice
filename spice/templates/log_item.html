@@ -1,10 +1,10 @@
-<article class="photo-card">
+<article class="photo-card" id="photo_card_{{ file.data.id }}">
   <header class="flex-container row">
     <h3 class="flex-1">
       <a href="{{ file.link }}">{{ file.data.name }}</a>
     </h3>
     {% if current_user.is_authenticated %}
-      <div>Remove</div>
+    <button onClick="removeItem({{ file.data.id }})">Remove</button>
     {% endif %}
   </header>
   <figure class="flex-container">
@@ -26,11 +26,11 @@
 
       {% if current_user.is_authenticated %}
       <div class="pretty-select">
-        {{ file.data.access }}
-        <select onChange="setMode(this, {{ file.data.id }})">
-          <option>public</option>
-          <option>private</option>
-          <option>limited</option>
+        <span class="pretty-select-label">{{ file.data.access }}</span>
+        <select autocomplete="off" onChange="setMode(this, {{ file.data.id }})">
+          <option {% if file.data.access == 'public' %}selected{% endif %}>public</option>
+          <option {% if file.data.access == 'limited' %}selected{% endif %}>limited</option>
+          <option {% if file.data.access == 'private' %}selected{% endif %}>private</option>
         </select>
       </div>
       {% else %}

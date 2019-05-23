@@ -6,6 +6,19 @@
   <style>
     .photo-card {
       margin-bottom: 16px;
+      transition: transform .2s ease-in-out, opacity .2s ease-in-out;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .photo-card-enter {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    .photo-card-exit {
+      opacity: 0;
+      transform: scale(0);
     }
 
 
@@ -22,7 +35,7 @@
 
     .pretty-select select {
       color: #000;
-      kursor: pointer;
+      cursor: pointer;
       position: absolute;
       top: 0;
       left: 0;
@@ -33,11 +46,13 @@
 
   </style>
 
+  <div id="log_list">
   {% if files|length %}
     {% for file in files %}
       {% include 'log_item.html' %}
     {% endfor %}
   {% endif %}
+  </div>
 {% endblock %}
 
 {% block js %}

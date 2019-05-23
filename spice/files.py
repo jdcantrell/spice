@@ -28,10 +28,9 @@ bp = Blueprint("files", __name__, url_prefix="/file")
 def update(id):
     record = get_db().query(File).get(id)
     if record is not None:
-        record.access = request.json["access"]
-        record.name = request.json["name"]
-        record.handler = request.json["type"]
-        record.key = request.json["key"]
+        for key in ['access', 'name', 'type', 'key']:
+            if key in request.json:
+                setattr(record, key, request.json[key])
         get_db().add(record)
         get_db().commit()
         return "", 204
@@ -55,7 +54,6 @@ def delete(id):
 @bp.route("/", methods=["POST"])
 @login_required
 def create():
-    print("hello")
     file = request.files["file"]
     if file:
         filename = secure_filename(file.filename)

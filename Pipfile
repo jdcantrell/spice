@@ -12,6 +12,7 @@ Pygments = "*"
 shortid = "*"
 SQLAlchemy = "*"
 Wand = "*"
+pillow = "*"
 
 [dev-packages]
 

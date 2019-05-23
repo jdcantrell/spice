@@ -2,7 +2,7 @@ import json
 
 from flask import url_for
 from spice.handlers.handler import DefaultHandler
-from wand.image import Image
+from PIL import Image
 
 
 class ImageHandler(DefaultHandler):
@@ -18,7 +18,7 @@ class ImageHandler(DefaultHandler):
             self.extra = {}
 
     def process(self):
-        image = Image(filename="%s/%s" % (self.upload_path, self.record.filename))
+        image = Image.open("%s/%s" % (self.upload_path, self.record.filename))
 
         ratio = float(image.width) / float(image.height)
         height = image.height
@@ -40,8 +40,8 @@ class ImageHandler(DefaultHandler):
             }
         )
 
-        image.resize(width, height)
-        image.save(filename=self.thumbnail_file)
+        image.thumbnail((width, height))
+        image.save(self.thumbnail_file)
 
     @property
     def thumb_size(self):

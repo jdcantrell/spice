@@ -41,12 +41,28 @@ def init_db():
 
 @click.command("init-db")
 @with_appcontext
-def init_db_command():
+def init_db_command(context, user):
     """Clear the existing data and create new tables."""
     init_db()
     click.echo("Initialized the database.")
 
 
+@click.command("create-user")
+@click.option('--name', prompt='Enter username')
+@click.password_option()
+@with_appcontext
+def create_user(name, password):
+    from spice.models import User
+    db = get_db()
+
+    user = User(name, password)
+
+    db.add(user)
+    db.commit()
+    click.echo("Added {} to the user database.".format(user.name))
+
+
 def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
+    app.cli.add_command(create_user)
