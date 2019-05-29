@@ -1,17 +1,25 @@
 {% if current_user.is_authenticated %}
 <style>
   .progress {
-    background-image: linear-gradient(to right, #458588 , #458588);
+    background-image: linear-gradient(to right, #65c6c4 , #65c6c4);
     background-repeat: no-repeat;
     background-size:  0%;
+    margin-top: 8px;
   }
 
   .progress-hide {
     opacity: 0;
     transition: opacity .5s 4s;
   }
+
+  #paste_box {
+    min-height: 200px;
+    border: 1px solid #000;
+  }
+
 </style>
-<section class="box" style="margin-bottom:1em;">
+<div contenteditable="true" id="paste_box" style="width:1px;height:1px;overflow:hidden;position:absolute;top:-10000px;opacity:0"></div>
+<section class="box" style="margin-bottom:1em; padding:8px;">
   <div class="align-center">
     Drag or paste files to upload
     <div style="margin:0 8px">
@@ -28,8 +36,7 @@
         </button>
       </span>
     </div>
-    <div contenteditable="true" id="paste_box" style="width:1px;height:1px;overflow:hidden;position:absolute;top:-10000px;opacity:0"></div>
-    <div id="status" class="progress c06">&nbsp;</div>
+    <div id="status" class="progress c10">&nbsp;</div>
   </div>
 </section>
 {% endif %}

@@ -36,7 +36,7 @@ body {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #a89984;
+  color: #9f9f9f;
   text-align: left;
   background-color: #f9f4f2; }
 
@@ -290,15 +290,15 @@ template {
 
 .box {
   border-radius: 3px;
-  border: 1px solid #282828; }
+  border: 2px solid #9f9f9f; }
   .box header {
-    border-bottom: 1px solid #282828;
+    border-bottom: 2px solid #9f9f9f;
     padding: 20px; }
   .box .box-content {
     padding: 20px; }
   .box footer {
     padding: 20px;
-    border-top: 1px solid #282828;
+    border-top: 2px solid #9f9f9f;
     text-align: right; }
 
 button, .button {
@@ -662,10 +662,10 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #bdae93 !important; }
 
 .c05 {
-  color: #a89984 !important; }
+  color: #9f9f9f !important; }
 
 .bg-c05 {
-  background-color: #a89984 !important; }
+  background-color: #9f9f9f !important; }
 
 .c06 {
   color: #fff !important; }
@@ -735,6 +735,9 @@ h1, h2, h3, h4, h5, h6 {
   max-width: 730px; }
   .photo-card figure img {
     max-width: 100%; }
+  .photo-card figure .fill-viewport {
+    max-height: 70vh !important;
+    max-width: 90vw !important; }
   .photo-card h3, .photo-card time {
     margin-right: 8px; }
 
@@ -854,8 +857,3 @@ select {
 @media (max-width: 730px) {
   .post-content img {
     max-width: 100%; } }
-
-.photo-card figure img.image-width {
-  max-height: 70vh;
-  max-width: 90vw;
-}

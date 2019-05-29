@@ -15,7 +15,7 @@
     </h3>
   </header>
   <figure class="flex-container">
-        <img id="img" src="{{ handler.raw }}" class="image-width">
+        <img id="img" src="{{ handler.raw }}" class="fill-viewport">
   </figure>
   <footer class="flex-container row">
     <time datetime="{{ handler.data.created.strftime('%Y-%m-%d') }}" class="flex-1">{{ handler.data.created.strftime('%Y-%m-%d') }}</time>
@@ -28,7 +28,7 @@
 
 <script>
   document.getElementById("img").addEventListener('click', function () {
-    this.classList.toggle("image-width");
+    this.classList.toggle("fill-viewport");
   });
 </script>
 {% endblock %}
