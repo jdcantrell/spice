@@ -1,41 +1,69 @@
 {% extends 'page.html' %}
 
 {% block content %}
-  <div class="box box-large txt-center tile-container">
-    <div class="tile-list">
-    {% for file in files %}
-      {% if file.type == 'images' %}
-        <a href="{{ url_for('files.view', key=file.data.key) }}">
-          <img class="tile" style="visiblity:hidden" src="{{ file.thumbnail }}">
-        </a>
-      {% endif %}
-    {% endfor %}
-    </div>
-    <div class="clearfix">
-      <div class="pull-left">
-        {% if prev_page == 0 %}
-          <a href="{{ url_for('tiles.tile') }}"><span class="fontawesome-angle-left"></span> Previous</a>
-        {% elif prev_page > 0%}
-          <a href="{{ url_for('tiles.tile', page=prev_page) }}"><span class="fontawesome-angle-left"></span> Previous</a>
-        {% endif %}
-      </div>
+  <style>
+    .content {
+      width: 85% !important;
+    }
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      grid-gap: 16px;
+    }
 
-      <div class="txt-right pull-right">
-        {% if next_page %}
-        <a href="{{ url_for('tiles.tile', page=next_page) }}">Next <span class="fontawesome-angle-right"></span></a>
-        {% endif %}
-      </div>
+    .tile-grid a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tile-2 {
+      grid-column-end: span 2;
+    }
+    .tile-3 {
+      grid-column-end: span 3;
+    }
+    .tile-4 {
+      grid-column-end: span 4;
+    }
+    .tile-5 {
+      grid-column-end: span 5;
+    }
+    .tile-6 {
+      grid-column-end: span 6;
+    }
+    .tile-7 {
+      grid-column-end: span 7;
+    }
+    .tile-8 {
+      grid-column-end: span 8;
+    }
+    .tile-grid img { max-width: 100%; max-height: 400px }
+  </style>
+
+  <div class="tile-grid">
+    {% for tile in files %}
+    <a class="tile-{{ tile.span }} {{ 'adjusted' if tile.adjusted else '' }}" href="{{ url_for('files.view', key=tile.file.data.key) }}">
+          <img src="{{ tile.file.thumbnail }}">
+        </a>
+    {% endfor %}
+  </div>
+
+  <div class="clearfix">
+    <div class="pull-left">
+      {% if prev_page == 0 %}
+        <a href="{{ url_for('tiles.tile') }}"><span class="fontawesome-angle-left"></span> Previous</a>
+      {% elif prev_page > 0%}
+        <a href="{{ url_for('tiles.tile', page=prev_page) }}"><span class="fontawesome-angle-left"></span> Previous</a>
+      {% endif %}
+    </div>
+
+    <div class="txt-right pull-right">
+      {% if next_page %}
+      <a href="{{ url_for('tiles.tile', page=next_page) }}">Next <span class="fontawesome-angle-right"></span></a>
+      {% endif %}
     </div>
   </div>
 
-  <script src="{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
-  <script src="{{ url_for('static','js/underscore-min.js' }}"></script>
-  <script src="{{ url_for('static', 'js/glyph.js' }}"></script>
-  <script>
-    $(document).ready(function () {
-      layout_tiles($('.tile-list img'), 200, 1060, 4)
-    });
-  </script>
   {% autoescape false %}
   <script> var bootstrap = [{{ json|join(',') }}]; </script>
   {% endautoescape %}
