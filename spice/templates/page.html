@@ -30,11 +30,6 @@
       <nav class="page-nav">
         <div class="flex-container row">
         <ul class="list-nav">
-          <li>
-            <a href="{{ url_for('auth.logout') }}">
-            test link
-            </a>
-          </li>
           {% for href, id, name in nav_items %}
           {% if current_page != id %}
           <li {% if current_page == id %}class="active"{% endif %} >

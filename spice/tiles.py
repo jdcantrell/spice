@@ -15,7 +15,9 @@ class Tile:
 
 
 def get_width(f):
-    return min(4, ceil(f.size["width"] / f.size["height"]))
+    if f.size["width"] > 200:
+        return min(4, ceil(f.size["width"] / f.size["height"]))
+    return 1
 
 
 def find(files, maxSize):
@@ -53,9 +55,6 @@ def sort(files):
                     tile_count += 1
                     row -= tiles[idx].span
                     idx -= 1
-
-                if row < 0:
-                    print("shoot")
 
                 if extra // tile_count:
                     print(

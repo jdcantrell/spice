@@ -49,7 +49,7 @@
   <div id="log_list">
   {% if files|length %}
     {% for file in files %}
-      {% include 'log_item.html' %}
+      <div style="margin-bottom:32px">{% include 'log_item.html' %}</div>
     {% endfor %}
   {% endif %}
   </div>

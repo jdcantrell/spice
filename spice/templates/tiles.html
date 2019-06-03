@@ -37,14 +37,25 @@
     .tile-8 {
       grid-column-end: span 8;
     }
-    .tile-grid img { max-width: 100%; max-height: 400px }
+    hr {
+      grid-column-end: span 8;
+        width: 100%;
+    }
+    .tile-grid img {
+      max-width: 100%;
+      max-height: 400px;
+      box-shadow: 0 0 8px 1px #eae5e5, inset 0 0 8px 1px #eae5e5;
+    }
   </style>
 
   <div class="tile-grid">
     {% for tile in files %}
-    <a class="tile-{{ tile.span }} {{ 'adjusted' if tile.adjusted else '' }}" href="{{ url_for('files.view', key=tile.file.data.key) }}">
+      {% if tile.file is not none %}
+        <a class="tile-{{ tile.span }} {{ 'adjusted' if tile.adjusted else '' }}" href="{{ url_for('files.view', key=tile.file.data.key) }}">
           <img src="{{ tile.file.thumbnail }}">
         </a>
+      {% else %}
+      {% endif %}
     {% endfor %}
   </div>
 
