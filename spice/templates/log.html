@@ -1,0 +1,61 @@
+{% extends 'page.html' %}
+
+{% block content %}
+
+  {% include 'upload.html' %}
+  <style>
+    .photo-card {
+      margin-bottom: 16px;
+      transition: transform .2s ease-in-out, opacity .2s ease-in-out;
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .photo-card-enter {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+    .photo-card-exit {
+      opacity: 0;
+      transform: scale(0);
+    }
+
+
+    .pretty-select {
+      position: relative;
+      cursor: pointer;
+      color: #458588;
+      display: inline-block;
+    }
+    .pretty-select:hover {
+      text-decoration: underline;
+      color: #458588;
+    }
+
+    .pretty-select select {
+      color: #000;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      opacity: 0;
+    }
+
+  </style>
+
+  <div id="log_list">
+  {% if files|length %}
+    {% for file in files %}
+      <div style="margin-bottom:32px">{% include 'log_item.html' %}</div>
+    {% endfor %}
+  {% endif %}
+  </div>
+{% endblock %}
+
+{% block js %}
+  <script src="{{ url_for('static', filename='js/upload.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/log.js') }}"></script>
+{% endblock %}

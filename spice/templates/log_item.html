@@ -1,0 +1,42 @@
+<article class="photo-card" id="photo_card_{{ file.data.id }}">
+  <header class="flex-container row">
+    <h3 class="flex-1">
+      <a href="{{ file.link }}">{{ file.data.name }}</a>
+    </h3>
+    {% if current_user.is_authenticated %}
+    <button onClick="removeItem({{ file.data.id }})">Remove</button>
+    {% endif %}
+  </header>
+  <figure class="flex-container">
+    {% if file.type == 'images' %}
+      <a href="{{ file.link }}">
+        <img src="{{ file.thumbnail }}">
+      </a>
+    {% elif file.type == 'videos' %}
+      <video style="padding:0;max-width:100%;" controls src="{{ file.raw }}"></video>
+    {% else %}
+      <a href="{{ file.raw }}">
+        Download
+      </a>
+    {% endif %}
+  </figure>
+  <footer class="flex-container row">
+    <time datetime="{{ file.data.created.strftime('%Y-%m-%d') }}" class="flex-1">{{ file.data.created.strftime('%Y-%m-%d') }}</time>
+    <div>
+
+      {% if current_user.is_authenticated %}
+      <div class="pretty-select">
+        <span class="pretty-select-label">{{ file.data.access }}</span>
+        <select autocomplete="off" onChange="setMode(this, {{ file.data.id }})">
+          <option {% if file.data.access == 'public' %}selected{% endif %}>public</option>
+          <option {% if file.data.access == 'limited' %}selected{% endif %}>limited</option>
+          <option {% if file.data.access == 'private' %}selected{% endif %}>private</option>
+        </select>
+      </div>
+      {% else %}
+        {{ file.data.access }}
+      {% endif %}
+
+      </div>
+  </footer>
+</article>

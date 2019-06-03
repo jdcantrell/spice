@@ -1,26 +1,23 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
-
-Flask = "*"
+Flask = ">=1.0.2"
 Flask-Login = "*"
-"Jinja2" = "*"
+"Jinja2" = ">=2.10.1"
 MarkupSafe = "*"
 Pygments = "*"
 shortid = "*"
 SQLAlchemy = "*"
 Wand = "*"
-
+pillow = "*"
 
 [dev-packages]
 
-
-
 [requires]
+python_version = "3.7"
 
-python_version = "3.6"
+[pipenv]
+allow_prereleases = true

@@ -12,7 +12,7 @@ if len(sys.argv) > 1:
         db_session.add(user)
         db_session.commit()
 
-        print('User created: %r', user.id)
+        print('User created: %r' % user.id)
 
     if sys.argv[1] == 'init_db':
         from spice import app
@@ -36,6 +36,6 @@ if len(sys.argv) > 1:
 
 else:
     from spice import app
-    app.run(debug=True, host='0.0.0.0', port=8000)
+    app.run(debug=True, host='0.0.0.0', port=3000)
 
     import spice.views

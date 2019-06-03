@@ -1,18 +1,15 @@
-from spice import app
+from flask import url_for, current_app
 
 
 class DefaultHandler:
-    type = 'default'
+    type = "default"
     extensions = []
-    upload_path = app.config['UPLOAD_FOLDER']
-    web_path = app.config['UPLOAD_WEB_PATH']
-    cache_path = app.config['CACHE_FOLDER']
-    cache_web_path = app.config['CACHE_WEB_PATH']
-    root_web_path = app.config['ROOT_WEB_PATH']
-    template = 'view.html'
+    template = "view.html"
 
-    def __init__(self, record):
+    def __init__(self, record, cache_path, upload_path):
         self.record = record
+        self.cache_path = cache_path
+        self.upload_path = upload_path
 
     def process(self):
         pass
@@ -22,11 +19,11 @@ class DefaultHandler:
 
     @property
     def link(self):
-        return "%s/%s" % (self.web_path, self.record.filename)
+        return url_for("files.view", key=self.record.key)
 
     @property
     def raw(self):
-        return "%s/%s/%s" % (self.root_web_path, self.record.key, self.record.name)
+        return url_for("files.view_raw", key=self.record.key, filename=self.record.name)
 
     @property
     def data(self):

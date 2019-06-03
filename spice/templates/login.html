@@ -2,21 +2,16 @@
 
 {% block title %}Login{% endblock %}
 {% block content %}
-  <div class="box box-small">
+  <div class="align-center">
     <form method="post">
-      <ul class="list-form">
-        <li>
           <label for="un">Username:</label>
           <input id="un" type="text" name="username">
-        </li>
-        <li>
+          <br>
           <label for="pw">Password:</label>
           <input id="pw" type="password" name="password">
-        </li>
-        <li class="action">
-          <button type="submit">Login</button>
-        </li>
-      </ul>
+
+          <br><br>
+          <button class="primary" type="submit">Login</button>
     </form>
   </div>
 {% endblock %}
