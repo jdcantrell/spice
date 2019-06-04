@@ -11,8 +11,8 @@ MarkupSafe = "*"
 Pygments = "*"
 shortid = "*"
 SQLAlchemy = "*"
-Wand = "*"
 pillow = "*"
+uwsgi = "*"
 
 [dev-packages]
 

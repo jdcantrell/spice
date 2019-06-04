@@ -1,0 +1,16 @@
+[Unit]
+Description=spice
+After=network.target
+
+[Service]
+Type=simple
+# Edit WorkingDirectory, User and Group as needed
+WorkingDirectory=/path/to/spice/
+User=spice
+Group=spice
+ExecStart=/usr/local/bin/pipenv run uwsgi --master -s 127.0.0.1:9090 --manage-script-name --mount /=main:app
+Restart=always
+SyslogIdentifier=Spice
+
+[Install]
+WantedBy=multi-user.target

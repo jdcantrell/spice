@@ -5,20 +5,31 @@ friends.
 
 ##Features:
 * Upload many files just by dragging and dropping them on to the page.
+* Upload files via cut and paste
 * Private, public, and limited (viewable by link only) sharing.
 * Syntax highlight code views
 
-##Installation:
+##Initial setup:
 1. Checkout this repo
-2. pip install pygments flask flask-login sqlalchemy wand shortid
+2. `pipenv install`
 3. Copy settings-example.cfg to settings.cfg and update values
-4. Create an empty database: `python runserver.py init_db`
-5. Create a user: `python runserver.py user`
-6. Run the dev server: `python runserver.py`
+4. Export flask env vars:
+    export FLASK_APP=spice
+    export FLASK_ENV=development
+4. Initialize database: `flask init-db`
+5. Create a user: `flask create-user`
+6. Run the dev server: `flask run`
 
-For a production environment you do the above but instead of using
-`python runserver.py` to run spice you would use uwsgi or your preferred
-choice of python server.
+For production you will want to use something besides flask to run the server.
+This repo includes a spice.service file that uses uwsgi, you can update the
+paths and copy that to `/lib/systemd/service/` and then you should be able to
+do:
+
+```
+systemctl daemon-reload
+systemctl enable spice
+systemctl start spice
+```
 
 ##Todo:
 * Markdown rendering

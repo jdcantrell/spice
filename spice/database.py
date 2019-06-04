@@ -48,11 +48,12 @@ def init_db_command(context, user):
 
 
 @click.command("create-user")
-@click.option('--name', prompt='Enter username')
+@click.option("--name", prompt="Enter username")
 @click.password_option()
 @with_appcontext
 def create_user(name, password):
     from spice.models import User
+
     db = get_db()
 
     user = User(name, password)
