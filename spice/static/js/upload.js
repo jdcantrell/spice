@@ -1,3 +1,4 @@
+/* globals uploadPath */
 /* exported enableUploads */
 const enableUploads = (onUploadComplete = () => {}) => {
   const uploadFile = (fileData, access, onProgress) => {
@@ -32,7 +33,7 @@ const enableUploads = (onUploadComplete = () => {}) => {
       data.append('access', access);
       data.append('json', true);
 
-      xhr.open('POST', '/file/');
+      xhr.open('POST', uploadPath);
       xhr.send(data);
     });
 
