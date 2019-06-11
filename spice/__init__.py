@@ -48,6 +48,4 @@ def create_app(test_config=None):
 
     from . import tiles
 
-    app.register_blueprint(tiles.bp)
-
     return app
