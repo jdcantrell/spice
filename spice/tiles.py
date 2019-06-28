@@ -102,6 +102,7 @@ def tile(page=0):
         current_user=current_user,
         files=sort(files),
         json=json,
+        view="tiles.tile",
         prev_page=page - 1,
         next_page=next_page,
     )

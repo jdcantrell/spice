@@ -32,6 +32,7 @@ def log(page=0):
         current_user=current_user,
         files=files,
         json=json,
+        view="log.log",
         prev_page=page - 1,
         next_page=next_page,
     )

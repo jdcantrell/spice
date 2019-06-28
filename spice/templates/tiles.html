@@ -48,6 +48,8 @@
     }
   </style>
 
+  {% include 'pagination.html' %}
+
   <div class="tile-grid">
     {% for tile in files %}
       {% if tile.file is not none %}
@@ -59,21 +61,8 @@
     {% endfor %}
   </div>
 
-  <div class="clearfix">
-    <div class="pull-left">
-      {% if prev_page == 0 %}
-        <a href="{{ url_for('tiles.tile') }}"><span class="fontawesome-angle-left"></span> Previous</a>
-      {% elif prev_page > 0%}
-        <a href="{{ url_for('tiles.tile', page=prev_page) }}"><span class="fontawesome-angle-left"></span> Previous</a>
-      {% endif %}
-    </div>
+  {% include 'pagination.html' %}
 
-    <div class="txt-right pull-right">
-      {% if next_page %}
-      <a href="{{ url_for('tiles.tile', page=next_page) }}">Next <span class="fontawesome-angle-right"></span></a>
-      {% endif %}
-    </div>
-  </div>
 
   {% autoescape false %}
   <script> var bootstrap = [{{ json|join(',') }}]; </script>

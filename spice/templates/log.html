@@ -46,6 +46,7 @@
 
   </style>
 
+  {% include 'pagination.html' %}
   <div id="log_list">
   {% if files|length %}
     {% for file in files %}
@@ -53,6 +54,9 @@
     {% endfor %}
   {% endif %}
   </div>
+  {% include 'pagination.html' %}
+
+
 {% endblock %}
 
 {% block js %}
