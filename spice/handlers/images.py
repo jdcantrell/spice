@@ -2,7 +2,7 @@ import json
 
 from flask import url_for
 from spice.handlers.handler import DefaultHandler
-from PIL import Image
+from PIL import Image, ImageSequence
 
 
 class ImageHandler(DefaultHandler):
@@ -40,8 +40,27 @@ class ImageHandler(DefaultHandler):
             }
         )
 
-        image.thumbnail((width, height))
-        image.save(self.thumbnail_file)
+        if "version" in image.info and b"GIF" in image.info["version"]:
+            frameset = ImageSequence.Iterator(image)
+            frames = []
+            for frame in frameset:
+                thumbnail = frame.copy()
+                thumbnail.thumbnail((width, height))
+                frames.append(thumbnail)
+
+            image.thumbnail((width, height))
+            thumb = frames.pop(0)
+            thumb.info = image.info
+            thumb.save(
+                self.thumbnail_file,
+                save_all=True,
+                append_images=frames,
+                duration=image.info.get("duration", 3),
+                loop=image.info.get("loop", 0),
+            )
+        else:
+            image.thumbnail((width, height))
+            image.save(self.thumbnail_file)
 
     @property
     def thumb_size(self):
