@@ -13,7 +13,7 @@ from flask import (
 
 from flask_login import current_user, login_required
 
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 
 from .database import get_db
 from .models import File
