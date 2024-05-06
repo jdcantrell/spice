@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "spice"
+version = "0.1.0"
+description = ""
+authors = ["JD <jd@goodrobot.net>"]
+license = "GPL-3.0"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Flask = "^3.0.3"
+Flask-Login = "^0.6.3"
+SQLAlchemy = "^2.0.30"
+pillow = "^10.3.0"
+shortid = "^0.1.2"
+markupsafe = "^2.1.5"
+pygments = "^2.18.0"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.4.3"
+mypy = "^1.10.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
