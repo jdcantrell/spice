@@ -6,9 +6,7 @@ friends.
 
 ## Todo:
 
-- Poetry migration + dependency update
 - find right way for package to support cli
-- look excessive queries
 - update readme
   - initial setup
   - deploy steps

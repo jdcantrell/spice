@@ -60,7 +60,7 @@ class ImageHandler(DefaultHandler):
             )
         else:
             image.thumbnail((width, height))
-            image.save(self.thumbnail_file)
+            image.save(self.thumbnail_file, "WebP", quality=85)
 
     @property
     def thumb_size(self):
@@ -72,8 +72,9 @@ class ImageHandler(DefaultHandler):
 
     @property
     def thumbnail_file(self):
-        return "%s/thumbnail-%s" % (self.cache_path, self.record.filename)
+        # fix gif
+        return "%s/thumbnail-%s.webp" % (self.cache_path, self.record.filename)
 
     @property
     def thumbnail(self):
-        return url_for("static", filename="cache/thumbnail-%s" % (self.record.filename))
+        return url_for("static", filename="cache/thumbnail-%s.webp" % (self.record.filename))
