@@ -12,7 +12,6 @@ Flask = "^3.0.3"
 SQLAlchemy = "^2.0.30"
 pillow = "^10.3.0"
 shortid = "^0.1.2"
-markupsafe = "^2.1.5"
 pygments = "^2.18.0"
 
 [tool.poetry.group.dev.dependencies]
