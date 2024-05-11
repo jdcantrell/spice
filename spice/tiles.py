@@ -1,6 +1,5 @@
 from math import ceil
-from flask import Blueprint, render_template
-from flask_login import current_user
+from flask import Blueprint, render_template, g
 
 from . import util
 
@@ -99,7 +98,7 @@ def tile(page=0):
 
     return render_template(
         "tiles.html",
-        current_user=current_user,
+        current_user=g.user,
         files=sort(files),
         json=json,
         view="tiles.tile",

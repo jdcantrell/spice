@@ -40,7 +40,7 @@
 
         </ul>
           <ul class="flex-1 list-nav align-right">
-          {% if current_user.is_authenticated %}
+          {% if current_user %}
           <li>
             <a href="{{ url_for('auth.logout') }}">
               {% include 'images/log-out.svg' %}

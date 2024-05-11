@@ -8,13 +8,10 @@ friends.
 
 - Poetry migration + dependency update
 - find right way for package to support cli
-- update flask to latest practice
-- update sqlalchemy to latest practice
-- see if we still need flask-login
+- look excessive queries
 - update readme
   - initial setup
   - deploy steps
-- Fix image sizing
 
 ## Maybe someday
 

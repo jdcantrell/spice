@@ -5,9 +5,8 @@ from flask import (
     send_from_directory,
     abort,
     url_for,
+    g,
 )
-
-from flask_login import current_user
 
 from . import handlers
 from . import database
@@ -18,7 +17,7 @@ bp = Blueprint("view", __name__)
 
 def can_view_file(record):
     if record.access == "private":
-        return current_user.is_authenticated
+        return g.user
     return True
 
 
@@ -44,7 +43,10 @@ def view(key):
 
         handler = handlers.get_handler_instance(record)
         return render_template(
-            handler.template, current_path=url_for(".view", key=key), handler=handler
+            handler.template,
+            current_user=g.user,
+            current_path=url_for(".view", key=key),
+            handler=handler,
         )
 
     abort(404)

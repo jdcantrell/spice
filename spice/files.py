@@ -9,13 +9,14 @@ from flask import (
     abort,
     url_for,
     render_template,
+    g,
 )
 
-from flask_login import current_user, login_required
 
 from werkzeug.utils import secure_filename
 
 from .database import get_db
+from .auth import login_required
 from .models import File
 from .handlers import get_handler, get_handler_instance
 from .util import file_json
@@ -28,7 +29,7 @@ bp = Blueprint("files", __name__, url_prefix="/file")
 def update(id):
     record = get_db().query(File).get(id)
     if record is not None:
-        for key in ['access', 'name', 'type', 'key']:
+        for key in ["access", "name", "type", "key"]:
             if key in request.json:
                 setattr(record, key, request.json[key])
         get_db().add(record)
@@ -75,7 +76,7 @@ def create():
             handler_class.type,
             extension,
             request.form["access"],
-            current_user.id,
+            g.user.id,
         )
 
         handler = handler_class(
@@ -94,7 +95,7 @@ def create():
 
 def can_view_file(record):
     if record.access == "private":
-        return current_user.is_authenticated
+        return g.user
     return True
 
 
@@ -120,7 +121,10 @@ def view(key):
 
         handler = get_handler_instance(record)
         return render_template(
-            handler.template, current_path=url_for(".view", key=key), handler=handler
+            handler.template,
+            current_user=g.user,
+            current_path=url_for(".view", key=key),
+            handler=handler,
         )
 
     abort(404)
