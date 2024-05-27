@@ -30,6 +30,18 @@ def view_raw(key, filename):
 
     abort(404)
 
+@bp.route("/cache/<key>/<filename>")
+def view_cache(key, filename):
+    record = database.get_db().query(models.File).filter_by(key=key).first()
+    print('heey', record)
+
+    handler = handlers.get_handler_instance(record)
+    print('heey', handler.thumbnail_file)
+    if record is not None and can_view_file(record):
+        return send_from_directory(current_app.config["CACHE_FOLDER"], handler.thumbnail_file)
+
+    abort(404)
+
 
 @bp.route("/<key>")
 def view(key):

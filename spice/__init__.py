@@ -34,6 +34,7 @@ app.add_url_rule("/<key>", endpoint="files.view")
 from . import view
 
 app.register_blueprint(view.bp)
+app.add_url_rule("/cache/<key>/<filename>", endpoint="view.view_cache")
 
 from . import table
 
