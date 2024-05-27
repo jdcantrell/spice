@@ -14,43 +14,22 @@
       .feather {
         vertical-align: middle;
       }
-
     </style>
   </head>
   <body>
 
 
-    <header class="page-header">
-      <span class="page-header-title">
+    <header class="flex">
        <a href="/">Spice</a>
-      </span>
+       <div>{% block subtitle %}So many files!{% endblock %}</div>
+      <div class="flex-1"></div>
 
-      <span class="page-sub-title">So many files!</span>
-
-      <nav class="page-nav">
-        <div class="flex-container row">
-        <ul class="list-nav">
-          {% for href, id, name in nav_items %}
-          {% if current_page != id %}
-          <li {% if current_page == id %}class="active"{% endif %} >
-            <a href="{{ href|e }}">{{ name|e }}</a>
-          </li>
-          {% endif %}
-          {% endfor %}
-
-        </ul>
-          <ul class="flex-1 list-nav align-right">
-          {% if current_user %}
-          <li>
-            <a href="{{ url_for('auth.logout') }}">
-              {% include 'images/log-out.svg' %}
-            </a>
-            {{ current_user.username }}
-          </li>
-          {% endif %}
-          </ul>
-        </div>
-      </nav>
+      {% if current_user %}
+        <a href="{{ url_for('auth.logout') }}">
+          {% include 'images/log-out.svg' %}
+        </a>
+        {{ current_user.username }}
+      {% endif %}
     </header>
 
     {% block full_content %}{% endblock %}

@@ -104,6 +104,7 @@ def view_raw(key, filename):
     record = get_db().query(File).filter_by(key=key).first()
 
     if record is not None and can_view_file(record):
+        print(current_app.config["UPLOAD_FOLDER"])
         return send_from_directory(current_app.config["UPLOAD_FOLDER"], record.filename)
 
     abort(404)

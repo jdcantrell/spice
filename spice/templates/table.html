@@ -2,7 +2,7 @@
 
 {% block content %}
   {% include 'upload.html' %}
-  <table style="width:730px" class="hover file-list" id="files" cellspacing="0">
+  <table id="files" cellspacing="0">
     <thead>
       <tr>
         <th>Name</th>
@@ -12,19 +12,19 @@
         {% endif %}
         </th>
         <th style="width:40px">Views</th>
-        <th class="txt-center" style="width:85px">Date</th>
+        <th style="text-align:center;width:85px">Date</th>
         <th style="width:25px"></th>
       </tr>
     </thead>
     {% if files|length %}
       {% for file in files %}
-      <tr id="key_{{ file.data.key }}" class="hover">
+      <tr id="key_{{ file.data.key }}">
         <td>
-          <a class="visit" href="{{ url_for('files.view', key=file.data.key) }}">
+          <a href="{{ url_for('files.view', key=file.data.key) }}">
             {{ file.data.name }}
           </a>
         </td>
-        <td class="access txt-center" title="Click to change access settings">
+        <td class="access" title="Click to change access settings">
           {% if current_user.is_authenticated %}
             {% if file.data.access == 'public' %}
               <span>Public</span>
@@ -38,9 +38,9 @@
           {% endif %}
 
         </td>
-        <td class="txt-center">{{ file.data.views|default('0') }}</td>
+        <td>{{ file.data.views|default('0') }}</td>
         <td>{{ file.data.created.strftime('%Y-%m-%d') }}</td>
-        <td class="hover-show ">
+        <td>
           {% if current_user.is_authenticated %}
             <a class="remove" href="#">&times;</a>
           {% endif %}
@@ -48,26 +48,28 @@
       </tr>
       {% endfor %}
     {% else %}
-        <tr id="empty" class="txt-center">
+        <tr id="empty">
           <td colspan="5">Sorry, nothing here yet )-:</td>
         </tr>
     {% endif %}
 
+    {% if next_page or prev_page > 0 %}
     <tfoot>
       <tr>
         <td colspan="2">
           {% if prev_page == 0 %}
-            <a href="{{ url_for("table.index") }}"><span class="fa fa-angle-left"></span> Previous</a>
+            <a href="{{ url_for("table.index") }}">Previous</a>
           {% elif prev_page > 0%}
-            <a href="{{ url_for("table.index", page=prev_page) }}"><span class="fa fa-angle-left"></span> Previous</a>
+            <a href="{{ url_for("table.index", page=prev_page) }}">Previous</a>
           {% endif %}
         </td>
-        <td colspan="3" class="txt-right">
+        <td colspan="3">
           {% if next_page %}
-          <a href="{{ url_for("table.index", page=next_page) }}">Next <span class="fa fa-angle-right"></span></a>
+          <a href="{{ url_for("table.index", page=next_page) }}">Next</a>
           {% endif %}
         </td>
     </tfoot>
+    {% endif %}
   </table>
 
   {% if current_user.is_authenticated %}
@@ -80,14 +82,14 @@
             <%= name %>
           </a>
         </td>
-        <td class="txt-center access">
+        <td class="access">
           <% if (access == 'public') { %><span>Public</span><% } %>
           <% if (access == 'limited') { %><span>Limited</span><% } %>
           <% if (access == 'private') { %><span>Private</span><% } %>
         </td>
-        <td class="txt-center"><%= views %></td>
+        <td><%= views %></td>
         <td><%= created %></td>
-        <td class="hover-show"><a class="remove" href="#">&times;<a></td>
+        <td><a class="remove" href="#">&times;<a></td>
     </script>
     {% autoescape false %}
     <script> var bootstrap = [{{ json|join(',') }}]; </script>

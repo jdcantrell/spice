@@ -1,42 +1,38 @@
 {% if current_user.is_authenticated %}
 <style>
-  .progress {
-    background-image: linear-gradient(to right, #65c6c4 , #65c6c4);
-    background-repeat: no-repeat;
-    background-size:  0%;
-    margin-top: 8px;
-  }
-
   .progress-hide {
     opacity: 0;
-    transition: opacity .5s 4s;
+    transition: opacity 0.5s 4s;
   }
 
   #paste_box {
     min-height: 200px;
     border: 1px solid #000;
   }
-
 </style>
-<div contenteditable="true" id="paste_box" style="width:1px;height:1px;overflow:hidden;position:absolute;top:-10000px;opacity:0"></div>
-<section class="box" style="margin-bottom:1em; padding:8px;">
-  <div class="align-center">
-    Drag or paste files to upload
-    <div style="margin:0 8px">
-      New uploads will be:
-      <span id="access_controls" class="button-group">
-        <button value='private' >
-          <span></span> Private
-        </button>
-        <button value='limited' class="primary">
-          <span></span> Limited
-        </button>
-        <button value='public'>
-          <span></span> Public
-        </button>
-      </span>
-    </div>
-    <div id="status" class="progress c10">&nbsp;</div>
+<div
+  contenteditable="true"
+  id="paste_box"
+  style="
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    top: -10000px;
+    opacity: 0;
+  "
+></div>
+<section class="notice">
+  Drag or paste files to upload
+  <div style="margin: 0 8px">
+    New uploads will be:
+    <span id="access_controls" class="button-group">
+      <button value="private"><span></span> Private</button>
+      <button value="limited" disabled><span></span> Limited</button>
+      <button value="public"><span></span> Public</button>
+    </span>
   </div>
+  <progress id="status" value="0" max="100">0%</progress>
+  <small id="status-text"></small>
 </section>
 {% endif %}

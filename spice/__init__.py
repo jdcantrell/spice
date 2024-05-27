@@ -1,16 +1,21 @@
 from flask import Flask
+import os
 
 
 class DefaultConfig(object):
-    UPLOAD_FOLDER = "./uploads"
-    DATABASE_FILE = "./spice.sql"
-    CACHE_FOLDER = "./cache"
+    UPLOAD_FOLDER = os.path.abspath("./uploads")
+    DATABASE_FILE = os.path.abspath("./spice.sql")
+    CACHE_FOLDER = os.path.abspath("./cache")
 
 
 app = Flask(__name__)
 
 app.config.from_object(DefaultConfig)
 app.config.from_envvar("SPICE_SETTINGS", silent=True)
+
+print(app.config['DATABASE_FILE'])
+
+
 
 from . import database
 

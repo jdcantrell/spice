@@ -6,10 +6,12 @@ friends.
 
 ## Todo:
 
-- find right way for package to support cli
-- update readme
-  - initial setup
-  - deploy steps
+- Remove jquery and backbone
+- Migrate to fetch, TransferableStream and pipeThrough
+- use async
+- update log
+- link views
+- finish dark theme
 
 ## Maybe someday
 
@@ -30,14 +32,12 @@ friends.
 ## Initial setup:
 
 1. Checkout this repo
-2. `pipenv install`
-3. Copy settings-example.cfg to settings.cfg and update values
-4. Export flask env vars:
-   export FLASK_APP=spice
-   export FLASK_ENV=development
-5. Initialize database: `flask init-db`
-6. Create a user: `flask create-user`
-7. Run the dev server: `flask run`
+2. `poetry install` and `poetry shell`
+3. Copy settings-example.cfg to settings.cfg and update values - at least set secret key
+4. Create ./uploads and ./cache folders (or w/e path you set in settings.cfg)
+5. Initialize database: `flask --app spice init-db`
+6. Create a user: `flask --app spice create-user`
+7. Run the dev server: `SPICE_SETTINGS=path/to/settings flask --app spice run --debug`
 
 For production you will want to use something besides flask to run the server.
 This repo includes a spice.service file that uses uwsgi, you can update the

@@ -1,15 +1,10 @@
 {% extends 'page.html' %}
+{% block subtitle %}{{ handler.data.name }} (<a href="{{ handler.raw }}">raw</a>){% endblock %}
 
 {% block title %}{{ handler.data.name }}{% endblock %}
 
 
 {% block full_content %}
-  <style>
-    .photo-card-full {
-      width: 100%;
-    }
-  </style>
-
   <article class="photo-card photo-card-full" style="margin:auto;">
     <header class="flex-container row">
       <h3 class="flex-1">

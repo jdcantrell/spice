@@ -6,29 +6,17 @@
 {% endblock %}
 
 {% block full_content %}
-
-
-<article class="photo-card" style="margin:auto;max-width:auto">
-  <header class="flex-container row">
-    <h3 class="flex-1">
-      <a href="{{ handler.link }}">{{ handler.data.name }}</a>
-    </h3>
-  </header>
-  <figure class="flex-container">
-        <img id="img" src="{{ handler.raw }}" class="fill-viewport">
+  <figure>
+    <img id="img" src="{{ handler.raw }}" class="fill-viewport">
+    <figcaption>
+      Uploaded on <time datetime="{{ handler.data.created.strftime('%Y-%m-%d %H:%i:%s') }}">{{ handler.data.created.strftime('%Y-%m-%d') }}</time>.
+      Access is {{ handler.data.access }}.
+    </figcaption>
   </figure>
-  <footer class="flex-container row">
-    <time datetime="{{ handler.data.created.strftime('%Y-%m-%d') }}" class="flex-1">{{ handler.data.created.strftime('%Y-%m-%d') }}</time>
-    <div>
-        {{ handler.data.access }}
-      </div>
-  </footer>
-</article>
-
-
-<script>
-  document.getElementById("img").addEventListener('click', function () {
-    this.classList.toggle("fill-viewport");
-  });
-</script>
+  <script>
+    const article = document.querySelector('figure')
+    document.getElementById("img").addEventListener('click', function () {
+      article.style.gridColumn = article.style.gridColumn ? "" : "1/-1"
+    });
+  </script>
 {% endblock %}
