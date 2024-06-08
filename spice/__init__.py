@@ -13,8 +13,10 @@ app = Flask(__name__)
 app.config.from_object(DefaultConfig)
 app.config.from_envvar("SPICE_SETTINGS", silent=True)
 
-print(app.config['DATABASE_FILE'])
+if app.config["SECRET_KEY"] is None:
+    print("No secret key set, have you set and exported SPICE_SETTINGS?")
 
+print(f"Using db file {app.config["DATABASE_FILE"]}")
 
 
 from . import database
@@ -50,7 +52,6 @@ from . import tiles
 app.register_blueprint(tiles.bp)
 
 
-
 @app.cli.command()
 def process():
     from spice.models import File
@@ -66,3 +67,29 @@ def process():
         db_session.add(handler.record)
 
         db_session.commit()
+
+
+@app.cli.command()
+def create_user():
+    from spice.models import User
+    from spice.database import get_db
+
+    db_session = get_db()
+    name = input("User name: ")
+    password = input("Password: ")
+
+    user = User(name, password)
+
+    db_session.add(user)
+    db_session.commit()
+
+    print("User created: %r" % user.id)
+
+
+@app.cli.command()
+def init_db():
+    from spice.database import init_db
+
+    init_db()
+
+    print("Database initialized")
