@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
     {% block css %}{% endblock %}
 
+    <meta name="robots" content="noindex, nofollow" />
     <meta property="og:site_name" content="spice on goodrobot.net">
     {% if current_path %}
     <meta property="og:url" content="{{ current_path }}">
