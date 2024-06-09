@@ -1,13 +1,11 @@
-<div class="align-center">
-  {% if prev_page == 0 %}
+<div style="display: flex; justify-content: space-between">
+  <span>
+    {% if prev_page == 0 %}
     <a href="{{ url_for(view) }}">« Newer</a>
-  {% elif prev_page > 0%}
+    {% elif prev_page > 0%}
     <a href="{{ url_for(view, page=prev_page) }}">« Newer</a>
-  {% endif %}
-
-  {% if prev_page >= 0 and next_page %} | {% endif %}
-
-  {% if next_page %}
+    {% endif %} {% if next_page %}
+  </span>
   <a href="{{ url_for(view, page=next_page) }}">Older »</a>
   {% endif %}
 </div>

@@ -2,73 +2,77 @@
 
 {% block content %}
   {% include 'upload.html' %}
-  <table style="width:730px" class="hover file-list" id="files" cellspacing="0">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th style="width:50px">
-        {% if current_user.is_authenticated %}
-          Access
-        {% endif %}
-        </th>
-        <th style="width:40px">Views</th>
-        <th class="txt-center" style="width:85px">Date</th>
-        <th style="width:25px"></th>
-      </tr>
-    </thead>
-    {% if files|length %}
-      {% for file in files %}
-      <tr id="key_{{ file.data.key }}" class="hover">
-        <td>
-          <a class="visit" href="{{ url_for('files.view', key=file.data.key) }}">
-            {{ file.data.name }}
-          </a>
-        </td>
-        <td class="access txt-center" title="Click to change access settings">
-          {% if current_user.is_authenticated %}
-            {% if file.data.access == 'public' %}
-              <span>Public</span>
-            {% endif %}
-            {% if file.data.access == 'private' %}
-              <span>Private</span>
-            {% endif %}
-            {% if file.data.access == 'limited' %}
-              <span>Limited</span>
-            {% endif %}
-          {% endif %}
+<style>
+  #files {
+    margin: auto;
+    min-width:var(--content-width)
+  }
 
-        </td>
-        <td class="txt-center">{{ file.data.views|default('0') }}</td>
-        <td>{{ file.data.created.strftime('%Y-%m-%d') }}</td>
-        <td class="hover-show ">
+  #files tr .remove {
+    color: var(--bg);
+  }
+  #files tr:hover .remove {
+    color: unset;
+    display:inline
+  }
+</style>
+  <div class="full-bleed">
+    <table id="files" cellspacing="0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th style="width:50px">
           {% if current_user.is_authenticated %}
-            <a class="remove" href="#">&times;</a>
+            Access
           {% endif %}
-        </td>
-      </tr>
-      {% endfor %}
-    {% else %}
-        <tr id="empty" class="txt-center">
-          <td colspan="5">Sorry, nothing here yet )-:</td>
+          </th>
+          <th style="width:40px">Views</th>
+          <th style="text-align:center;width:85px">Date</th>
+          <th style="width:25px"></th>
         </tr>
-    {% endif %}
+      </thead>
+      {% if files|length %}
+        {% for file in files %}
+        <tr id="key_{{ file.data.key }}">
+          <td>
+            <a href="{{ url_for('files.view', key=file.data.key) }}">
+              {{ file.data.name }}
+            </a>
+          </td>
+          <td class="access" title="Click to change access settings">
+            {% if current_user.is_authenticated %}
+              {% if file.data.access == 'public' %}
+                <span>Public</span>
+              {% endif %}
+              {% if file.data.access == 'private' %}
+                <span>Private</span>
+              {% endif %}
+              {% if file.data.access == 'limited' %}
+                <span>Limited</span>
+              {% endif %}
+            {% endif %}
 
-    <tfoot>
-      <tr>
-        <td colspan="2">
-          {% if prev_page == 0 %}
-            <a href="{{ url_for("table.index") }}"><span class="fa fa-angle-left"></span> Previous</a>
-          {% elif prev_page > 0%}
-            <a href="{{ url_for("table.index", page=prev_page) }}"><span class="fa fa-angle-left"></span> Previous</a>
-          {% endif %}
-        </td>
-        <td colspan="3" class="txt-right">
-          {% if next_page %}
-          <a href="{{ url_for("table.index", page=next_page) }}">Next <span class="fa fa-angle-right"></span></a>
-          {% endif %}
-        </td>
-    </tfoot>
-  </table>
+          </td>
+          <td>{{ file.data.views|default('0') }}</td>
+          <td>{{ file.data.created.strftime('%Y-%m-%d') }}</td>
+          <td>
+            {% if current_user.is_authenticated %}
+              <a class="remove" title="Delete file" href="#">&times;</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      {% else %}
+          <tr id="empty">
+            <td colspan="5">Sorry, nothing here yet )-:</td>
+          </tr>
+      {% endif %}
+    </table>
+  </div>
+
+  <div style="padding-top:2rem">
+  {% include 'pagination.html' %}
+  </div>
 
   {% if current_user.is_authenticated %}
     <script src="{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}"></script>
@@ -80,14 +84,14 @@
             <%= name %>
           </a>
         </td>
-        <td class="txt-center access">
+        <td class="access">
           <% if (access == 'public') { %><span>Public</span><% } %>
           <% if (access == 'limited') { %><span>Limited</span><% } %>
           <% if (access == 'private') { %><span>Private</span><% } %>
         </td>
-        <td class="txt-center"><%= views %></td>
+        <td><%= views %></td>
         <td><%= created %></td>
-        <td class="hover-show"><a class="remove" href="#">&times;<a></td>
+        <td><a class="remove" href="#">&times;<a></td>
     </script>
     {% autoescape false %}
     <script> var bootstrap = [{{ json|join(',') }}]; </script>

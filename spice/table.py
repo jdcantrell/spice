@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, current_app
+from flask import Blueprint, render_template
+from flask import g
 
-from flask_login import current_user
 
 from . import util
 
@@ -19,9 +19,10 @@ def index(page=0):
 
     return render_template(
         "table.html",
-        current_user=current_user,
+        current_user=g.user,
         files=files,
         json=json,
+        view="table.index",
         prev_page=page - 1,
         next_page=next_page,
     )

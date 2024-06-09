@@ -5,9 +5,8 @@ from flask import (
     send_from_directory,
     abort,
     url_for,
+    g,
 )
-
-from flask_login import current_user
 
 from . import handlers
 from . import database
@@ -18,7 +17,7 @@ bp = Blueprint("view", __name__)
 
 def can_view_file(record):
     if record.access == "private":
-        return current_user.is_authenticated
+        return g.user
     return True
 
 
@@ -28,6 +27,16 @@ def view_raw(key, filename):
 
     if record is not None and can_view_file(record):
         return send_from_directory(current_app.config["UPLOAD_FOLDER"], record.filename)
+
+    abort(404)
+
+@bp.route("/cache/<key>/<filename>")
+def view_cache(key, filename):
+    record = database.get_db().query(models.File).filter_by(key=key).first()
+
+    handler = handlers.get_handler_instance(record)
+    if record is not None and can_view_file(record):
+        return send_from_directory(current_app.config["CACHE_FOLDER"], handler.thumbnail_file)
 
     abort(404)
 
@@ -44,7 +53,10 @@ def view(key):
 
         handler = handlers.get_handler_instance(record)
         return render_template(
-            handler.template, current_path=url_for(".view", key=key), handler=handler
+            handler.template,
+            current_user=g.user,
+            current_path=url_for(".view", key=key),
+            handler=handler,
         )
 
     abort(404)

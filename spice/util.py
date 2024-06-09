@@ -1,10 +1,9 @@
 import json
 
-from flask_login import current_user
-
 from spice.database import get_db
 from spice.models import File
 from spice.handlers import get_handler_instance
+from flask import g
 
 
 def file_json(record):
@@ -24,7 +23,7 @@ def file_json(record):
 def get_file_data(limit=50, offset=0):
     files = []
     db = get_db()
-    if current_user.is_authenticated:
+    if g.user:
         query = db.query(File)
     else:
         query = db.query(File).filter_by(access="public")

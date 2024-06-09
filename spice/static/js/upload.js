@@ -6,20 +6,20 @@ const enableUploads = (onUploadComplete = () => {}) => {
       const xhr = new XMLHttpRequest();
 
       xhr.upload.addEventListener(
-        'progress',
-        e => {
+        "progress",
+        (e) => {
           if (e.lengthComputable) {
             const percentage = Math.round((e.loaded * 100) / e.total);
             onProgress(percentage, e.loaded, e.total);
           }
         },
-        false
+        false,
       );
 
       xhr.onreadystatechange = function readyStateChange() {
         if (xhr.readyState === 4) {
           if ((xhr.status >= 200 && xhr.status <= 200) || xhr.status === 304) {
-            if (xhr.responseText !== '') {
+            if (xhr.responseText !== "") {
               resolve(JSON.parse(xhr.responseText));
             }
           } else {
@@ -29,11 +29,11 @@ const enableUploads = (onUploadComplete = () => {}) => {
       };
 
       const data = new FormData();
-      data.append('file', fileData);
-      data.append('access', access);
-      data.append('json', true);
+      data.append("file", fileData);
+      data.append("access", access);
+      data.append("json", true);
 
-      xhr.open('POST', uploadPath);
+      xhr.open("POST", uploadPath);
       xhr.send(data);
     });
 
@@ -41,20 +41,21 @@ const enableUploads = (onUploadComplete = () => {}) => {
   };
 
   const displayProgress = (name, totalFiles, currentFile, percent) => {
-    const el = document.getElementById('status');
+    const el = document.getElementById("status");
+    const elText = document.getElementById("status-text");
 
-    el.style.backgroundSize = `${percent}%`;
+    el.value = percent;
     if (percent < 100) {
       if (totalFiles > 1) {
-        el.innerHTML = `[${currentFile}/${totalFiles}] Uploading ${name} ${percent}%`;
+        elText.innerHTML = `[${currentFile}/${totalFiles}] Uploading ${name} ${percent}%`;
       } else {
-        el.innerHTML = `Uploading ${name} ${percent}%`;
+        elText.innerHTML = `Uploading ${name} ${percent}%`;
       }
     }
     if (totalFiles > 1) {
-      el.innerHTML = `[${currentFile}/${totalFiles}] Processing ${name} ${percent}%`;
+      elText.innerHTML = `[${currentFile}/${totalFiles}] Processing ${name} ${percent}%`;
     } else {
-      el.innerHTML = `Processing ${name} ${percent}%`;
+      elText.innerHTML = `Processing ${name} ${percent}%`;
     }
   };
 
@@ -66,23 +67,21 @@ const enableUploads = (onUploadComplete = () => {}) => {
         currentFile,
         percent,
         uploaded,
-        totalSize
+        totalSize,
       );
     });
 
   const resetProgress = () => {
-    const el = document.getElementById('status');
-    el.innerHTML = '&nbsp;';
-    el.style.backgroundSize = `0%`;
-    el.classList.remove('progress-hide');
+    const el = document.getElementById("status");
+    el.value = 0;
+    const elText = document.getElementById("status-text");
+    elText.innerHTML = "&nbsp;";
   };
 
   let doneTimeout;
-  const uploadFiles = files => {
+  const uploadFiles = (files) => {
     // get current selected access level
-    const access = document
-      .getElementById('access_controls')
-      .querySelector('.primary').value;
+    const access = document.getElementById("access_controls").value;
 
     let promise;
 
@@ -93,82 +92,67 @@ const enableUploads = (onUploadComplete = () => {}) => {
       if (promise) {
         promise = promise.then(() => {
           return doUpload(file, access, files.length, i + 1).then(
-            onUploadComplete
+            onUploadComplete,
           );
         });
       } else {
         promise = doUpload(file, access, files.length, i + 1).then(
-          onUploadComplete
+          onUploadComplete,
         );
       }
     }
 
     return promise.then(() => {
-      const el = document.getElementById('status');
-      el.classList.add('progress-hide');
-      el.innerHTML = 'Done!';
+      const elText = document.getElementById("status-text");
+      elText.innerHTML = "Done!";
       doneTimeout = setTimeout(resetProgress, 5000);
     });
   };
 
   document.addEventListener(
-    'drop',
-    event => {
+    "drop",
+    (event) => {
       event.preventDefault();
       const files = event.files || event.dataTransfer.files;
       uploadFiles(files);
     },
-    false
+    false,
   );
 
   document.addEventListener(
-    'dragover',
-    event => {
+    "dragover",
+    (event) => {
       event.preventDefault();
     },
-    false
+    false,
   );
 
   document.addEventListener(
-    'dragleave',
-    event => {
+    "dragleave",
+    (event) => {
       event.preventDefault();
     },
-    false
+    false,
   );
-
-  // Hook up button group selector
-  document
-    .getElementById('access_controls')
-    .querySelectorAll('button')
-    .forEach(el => {
-      el.addEventListener('click', () => {
-        document
-          .getElementById('access_controls')
-          .querySelector('.primary')
-          .classList.remove('primary');
-        el.classList.add('primary');
-      });
-    });
 
   // Add paste catcher
-  const pasteEl = document.getElementById('paste_box');
-  pasteEl.addEventListener('paste', ({ clipboardData }) => {
+  const pasteEl = document.getElementById("paste_box");
+  pasteEl.addEventListener("paste", ({ clipboardData }) => {
     const { items } = clipboardData;
     const files = [];
     if (items) {
       // Loop through all items, looking for any kind of image
       for (let i = 0; i < items.length; i += 1) {
-        if (items[i].type.indexOf('image') !== -1) {
+        if (items[i].type.indexOf("image") !== -1) {
           // TODO: test in chrome
           const pasteFile = items[i].getAsFile();
-          if (pasteFile.name.startsWith('image.')) {
+          if (pasteFile.name.startsWith("image.")) {
             const now = new Date();
             const name = `Image ${now.toDateString()} ${now.toLocaleTimeString()}.`;
             files.push(
-              new File([pasteFile], pasteFile.name.replace('image.', name), {
+              new File([pasteFile], pasteFile.name.replace("image.", name), {
                 type: pasteFile.type,
-              })
+              }),
             );
           } else {
             files.push(pasteFile);
@@ -179,11 +163,11 @@ const enableUploads = (onUploadComplete = () => {}) => {
         uploadFiles(files);
       }
     } else {
-      console.log('No clipboard data found for pasting');
+      console.log("No clipboard data found for pasting");
     }
-    pasteEl.innerHTML = '';
+    pasteEl.innerHTML = "";
   });
 
-  document.body.addEventListener('click', () => pasteEl.focus());
+  document.body.addEventListener("click", () => pasteEl.focus());
   pasteEl.focus();
 };

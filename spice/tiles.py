@@ -1,6 +1,5 @@
 from math import ceil
-from flask import Blueprint, render_template
-from flask_login import current_user
+from flask import Blueprint, render_template, g
 
 from . import util
 
@@ -32,7 +31,7 @@ def sort(files):
     row = 0
     tiles = []
 
-    images = [f for f in files if f.type == "images"]
+    images = [f for f in files if f.type == "images" or f.type=="gifs"]
     count = 500
 
     while len(images) and count != 0:
@@ -99,7 +98,7 @@ def tile(page=0):
 
     return render_template(
         "tiles.html",
-        current_user=current_user,
+        current_user=g.user,
         files=sort(files),
         json=json,
         view="tiles.tile",

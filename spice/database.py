@@ -1,26 +1,23 @@
-import click
-from flask.cli import with_appcontext
 from flask import current_app, g
-
+import click
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import scoped_session, sessionmaker, DeclarativeBase
 
-Base = declarative_base()
+
+class Base(DeclarativeBase):
+    pass
 
 
 def get_db():
     if "db" not in g:
         engine = create_engine(
-            "sqlite:///%s" % current_app.config["DATABASE_FILE"], convert_unicode=True
+            f"sqlite:///{current_app.config['DATABASE_FILE']}", echo=True, future=True
         )
 
         g.db = scoped_session(
             sessionmaker(autocommit=False, autoflush=False, bind=engine)
         )
-
-        Base.query = g.db.query_property()
 
     return g.db
 
@@ -31,17 +28,14 @@ def close_db(exception=None):
 
 def init_db():
     engine = create_engine(
-        "sqlite:///%s" % current_app.config["DATABASE_FILE"], convert_unicode=True
+        f"sqlite:///{current_app.config['DATABASE_FILE']}", echo=True, future=True
     )
-
-    import spice.models
 
     Base.metadata.create_all(bind=engine)
 
 
 @click.command("init-db")
-@with_appcontext
-def init_db_command(context, user):
+def init_db_command():
     """Clear the existing data and create new tables."""
     init_db()
     click.echo("Initialized the database.")
@@ -50,7 +44,6 @@ def init_db_command(context, user):
 @click.command("create-user")
 @click.option("--name", prompt="Enter username")
 @click.password_option()
-@with_appcontext
 def create_user(name, password):
     from spice.models import User
 
@@ -60,7 +53,7 @@ def create_user(name, password):
 
     db.add(user)
     db.commit()
-    click.echo("Added {} to the user database.".format(user.name))
+    click.echo("Added {} to the user database.".format(user.username))
 
 
 def init_app(app):

@@ -1,6 +1,4 @@
-from flask import Blueprint, render_template
-
-from flask_login import current_user
+from flask import Blueprint, render_template, g
 
 from . import util
 from .database import get_db
@@ -11,7 +9,7 @@ bp = Blueprint("log", __name__, url_prefix="/log")
 
 def can_view_file(record):
     if record.access == "private":
-        return current_user.is_authenticated
+        return g.user
     return True
 
 
@@ -29,7 +27,7 @@ def log(page=0):
 
     return render_template(
         "log.html",
-        current_user=current_user,
+        current_user=g.user,
         files=files,
         json=json,
         view="log.log",
@@ -42,6 +40,5 @@ def log(page=0):
 def get_item_html(key):
     record = get_db().query(File).filter_by(key=key).first()
     if can_view_file(record):
-
         handler = util.get_handler_instance(record)
-        return render_template("log_item.html", current_user=current_user, file=handler)
+        return render_template("log_item.html", current_user=g.user, file=handler)
