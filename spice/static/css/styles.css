@@ -21,9 +21,11 @@
   --accent-bg: rgb(245, 255, 248);
   --header-bg: rgb(230, 253, 237);
   --text: rgb(20, 83, 45);
-  --text-light: #585858;
-  --border: #0d8251;
+  --text-light: #507e5c;
+  --border: rgba(13, 130, 81);
+  --border-media: rgba(13, 130, 81, 0.08);
   --accent: rgb(20, 83, 45);
+  --accent: rgb(38, 130, 74);
   --accent-hover: #0d8251;
   --accent-text: var(--bg);
   --code: #d81b60;
@@ -32,6 +34,8 @@
   --disabled: #efefef;
 
   --border-width: 2px;
+
+  --content-width: min(45rem, 90%);
 }
 
 /* Dark theme */
@@ -51,11 +55,6 @@
     --code: #f06292;
     --preformatted: #ccc;
     --disabled: #111;
-  }
-  /* Add a bit of transparency so light media isn't so glaring in dark mode */
-  img,
-  video {
-    opacity: 0.8;
   }
 }
 
@@ -89,7 +88,7 @@ body {
   font-size: 1.15rem;
   line-height: 1.5;
   display: grid;
-  grid-template-columns: 1fr min(45rem, 90%) 1fr;
+  grid-template-columns: 1fr var(--content-width) 1fr;
   margin: 0;
 }
 body > * {
@@ -107,6 +106,7 @@ body > header {
   text-align: center;
   padding: 0 0.5rem 0.5rem 0.5rem;
   grid-column: 1 / -1;
+  margin-block-end: 2rem;
 }
 
 body > header > *:only-child {
@@ -209,7 +209,6 @@ h3 {
 a,
 a:visited {
   color: var(--accent);
-  font-weight: bold;
 }
 
 a:hover {
@@ -436,7 +435,7 @@ figure > table {
 
 td,
 th {
-  border-bottom: 1px solid var(--border);
+  /*border-bottom: 1px solid var(--border);*/
   text-align: start;
   padding: 0.5rem;
 }
@@ -594,6 +593,7 @@ video {
   max-width: 100%;
   height: auto;
   border-radius: var(--standard-border-radius);
+  border: 1px solid var(--border-media);
 }
 
 figure {

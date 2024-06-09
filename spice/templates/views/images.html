@@ -5,9 +5,9 @@
   <meta property="og:title" content="{{ handler.data.name }}">
 {% endblock %}
 
-{% block full_content %}
+{% block content %}
   <figure>
-    <img id="img" src="{{ handler.raw }}" class="fill-viewport">
+    <img style="border-radius: 0;" id="img" src="{{ handler.raw }}" class="fill-viewport">
     <figcaption>
       Uploaded on <time datetime="{{ handler.data.created.strftime('%Y-%m-%d %H:%i:%s') }}">{{ handler.data.created.strftime('%Y-%m-%d') }}</time>.
       Access is {{ handler.data.access }}.

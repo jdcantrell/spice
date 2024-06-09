@@ -12,7 +12,7 @@ class TextHandler(DefaultHandler):
 
     def process(self):
         html = ''
-        source = os.path.join(self.record.path, self.record.filename)
+        source = os.path.join(self.upload_path, self.record.filename)
         with open(source, 'r') as fh:
             if self.record.filetype == '.txt':
                 html = '<pre>%s</pre>' % fh.read()

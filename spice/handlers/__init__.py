@@ -2,6 +2,7 @@ from flask import current_app
 from .handler import DefaultHandler
 from .text import TextHandler
 from .images import ImageHandler
+from .gif import GifHandler
 from .videos import VideoHandler
 from .audio import AudioHandler
 
@@ -9,6 +10,7 @@ handler_classes = [
     DefaultHandler,
     TextHandler,
     ImageHandler,
+    GifHandler,
     VideoHandler,
     AudioHandler,
 ]

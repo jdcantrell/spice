@@ -1,13 +1,11 @@
 {% extends "view.html" %}
-{% block view_content %}
 
+{% block content %}
 <style>
   audio {
     margin: 32px;
     width: 100%;
   }
 </style>
-
 <audio id="img" class="image box image-width" style="padding:0;max-width:100%;" controls src="{{ handler.raw }}"></audio>
-
 {% endblock %}

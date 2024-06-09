@@ -75,15 +75,13 @@ const enableUploads = (onUploadComplete = () => {}) => {
     const el = document.getElementById("status");
     el.value = 0;
     const elText = document.getElementById("status-text");
-    elText.innerHTML = "";
+    elText.innerHTML = "&nbsp;";
   };
 
   let doneTimeout;
   const uploadFiles = (files) => {
     // get current selected access level
-    const access = document
-      .getElementById("access_controls")
-      .querySelector("[disabled]").value;
+    const access = document.getElementById("access_controls").value;
 
     let promise;
 
@@ -136,20 +134,6 @@ const enableUploads = (onUploadComplete = () => {}) => {
     },
     false,
   );
-
-  // Hook up button group selector
-  document
-    .getElementById("access_controls")
-    .querySelectorAll("button")
-    .forEach((el) => {
-      el.addEventListener("click", () => {
-        document
-          .getElementById("access_controls")
-          .querySelector("[disabled]")
-          .removeAttribute("disabled");
-        el.setAttribute("disabled", true);
-      });
-    });
 
   // Add paste catcher
   const pasteEl = document.getElementById("paste_box");

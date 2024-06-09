@@ -1,9 +1,9 @@
 {% extends "view.html" %}
 {% block css %}
-  <link rel="stylesheet" href="{{ url_for('static', 'css/code.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/code.css') }}">
 {% endblock %}
 {% block content %}
-  <div class='box highlight' style=" width: 900px; margin: auto">
+  <div class='full-bleed highlight' style=" width: 900px; margin: auto">
     {% autoescape false %}
     {{ handler.html }}
     {% endautoescape %}

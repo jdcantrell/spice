@@ -22,6 +22,7 @@ def index(page=0):
         current_user=g.user,
         files=files,
         json=json,
+        view="table.index",
         prev_page=page - 1,
         next_page=next_page,
     )

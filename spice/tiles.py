@@ -31,7 +31,7 @@ def sort(files):
     row = 0
     tiles = []
 
-    images = [f for f in files if f.type == "images"]
+    images = [f for f in files if f.type == "images" or f.type=="gifs"]
     count = 500
 
     while len(images) and count != 0:
